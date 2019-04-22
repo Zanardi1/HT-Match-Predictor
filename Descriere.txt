@@ -1,0 +1,35 @@
+Acesta este un program care estimeaza probabilitatea de castig a fiecarei echipe (inclusiv de a se termina meciul la egalitate) dintr-un meci de Hattrick, pe baza evaluarilor afisate pe pagina acelui meci. 
+
+Date de intrare: evaluarile pe mijloc, aparare (dreapta, mijloc si stanga) si atac (dreapta, mijloc si stanga) ale celor doua echipe (in total 14 date de intrare)
+Date de iesire: 
+	1. procentajul de castig pentru prima echipa;
+	2. procentajul de meciuri egale;
+	3. procentajul de castig pentru a doua echipa;
+	4. media de goluri inscrise de prima echipa;
+	5. media de goluri inscrise de a doua echipa;
+
+Pentru a realiza acest lucru, programul descarca intr-o baza de date meciuri care au avut evaluari identice cu cele introduse de catre utilizator, numara cate victorii are fiecare echipa si cate meciuri s-au terminat la egalitate si, pe baza acestora, intoarce valorile cautate (1). Aceasta baza de date are urmatoarele campuri:
+
+	 1. MatchID: integer;
+	 2. FirstTeamMidfield: integer;
+	 3. FirstTeamRDefense: integer; (R=right, C=central, L=left)
+	 4. FirstTeamCDefense: integer;
+	 5. FirstTeamLDefense: integer;
+	 6. FirstTeamRAttack: integer;
+	 7. FirstTeamCAttack: integer;
+	 8. FirstTeamLAttack: integer;
+	 9. SecondTeamMidfield: integer;
+	10. SecondTeamRDefense: integer;
+	11. SecondTeamCDefense: integer;
+	12. SecondTeamLDefense: integer;
+	13. SecondTeamRAttack: integer;
+	14. SecondTeamCAttack: integer;
+	15. SecondTeamLAttack: integer;
+	16. FirsTeamGoals: integer;
+	17. SecondTeamGoals: integer;
+
+Primul pas este acela de a selecta din baza de date acele meciuri care corespund criteriilor de mai sus. Acestea vor fi puse intr-o tabela suplimentara, pe care se va lucra.
+
+Notite pentru versiuni viitoare:
+
+	1. o alta varianta ar fi sa folosesc big data si o retea neuronala cu care sa fac aceleasi lucruri;
