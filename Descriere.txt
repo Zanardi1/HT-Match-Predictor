@@ -1,16 +1,28 @@
-Acesta este un program care estimeaza probabilitatea de castig a fiecarei echipe (inclusiv de a se termina meciul la egalitate) dintr-un meci de Hattrick, pe baza evaluarilor afisate pe pagina acelui meci. 
+1. Introducere
 
-Date de intrare: evaluarile pe mijloc, aparare (dreapta, mijloc si stanga) si atac (dreapta, mijloc si stanga) ale celor doua echipe (in total 14 date de intrare)
+Acesta este un program care estimeaza probabilitatea de castig a fiecarei echipe (inclusiv de a se termina meciul la egalitate) dintr-un meci de Hattrick, pe baza evaluarilor afisate pe pagina acelui meci.
+
+2. Intrari si iesiri
+
+Date de intrare: evaluarile pe mijloc, aparare (dreapta, mijloc si stanga) si atac (dreapta, mijloc si stanga) ale celor doua echipe (in total 14 date de intrare);
 Date de iesire: 
-	1. procentajul de castig pentru prima echipa;
+	1. procentajul de castig pentru prima echipa (echipa gazda);
 	2. procentajul de meciuri egale;
-	3. procentajul de castig pentru a doua echipa;
+	3. procentajul de castig pentru a doua echipa (echipa oaspete);
 	4. media de goluri inscrise de prima echipa;
 	5. media de goluri inscrise de a doua echipa;
 
-Pentru a realiza acest lucru, programul descarca intr-o baza de date meciuri care au avut evaluari identice cu cele introduse de catre utilizator, numara cate victorii are fiecare echipa si cate meciuri s-au terminat la egalitate si, pe baza acestora, intoarce valorile cautate (1). Aceasta baza de date are urmatoarele campuri:
+Pentru a obtine datele de iesire, programul indeplineste urmatorul algoritm  (1):
+	1. selecteaza dintr-o baza de date ce contine un numar mare de meciuri, acele meciuri care au avut evaluari identice cu cele introduse de catre utilizator;
+	2. numara cate meciuri a selectat;
+	3. numara cate victorii are fiecare echipa si cate meciuri s-au terminat la egalitate;
+	4. calculeaza media de goluri inscrise de catre gazde si de catre oaspeti ca fiind suma golurilor inscrise de catre aceste echipe impartite la numarul de meciuri selectate.
 
-	 1. MatchID: integer;
+3. Baza de date
+
+Baza de date ce va retine meciurile pe baza carora se vor calcula rezultatele dorite are urmatoarele campuri:
+
+	 1. MatchID: integer; (ID unic)
 	 2. FirstTeamMidfield: integer;
 	 3. FirstTeamRDefense: integer; (R=right, C=central, L=left)
 	 4. FirstTeamCDefense: integer;
@@ -25,11 +37,44 @@ Pentru a realiza acest lucru, programul descarca intr-o baza de date meciuri car
 	13. SecondTeamRAttack: integer;
 	14. SecondTeamCAttack: integer;
 	15. SecondTeamLAttack: integer;
-	16. FirsTeamGoals: integer;
+	16. FirstTeamGoals: integer;
 	17. SecondTeamGoals: integer;
 
-Primul pas este acela de a selecta din baza de date acele meciuri care corespund criteriilor de mai sus. Acestea vor fi puse intr-o tabela suplimentara, pe care se va lucra.
+La selectarea meciurilor pentru calculul marimilor dorite nu sunt luate in considerare tactica, nivelul tactic si stilul de joc, ci numai evaluarile pe sectoare, dupa cum a fost spus mai sus. De fapt, aceste criterii nici nu pot fi selectate de catre utilizator (2). Meciurile luate in considerare vor fi cele din campionat si meciurile amicale care nu sunt de tip cupa (3).
+
+Meciurile selectate pentru calcule vor fi puse intr-o tabela separata, pe care se va lucra (asta daca e nevoie. Daca nu e nevoie, se va lucra direct in tabela principala din baza de date).
+
+La pornirea programului, acesta trebuie sa execute urmatorul algoritm:
+	1. verifica daca exista baza de date;
+	2. daca exista baza de date, atunci trece la pasul 4;
+	3. daca nu exista baza de date, atunci:
+		3.1. afiseaza un mesaj care sa anunte acest lucru si ca va fi creata o baza de date noua, goala;
+		3.2. creaza o baza de date noua, goala, cu structura de mai sus;
+	4. se conecteaza la baza de date;
+	5. in cazul in care conexiunea a reusit, atunci trece la pasul...;
+	6. in cazul in care conexiunea nu a reusit, atunci afiseaza un mesaj de eroare, care sa anunte acest lucru si isi inceteaza executia (4);
+
+Pentru ca in Hattrick s-a jucat un numar fabulos de meciuri, este foarte greu sa fie toate meciurile descarcate in baza de date a programului (si probabil nici nu este necesar, avand in vedere ca din 1997 pana azi s-au mai schimbat lucruri in motorul jocului, deci evaluarile de atunci nu mai sunt valabile si azi). Din acest motiv, meciurile vor fi introduse treptat in baza de date a programului. Acesta va avea urmatoarele functii legate de gestionarea meciurilor din baza de date:
+	1. adaugarea unui meci in baza de date (meci specificat dupa numarul lui de identificare);
+	2. adaugarea unui numar de meciuri ale unei echipe dupa unul sau mai multe criterii din urmatoarea lista:
+		2.1. echipa. Se adauga meciurile unei anumite echipe;
+		2.2. interval de date. Se adauga meciurile unei anumite echipe din intervalul introdus;
+		2.3. tipul de meci. Se adauga meciurile unei anumite echipe care au tipul ales (campionat sau amical normal)
+	3. editarea datelor unui meci ales dupa numarul de identificare (oare o fi necesar?)
+	4. stergerea unui meci din baza de date (o fi necesar?)
+
+Pentru adaugarea unui numar de meciuri, vor trebui introduse valori pentru toate cele trei criterii de la pasul 2. 
+
+4. Modul de lucru cu programul
+
+Cel mai simplu mod de utilizare al programului este ca utilizatorul sa introduca cele 14 date de intrare cerute de catre acesta, iar programul sa-i afiseze rezultatele dorite.
+Dupa ce aceasta parte va fi terminata, urmeaza programarea diferitor functii care au ca rol ajutarea utilizatorului in a determina mai usor ceea ce doreste:
+	1. utilizatorul selecteaza un meci pe care-l va juca, iar evaluarile estimate ale echipei sale la acel meci vor fi trecute automat la echipa gazda (pentru adversar, va trebui sa completeze singur evaluarile estimate);
+	2. 
 
 Notite pentru versiuni viitoare:
 
 	1. o alta varianta ar fi sa folosesc big data si o retea neuronala cu care sa fac aceleasi lucruri;
+	2. la o versiune viitoare sa iau in considerare si acesti parametri, putand fi selectati pentru filtrare;
+	3. sa vad daca pot face ceva cu meciurile din cupe si cu amicalele de tip cupa;
+	4. sa vad daca pot scrie o caracteristica a programului ce are rolul de intretinere a bazei de date;
