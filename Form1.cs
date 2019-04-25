@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using OAuth;
 
 namespace HT_Match_Predictor
@@ -17,12 +9,12 @@ namespace HT_Match_Predictor
         public Form1()
         {
             InitializeComponent();
-            OAuth.Manager o = new OAuth.Manager();
-            o["consumer_key"] = "2BkDvCeUZL1nCIVOn5KhUb";
-            o["consumer_secret"] = "PvSRGYlTxCwUKuw9BH9CIWP1AqutO9MB2JRDGHsVlGC";
-            OAuthResponse rt = o.AcquireRequestToken("https://chpp.hattrick.org/oauth/request_token.ashx","post");
-            var url = "https://chpp.hattrick.org/oauth/authorize.aspx" + o["token"];
+            OAuth.Manager o = new OAuth.Manager("2BkDvCeUZL1nCIVOn5KhUb","PvSRGYlTxCwUKuw9BH9CIWP1AqutO9MB2JRDGHsVlGC");
+            OAuthResponse rt = o.AcquireRequestToken("https://chpp.hattrick.org/oauth/request_token.ashx", "GET");
+            var url = "https://chpp.hattrick.org/oauth/authorize.aspx";
             System.Diagnostics.Process.Start(url);
+            string pin = string.Empty;
+            OAuthResponse at = o.AcquireAccessToken("https://chpp.hattrick.org/oauth/access_token.ashx", "GET", pin);
         }
 
     }

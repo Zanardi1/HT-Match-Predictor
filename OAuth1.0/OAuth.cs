@@ -588,6 +588,7 @@ namespace OAuth
             var request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(uri);
             request.Headers.Add("Authorization", authzHeader);
             request.Method = method;
+            request.ContentLength = 0; //Am adaugat-o eu, 25 aprilie '19
 
             using (var response = (System.Net.HttpWebResponse)request.GetResponse())
             {
