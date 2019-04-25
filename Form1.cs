@@ -17,6 +17,12 @@ namespace HT_Match_Predictor
         public Form1()
         {
             InitializeComponent();
+            OAuth.Manager o = new OAuth.Manager();
+            o["consumer_key"] = "2BkDvCeUZL1nCIVOn5KhUb";
+            o["consumer_secret"] = "PvSRGYlTxCwUKuw9BH9CIWP1AqutO9MB2JRDGHsVlGC";
+            OAuthResponse rt = o.AcquireRequestToken("https://chpp.hattrick.org/oauth/request_token.ashx","post");
+            var url = "https://chpp.hattrick.org/oauth/authorize.aspx" + o["token"];
+            System.Diagnostics.Process.Start(url);
         }
 
     }

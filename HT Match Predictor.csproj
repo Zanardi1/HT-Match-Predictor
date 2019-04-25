@@ -52,11 +52,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Hacks.cs" />
+    <Compile Include="Common\IUpload.cs" />
+    <Compile Include="Common\Tracing.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OAuth1.0\IOAuthSettings.cs" />
+    <Compile Include="OAuth1.0\OAuth.cs" />
+    <Compile Include="OAuth1.0\OAuthConstants.cs" />
+    <Compile Include="OAuth1.0\OAuthForm.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -72,6 +81,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Common\makefile.flymake" />
+    <None Include="OAuth1.0\OAuth.shfbproj" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -87,6 +98,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Common\Common.csproj" />
     <Content Include="Descriere.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
