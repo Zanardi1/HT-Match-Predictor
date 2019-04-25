@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.Owin.Security.OAuth;
+using OAuth;
 
 namespace HT_Match_Predictor
 {
@@ -18,5 +18,6 @@ namespace HT_Match_Predictor
         {
             InitializeComponent();
         }
+
     }
 }
