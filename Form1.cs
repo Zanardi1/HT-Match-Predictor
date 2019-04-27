@@ -1,26 +1,29 @@
-﻿using System.Windows.Forms;
-using System.Net;
+﻿using OAuth;
 using System.IO;
+using System.Net;
 using System.Text;
-using OAuth;
+using System.Windows.Forms;
 
 //todo sa vad unde stochez token si token_secret
+//todo sa scriu o rutina de compunere a URL-ului care va fi trimis catre Hattrick pentru descarcare
 
 namespace HT_Match_Predictor
 {
     public partial class Form1 : Form
     {
-        Manager o = new Manager();
+        private readonly Manager o = new Manager();
+        static readonly string CurrentFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+        readonly string XMLFolder = CurrentFolder + "\\XML";
 
         private void LoginToHattrickServers()
         {
             InitializeAuthenticationObject();
-            if (o["token"]==string.Empty)
+            if (o["token"] == string.Empty)
             {
                 GetRequestToken();
-                InsertPin();
+                GetAccessToken();
             }
-            GetFileContent("http://chpp.hattrick.org/chppxml.ashx?file=fans&version=1.3&teamId=1187457");
+            SaveResponseToFile(XMLFolder + "\\a.xml", "http://chpp.hattrick.org/chppxml.ashx?file=matches&version=2.8&teamID=1629472");
         }
 
         private void InitializeAuthenticationObject()
@@ -38,37 +41,48 @@ namespace HT_Match_Predictor
             System.Diagnostics.Process.Start(url);
         }
 
-        private void InsertPin()
+        private void GetAccessToken()
         {
             string pin = string.Empty;
+            //todo sa pun o fereastra in care sa pot introduce pin-ul primit de la Hattrick
             OAuthResponse at = o.AcquireAccessToken("https://chpp.hattrick.org/oauth/access_token.ashx", "GET", pin);
         }
 
-        public string GetFileContent(string FileName)
+        private string GetFileContent(string URLAddress)
         {
-            //string search = "http://chpp.hattrick.org/chppxml.ashx?file=fans&version=1.3&teamId=1187457";
-            string search = FileName;
+            string search = URLAddress;
             string authzHeader = o.GenerateAuthzHeader(search, "GET");
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(search);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(search); //Creeaza requestul
             request.Method = "GET";
             request.PreAuthenticate = true;
             request.AllowWriteStreamBuffering = true;
             request.Headers.Add("Authorization", authzHeader);
             request.ServicePoint.Expect100Continue = false;
             request.ContentType = "x-www-form-urlencoded";
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            Stream receive = response.GetResponseStream();
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse(); //Primeste raspunsul
+            Stream receive = response.GetResponseStream(); //Il incarca intr-un flux
             StreamReader s = new StreamReader(receive, Encoding.UTF8);
-            MessageBox.Show(s.ReadToEnd());
-            return s.ReadToEnd();
+            string temp = s.ReadToEnd(); //Salveaza continutul raspunsului intr-o variabila
+            return temp;
+        }
+
+        public void SaveResponseToFile(string DestinationFileName, string SourceURLAddress)
+        {
+            try
+            {
+                File.WriteAllText(DestinationFileName, GetFileContent(SourceURLAddress));
+            }
+            catch (DirectoryNotFoundException)
+            {
+                Directory.CreateDirectory(XMLFolder);
+                File.WriteAllText(DestinationFileName, GetFileContent(SourceURLAddress));
+            }
         }
 
         public Form1()
         {
             InitializeComponent();
             LoginToHattrickServers();
-
-
         }
     }
 }

@@ -24,9 +24,11 @@ Conexiunea cu serverul se face conform documentatiei Hattrick. Algoritmul de con
 	1. https://deanhume.com/a-simple-guide-to-using-oauth-with-c/;
 	2. https://stackoverflow.com/questions/4002847/oauth-with-verification-in-net;
 
+Prima data cand se realizeaza conexiunea cu serverul, utilizatorul va trebui sa introduca intr-o fereastra a aplicatiei un sir de caractere numit "pin" (5). 
+
 Jetoanele de acces vor fi pastrate... (undeva, dar unde?).
 
-Dupa realizarea conexiunii cu serverul, urmatoarele fisiere vor fi descarcare:
+Dupa realizarea conexiunii cu serverul, urmatoarele fisiere vor fi descarcate:
 	1. 
 
 4. Baza de date
@@ -89,3 +91,4 @@ Notite pentru versiuni viitoare:
 	2. la o versiune viitoare sa iau in considerare si acesti parametri, putand fi selectati pentru filtrare;
 	3. sa vad daca pot face ceva cu meciurile din cupe si cu amicalele de tip cupa;
 	4. sa vad daca pot scrie o caracteristica a programului ce are rolul de intretinere a bazei de date;
+	5. sa vad daca pot prelua pin-ul automat de la site, fara sa mai fie necesara interventia utilizatorului
