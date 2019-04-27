@@ -18,7 +18,18 @@ Pentru a obtine datele de iesire, programul indeplineste urmatorul algoritm  (1)
 	3. numara cate victorii are fiecare echipa si cate meciuri s-au terminat la egalitate;
 	4. calculeaza media de goluri inscrise de catre gazde si de catre oaspeti ca fiind suma golurilor inscrise de catre aceste echipe impartite la numarul de meciuri selectate.
 
-3. Baza de date
+3. Conexiunea cu serverul si continutul descarcat
+
+Conexiunea cu serverul se face conform documentatiei Hattrick. Algoritmul de conectare este prezentat in urmatoarele doua locuri:
+	1. https://deanhume.com/a-simple-guide-to-using-oauth-with-c/;
+	2. https://stackoverflow.com/questions/4002847/oauth-with-verification-in-net;
+
+Jetoanele de acces vor fi pastrate... (undeva, dar unde?).
+
+Dupa realizarea conexiunii cu serverul, urmatoarele fisiere vor fi descarcare:
+	1. 
+
+4. Baza de date
 
 Baza de date ce va retine meciurile pe baza carora se vor calcula rezultatele dorite are urmatoarele campuri:
 
@@ -65,7 +76,7 @@ Pentru ca in Hattrick s-a jucat un numar fabulos de meciuri, este foarte greu sa
 
 Pentru adaugarea unui numar de meciuri, vor trebui introduse valori pentru toate cele trei criterii de la pasul 2. 
 
-4. Modul de lucru cu programul
+5. Modul de lucru cu programul
 
 Cel mai simplu mod de utilizare al programului este ca utilizatorul sa introduca cele 14 date de intrare cerute de catre acesta, iar programul sa-i afiseze rezultatele dorite.
 Dupa ce aceasta parte va fi terminata, urmeaza programarea diferitor functii care au ca rol ajutarea utilizatorului in a determina mai usor ceea ce doreste:
