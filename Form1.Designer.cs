@@ -74,6 +74,15 @@
             this.AwayMidfieldTextLabel = new System.Windows.Forms.Label();
             this.PredictButton = new System.Windows.Forms.Button();
             this.ResetButton = new System.Windows.Forms.Button();
+            this.HomeWinPercentageLabel = new System.Windows.Forms.Label();
+            this.DrawPercentageLabel = new System.Windows.Forms.Label();
+            this.AwayWinPercentageLabel = new System.Windows.Forms.Label();
+            this.HGALabel = new System.Windows.Forms.Label();
+            this.AGALabel = new System.Windows.Forms.Label();
+            this.LoginNameLabel = new System.Windows.Forms.Label();
+            this.UserCountryLabel = new System.Windows.Forms.Label();
+            this.SupporterTierLabel = new System.Windows.Forms.Label();
+            this.TeamListLabel = new System.Windows.Forms.Label();
             this.HomeTeamGroupBox.SuspendLayout();
             this.AwayTeamGroupBox.SuspendLayout();
             this.SuspendLayout();
@@ -101,7 +110,7 @@
             this.HomeTeamGroupBox.Controls.Add(this.HomeCentralDefenceTextLabel);
             this.HomeTeamGroupBox.Controls.Add(this.HomeRightDefenceTextLabel);
             this.HomeTeamGroupBox.Controls.Add(this.HomeMidfieldTextLabel);
-            this.HomeTeamGroupBox.Location = new System.Drawing.Point(156, 144);
+            this.HomeTeamGroupBox.Location = new System.Drawing.Point(171, 144);
             this.HomeTeamGroupBox.Name = "HomeTeamGroupBox";
             this.HomeTeamGroupBox.Size = new System.Drawing.Size(486, 444);
             this.HomeTeamGroupBox.TabIndex = 0;
@@ -334,7 +343,7 @@
             this.AwayTeamGroupBox.Controls.Add(this.AwayCentralDefenceTextLabel);
             this.AwayTeamGroupBox.Controls.Add(this.AwayRightDefenceTextLabel);
             this.AwayTeamGroupBox.Controls.Add(this.AwayMidfieldTextLabel);
-            this.AwayTeamGroupBox.Location = new System.Drawing.Point(797, 144);
+            this.AwayTeamGroupBox.Location = new System.Drawing.Point(812, 144);
             this.AwayTeamGroupBox.Name = "AwayTeamGroupBox";
             this.AwayTeamGroupBox.Size = new System.Drawing.Size(486, 444);
             this.AwayTeamGroupBox.TabIndex = 1;
@@ -546,7 +555,7 @@
             // 
             // PredictButton
             // 
-            this.PredictButton.Location = new System.Drawing.Point(688, 201);
+            this.PredictButton.Location = new System.Drawing.Point(703, 201);
             this.PredictButton.Name = "PredictButton";
             this.PredictButton.Size = new System.Drawing.Size(75, 23);
             this.PredictButton.TabIndex = 2;
@@ -556,7 +565,7 @@
             // 
             // ResetButton
             // 
-            this.ResetButton.Location = new System.Drawing.Point(688, 250);
+            this.ResetButton.Location = new System.Drawing.Point(703, 250);
             this.ResetButton.Name = "ResetButton";
             this.ResetButton.Size = new System.Drawing.Size(75, 23);
             this.ResetButton.TabIndex = 3;
@@ -564,11 +573,101 @@
             this.ResetButton.Text = "Reset";
             this.ResetButton.UseVisualStyleBackColor = true;
             // 
+            // HomeWinPercentageLabel
+            // 
+            this.HomeWinPercentageLabel.AutoSize = true;
+            this.HomeWinPercentageLabel.Location = new System.Drawing.Point(171, 101);
+            this.HomeWinPercentageLabel.Name = "HomeWinPercentageLabel";
+            this.HomeWinPercentageLabel.Size = new System.Drawing.Size(89, 17);
+            this.HomeWinPercentageLabel.TabIndex = 4;
+            this.HomeWinPercentageLabel.Text = "Home win %:";
+            // 
+            // DrawPercentageLabel
+            // 
+            this.DrawPercentageLabel.AutoSize = true;
+            this.DrawPercentageLabel.Location = new System.Drawing.Point(717, 101);
+            this.DrawPercentageLabel.Name = "DrawPercentageLabel";
+            this.DrawPercentageLabel.Size = new System.Drawing.Size(44, 17);
+            this.DrawPercentageLabel.TabIndex = 5;
+            this.DrawPercentageLabel.Text = "Draw:";
+            // 
+            // AwayWinPercentageLabel
+            // 
+            this.AwayWinPercentageLabel.AutoSize = true;
+            this.AwayWinPercentageLabel.Location = new System.Drawing.Point(812, 101);
+            this.AwayWinPercentageLabel.Name = "AwayWinPercentageLabel";
+            this.AwayWinPercentageLabel.Size = new System.Drawing.Size(85, 17);
+            this.AwayWinPercentageLabel.TabIndex = 6;
+            this.AwayWinPercentageLabel.Text = "Away win %:";
+            // 
+            // HGALabel
+            // 
+            this.HGALabel.AutoSize = true;
+            this.HGALabel.Location = new System.Drawing.Point(458, 101);
+            this.HGALabel.Name = "HGALabel";
+            this.HGALabel.Size = new System.Drawing.Size(143, 17);
+            this.HGALabel.TabIndex = 7;
+            this.HGALabel.Text = "Home goals average:";
+            // 
+            // AGALabel
+            // 
+            this.AGALabel.AutoSize = true;
+            this.AGALabel.Location = new System.Drawing.Point(1078, 101);
+            this.AGALabel.Name = "AGALabel";
+            this.AGALabel.Size = new System.Drawing.Size(139, 17);
+            this.AGALabel.TabIndex = 8;
+            this.AGALabel.Text = "Away goals average:";
+            // 
+            // LoginNameLabel
+            // 
+            this.LoginNameLabel.AutoSize = true;
+            this.LoginNameLabel.Location = new System.Drawing.Point(12, 30);
+            this.LoginNameLabel.Name = "LoginNameLabel";
+            this.LoginNameLabel.Size = new System.Drawing.Size(81, 17);
+            this.LoginNameLabel.TabIndex = 9;
+            this.LoginNameLabel.Text = "User name:";
+            // 
+            // UserCountryLabel
+            // 
+            this.UserCountryLabel.AutoSize = true;
+            this.UserCountryLabel.Location = new System.Drawing.Point(12, 63);
+            this.UserCountryLabel.Name = "UserCountryLabel";
+            this.UserCountryLabel.Size = new System.Drawing.Size(61, 17);
+            this.UserCountryLabel.TabIndex = 10;
+            this.UserCountryLabel.Text = "Country:";
+            // 
+            // SupporterTierLabel
+            // 
+            this.SupporterTierLabel.AutoSize = true;
+            this.SupporterTierLabel.Location = new System.Drawing.Point(12, 101);
+            this.SupporterTierLabel.Name = "SupporterTierLabel";
+            this.SupporterTierLabel.Size = new System.Drawing.Size(75, 17);
+            this.SupporterTierLabel.TabIndex = 11;
+            this.SupporterTierLabel.Text = "Supporter:";
+            // 
+            // TeamListLabel
+            // 
+            this.TeamListLabel.AutoSize = true;
+            this.TeamListLabel.Location = new System.Drawing.Point(12, 144);
+            this.TeamListLabel.Name = "TeamListLabel";
+            this.TeamListLabel.Size = new System.Drawing.Size(69, 17);
+            this.TeamListLabel.TabIndex = 12;
+            this.TeamListLabel.Text = "Team list:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1317, 600);
+            this.Controls.Add(this.TeamListLabel);
+            this.Controls.Add(this.SupporterTierLabel);
+            this.Controls.Add(this.UserCountryLabel);
+            this.Controls.Add(this.LoginNameLabel);
+            this.Controls.Add(this.AGALabel);
+            this.Controls.Add(this.HGALabel);
+            this.Controls.Add(this.AwayWinPercentageLabel);
+            this.Controls.Add(this.DrawPercentageLabel);
+            this.Controls.Add(this.HomeWinPercentageLabel);
             this.Controls.Add(this.ResetButton);
             this.Controls.Add(this.PredictButton);
             this.Controls.Add(this.AwayTeamGroupBox);
@@ -581,6 +680,7 @@
             this.AwayTeamGroupBox.ResumeLayout(false);
             this.AwayTeamGroupBox.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -632,6 +732,15 @@
         public System.Windows.Forms.Label AwayCentralDefenceRatingLabel;
         public System.Windows.Forms.Label AwayRightDefenceRatingLabel;
         public System.Windows.Forms.Label AwayMidfieldRatingLabel;
+        private System.Windows.Forms.Label HomeWinPercentageLabel;
+        private System.Windows.Forms.Label DrawPercentageLabel;
+        private System.Windows.Forms.Label AwayWinPercentageLabel;
+        private System.Windows.Forms.Label HGALabel;
+        private System.Windows.Forms.Label AGALabel;
+        private System.Windows.Forms.Label LoginNameLabel;
+        private System.Windows.Forms.Label UserCountryLabel;
+        private System.Windows.Forms.Label SupporterTierLabel;
+        private System.Windows.Forms.Label TeamListLabel;
     }
 }
 
