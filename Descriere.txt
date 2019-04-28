@@ -1,6 +1,6 @@
 1. Introducere
 
-Acesta este un program care estimeaza probabilitatea de castig a fiecarei echipe (inclusiv de a se termina meciul la egalitate) dintr-un meci de Hattrick, pe baza evaluarilor afisate pe pagina acelui meci.
+Acesta este un program care estimeaza probabilitatea de castig a fiecarei echipe (inclusiv de a se termina meciul la egalitate) dintr-un meci de Hattrick, pe baza evaluarilor afisate pe pagina acelui meci. Interfata programului va fi in engleza si romana (7).
 
 2. Intrari si iesiri
 
@@ -85,10 +85,16 @@ Dupa ce aceasta parte va fi terminata, urmeaza programarea diferitor functii car
 	1. utilizatorul selecteaza un meci pe care-l va juca, iar evaluarile estimate ale echipei sale la acel meci vor fi trecute automat la echipa gazda (pentru adversar, va trebui sa completeze singur evaluarile estimate);
 	2. 
 
+6. Optiunile programului
+
+Optiunile programului vor fi retinute intr-un fisier text (6).
+
 Notite pentru versiuni viitoare:
 
 	1. o alta varianta ar fi sa folosesc big data si o retea neuronala cu care sa fac aceleasi lucruri;
 	2. la o versiune viitoare sa iau in considerare si acesti parametri, putand fi selectati pentru filtrare;
 	3. sa vad daca pot face ceva cu meciurile din cupe si cu amicalele de tip cupa;
 	4. sa vad daca pot scrie o caracteristica a programului ce are rolul de intretinere a bazei de date;
-	5. sa vad daca pot prelua pin-ul automat de la site, fara sa mai fie necesara interventia utilizatorului
+	5. sa vad daca pot prelua pin-ul automat de la site, fara sa mai fie necesara interventia utilizatorului;
+	6. sa vad daca exista si variante de stocare in fisier care sa nu puna la dispozitia utilizatorului, direct, continutul fisierului (criptare, alt format, etc.);
+	7. probabil voi introduce si alte limbi;

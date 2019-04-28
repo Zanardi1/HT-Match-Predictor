@@ -5,13 +5,14 @@ using System.Text;
 using System.Windows.Forms;
 
 //todo sa vad unde stochez token si token_secret
-//todo sa scriu o rutina de compunere a URL-ului care va fi trimis catre Hattrick pentru descarcare
+//todo sa scriu o rutina de compunere a URL-ului care va fi trimis catre Hattrick pentru descarcarea fisierelor
+//todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
 
 namespace HT_Match_Predictor
 {
     public partial class Form1 : Form
     {
-        private readonly Manager o = new Manager();
+        private readonly Manager o = new Manager(); //instanta de clasa ce se ocupa de conexiunea cu serverele Hattrick
         static readonly string CurrentFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
         readonly string XMLFolder = CurrentFolder + "\\XML";
 
@@ -30,8 +31,8 @@ namespace HT_Match_Predictor
         {
             o["consumer_key"] = "2BkDvCeUZL1nCIVOn5KhUb";
             o["consumer_secret"] = "PvSRGYlTxCwUKuw9BH9CIWP1AqutO9MB2JRDGHsVlGC";
-            //o["token"] = "gWOcK5n7ZbhNAsbd";
-            //o["token_secret"] = "a3GsutimIieDGlLv";
+            o["token"] = "gWOcK5n7ZbhNAsbd"; //Stocate temporar sub aceasta forma. Va trebui sa vad cum se stocheaza corect aceste jetoane.
+            o["token_secret"] = "a3GsutimIieDGlLv";
         }
 
         private void GetRequestToken()
@@ -47,7 +48,6 @@ namespace HT_Match_Predictor
             InsertPIN I = new InsertPIN();
             I.ShowDialog(this);
             pin = I.InsertPINTextBox.Text;
-            //todo sa pun o fereastra in care sa pot introduce pin-ul primit de la Hattrick
             OAuthResponse at = o.AcquireAccessToken("https://chpp.hattrick.org/oauth/access_token.ashx", "GET", pin);
         }
 
@@ -86,6 +86,13 @@ namespace HT_Match_Predictor
         {
             InitializeComponent();
             LoginToHattrickServers();
+        }
+
+        private void ShowSkillWindow(object sender, System.EventArgs e)
+        {
+            SkillSelectionWindow S = new SkillSelectionWindow();
+            S.Tag = (sender as Button).Tag; //Tag este folosit pentru a determina ce buton a fost apasat pentru a afisa fereastra
+            S.ShowDialog(this);
         }
     }
 }
