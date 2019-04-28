@@ -93,7 +93,6 @@
             this.SkillListBox.FormattingEnabled = true;
             this.SkillListBox.ItemHeight = 16;
             this.SkillListBox.Items.AddRange(new object[] {
-            "Inexistent (0)",
             "Disastruous(1)",
             "Wretched (2)",
             "Poor (3)",
@@ -116,7 +115,7 @@
             "Divine (20)"});
             this.SkillListBox.Location = new System.Drawing.Point(23, 66);
             this.SkillListBox.Name = "SkillListBox";
-            this.SkillListBox.Size = new System.Drawing.Size(159, 340);
+            this.SkillListBox.Size = new System.Drawing.Size(159, 324);
             this.SkillListBox.TabIndex = 16;
             // 
             // SkillSelectionWindow

@@ -4,6 +4,15 @@ namespace HT_Match_Predictor
 {
     public partial class SkillSelectionWindow : Form
     {
+        //Converteste abilitatea si subabilitatea intr-o valoare numerica stabilita de Hattrick:
+        //1 - dezastruos (foarte scazut);
+        //2 - dezastruos (scazut);
+        //---
+        //80 - divin (foarte ridicat)
+        int ConvertSkillToNumber(int MainSkill, int SubSkill)
+        {
+            return (MainSkill * 4) + SubSkill + 1;
+        }
         private void Startup()
         {
             SkillListBox.SetSelected(0, true);
@@ -94,6 +103,7 @@ namespace HT_Match_Predictor
                 default:
                     break;
             }
+            ((Form1)this.Owner).RatingReturned = ConvertSkillToNumber(SkillListBox.SelectedIndex, SubskillListBox.SelectedIndex);
             Close();
         }
     }
