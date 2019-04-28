@@ -630,7 +630,7 @@
             // UserCountryLabel
             // 
             this.UserCountryLabel.AutoSize = true;
-            this.UserCountryLabel.Location = new System.Drawing.Point(12, 63);
+            this.UserCountryLabel.Location = new System.Drawing.Point(12, 65);
             this.UserCountryLabel.Name = "UserCountryLabel";
             this.UserCountryLabel.Size = new System.Drawing.Size(61, 17);
             this.UserCountryLabel.TabIndex = 10;

@@ -29,12 +29,24 @@ Prima data cand se realizeaza conexiunea cu serverul, utilizatorul va trebui sa 
 Jetoanele de acces vor fi pastrate... (undeva, dar unde?).
 
 Dupa realizarea conexiunii cu serverul, urmatoarele fisiere vor fi descarcate:
-	1. managercompendium. Date necesare:
+	1. managercompendium. 
+		Date de intrare:
+		1.1. -;
+		Date necesare:
 		1.1. Loginname;
 		1.2. UserID;
 		1.3. SupporterTier;
 		1.4. CountryName;
-		1.5. 
+		1.5. CountryId;
+		1.6. TeamName;
+		1.7. TeamId;
+		1.8. LeagueName;
+		1.9. LeagueId;
+		1.10. CountryName;
+		1.11. CountryId;
+		1.12. LeagueLevelUnitName;
+		1.13. LeagueLevelUnitId (1.6 - 1.13 sunt pentru toate echipele pe care le are);
+	2. 
 
 4. Baza de date
 
