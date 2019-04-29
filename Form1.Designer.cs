@@ -83,8 +83,23 @@
             this.UserCountryLabel = new System.Windows.Forms.Label();
             this.SupporterTierLabel = new System.Windows.Forms.Label();
             this.TeamListLabel = new System.Windows.Forms.Label();
+            this.StatusBar = new System.Windows.Forms.StatusStrip();
+            this.MainMenu = new System.Windows.Forms.MenuStrip();
+            this.predictionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.databaseOperationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UserDetailsGroupBox = new System.Windows.Forms.GroupBox();
+            this.singleMatchPredictionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.futureMatchPredictionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addSingleMatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addMultipleMatchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editSingleMatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteSingleMatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HomeTeamGroupBox.SuspendLayout();
             this.AwayTeamGroupBox.SuspendLayout();
+            this.MainMenu.SuspendLayout();
+            this.UserDetailsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // HomeTeamGroupBox
@@ -110,7 +125,7 @@
             this.HomeTeamGroupBox.Controls.Add(this.HomeCentralDefenceTextLabel);
             this.HomeTeamGroupBox.Controls.Add(this.HomeRightDefenceTextLabel);
             this.HomeTeamGroupBox.Controls.Add(this.HomeMidfieldTextLabel);
-            this.HomeTeamGroupBox.Location = new System.Drawing.Point(171, 144);
+            this.HomeTeamGroupBox.Location = new System.Drawing.Point(337, 87);
             this.HomeTeamGroupBox.Name = "HomeTeamGroupBox";
             this.HomeTeamGroupBox.Size = new System.Drawing.Size(486, 444);
             this.HomeTeamGroupBox.TabIndex = 0;
@@ -343,7 +358,7 @@
             this.AwayTeamGroupBox.Controls.Add(this.AwayCentralDefenceTextLabel);
             this.AwayTeamGroupBox.Controls.Add(this.AwayRightDefenceTextLabel);
             this.AwayTeamGroupBox.Controls.Add(this.AwayMidfieldTextLabel);
-            this.AwayTeamGroupBox.Location = new System.Drawing.Point(812, 144);
+            this.AwayTeamGroupBox.Location = new System.Drawing.Point(978, 87);
             this.AwayTeamGroupBox.Name = "AwayTeamGroupBox";
             this.AwayTeamGroupBox.Size = new System.Drawing.Size(486, 444);
             this.AwayTeamGroupBox.TabIndex = 1;
@@ -555,7 +570,7 @@
             // 
             // PredictButton
             // 
-            this.PredictButton.Location = new System.Drawing.Point(703, 201);
+            this.PredictButton.Location = new System.Drawing.Point(869, 144);
             this.PredictButton.Name = "PredictButton";
             this.PredictButton.Size = new System.Drawing.Size(75, 23);
             this.PredictButton.TabIndex = 2;
@@ -565,7 +580,7 @@
             // 
             // ResetButton
             // 
-            this.ResetButton.Location = new System.Drawing.Point(703, 250);
+            this.ResetButton.Location = new System.Drawing.Point(869, 193);
             this.ResetButton.Name = "ResetButton";
             this.ResetButton.Size = new System.Drawing.Size(75, 23);
             this.ResetButton.TabIndex = 3;
@@ -576,7 +591,7 @@
             // HomeWinPercentageLabel
             // 
             this.HomeWinPercentageLabel.AutoSize = true;
-            this.HomeWinPercentageLabel.Location = new System.Drawing.Point(171, 101);
+            this.HomeWinPercentageLabel.Location = new System.Drawing.Point(337, 44);
             this.HomeWinPercentageLabel.Name = "HomeWinPercentageLabel";
             this.HomeWinPercentageLabel.Size = new System.Drawing.Size(89, 17);
             this.HomeWinPercentageLabel.TabIndex = 4;
@@ -585,7 +600,7 @@
             // DrawPercentageLabel
             // 
             this.DrawPercentageLabel.AutoSize = true;
-            this.DrawPercentageLabel.Location = new System.Drawing.Point(717, 101);
+            this.DrawPercentageLabel.Location = new System.Drawing.Point(883, 44);
             this.DrawPercentageLabel.Name = "DrawPercentageLabel";
             this.DrawPercentageLabel.Size = new System.Drawing.Size(44, 17);
             this.DrawPercentageLabel.TabIndex = 5;
@@ -594,7 +609,7 @@
             // AwayWinPercentageLabel
             // 
             this.AwayWinPercentageLabel.AutoSize = true;
-            this.AwayWinPercentageLabel.Location = new System.Drawing.Point(812, 101);
+            this.AwayWinPercentageLabel.Location = new System.Drawing.Point(978, 44);
             this.AwayWinPercentageLabel.Name = "AwayWinPercentageLabel";
             this.AwayWinPercentageLabel.Size = new System.Drawing.Size(85, 17);
             this.AwayWinPercentageLabel.TabIndex = 6;
@@ -603,7 +618,7 @@
             // HGALabel
             // 
             this.HGALabel.AutoSize = true;
-            this.HGALabel.Location = new System.Drawing.Point(458, 101);
+            this.HGALabel.Location = new System.Drawing.Point(624, 44);
             this.HGALabel.Name = "HGALabel";
             this.HGALabel.Size = new System.Drawing.Size(143, 17);
             this.HGALabel.TabIndex = 7;
@@ -612,7 +627,7 @@
             // AGALabel
             // 
             this.AGALabel.AutoSize = true;
-            this.AGALabel.Location = new System.Drawing.Point(1078, 101);
+            this.AGALabel.Location = new System.Drawing.Point(1244, 44);
             this.AGALabel.Name = "AGALabel";
             this.AGALabel.Size = new System.Drawing.Size(139, 17);
             this.AGALabel.TabIndex = 8;
@@ -621,7 +636,7 @@
             // LoginNameLabel
             // 
             this.LoginNameLabel.AutoSize = true;
-            this.LoginNameLabel.Location = new System.Drawing.Point(12, 30);
+            this.LoginNameLabel.Location = new System.Drawing.Point(17, 35);
             this.LoginNameLabel.Name = "LoginNameLabel";
             this.LoginNameLabel.Size = new System.Drawing.Size(81, 17);
             this.LoginNameLabel.TabIndex = 9;
@@ -630,7 +645,7 @@
             // UserCountryLabel
             // 
             this.UserCountryLabel.AutoSize = true;
-            this.UserCountryLabel.Location = new System.Drawing.Point(12, 65);
+            this.UserCountryLabel.Location = new System.Drawing.Point(17, 70);
             this.UserCountryLabel.Name = "UserCountryLabel";
             this.UserCountryLabel.Size = new System.Drawing.Size(61, 17);
             this.UserCountryLabel.TabIndex = 10;
@@ -639,7 +654,7 @@
             // SupporterTierLabel
             // 
             this.SupporterTierLabel.AutoSize = true;
-            this.SupporterTierLabel.Location = new System.Drawing.Point(12, 101);
+            this.SupporterTierLabel.Location = new System.Drawing.Point(17, 106);
             this.SupporterTierLabel.Name = "SupporterTierLabel";
             this.SupporterTierLabel.Size = new System.Drawing.Size(75, 17);
             this.SupporterTierLabel.TabIndex = 11;
@@ -648,21 +663,124 @@
             // TeamListLabel
             // 
             this.TeamListLabel.AutoSize = true;
-            this.TeamListLabel.Location = new System.Drawing.Point(12, 144);
+            this.TeamListLabel.Location = new System.Drawing.Point(17, 149);
             this.TeamListLabel.Name = "TeamListLabel";
             this.TeamListLabel.Size = new System.Drawing.Size(69, 17);
             this.TeamListLabel.TabIndex = 12;
             this.TeamListLabel.Text = "Team list:";
             // 
+            // StatusBar
+            // 
+            this.StatusBar.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.StatusBar.Location = new System.Drawing.Point(0, 548);
+            this.StatusBar.Name = "StatusBar";
+            this.StatusBar.Size = new System.Drawing.Size(1504, 22);
+            this.StatusBar.TabIndex = 13;
+            this.StatusBar.Text = "Welcome";
+            // 
+            // MainMenu
+            // 
+            this.MainMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.predictionToolStripMenuItem,
+            this.databaseOperationsToolStripMenuItem,
+            this.optionsToolStripMenuItem,
+            this.aboutToolStripMenuItem});
+            this.MainMenu.Location = new System.Drawing.Point(0, 0);
+            this.MainMenu.Name = "MainMenu";
+            this.MainMenu.Size = new System.Drawing.Size(1504, 28);
+            this.MainMenu.TabIndex = 14;
+            this.MainMenu.Text = "Main Menu";
+            // 
+            // predictionToolStripMenuItem
+            // 
+            this.predictionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.singleMatchPredictionToolStripMenuItem,
+            this.futureMatchPredictionToolStripMenuItem});
+            this.predictionToolStripMenuItem.Name = "predictionToolStripMenuItem";
+            this.predictionToolStripMenuItem.Size = new System.Drawing.Size(88, 24);
+            this.predictionToolStripMenuItem.Text = "Prediction";
+            // 
+            // databaseOperationsToolStripMenuItem
+            // 
+            this.databaseOperationsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addSingleMatchToolStripMenuItem,
+            this.addMultipleMatchesToolStripMenuItem,
+            this.editSingleMatchToolStripMenuItem,
+            this.deleteSingleMatchToolStripMenuItem});
+            this.databaseOperationsToolStripMenuItem.Name = "databaseOperationsToolStripMenuItem";
+            this.databaseOperationsToolStripMenuItem.Size = new System.Drawing.Size(159, 24);
+            this.databaseOperationsToolStripMenuItem.Text = "Database operations";
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
+            this.optionsToolStripMenuItem.Text = "Options";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(62, 24);
+            this.aboutToolStripMenuItem.Text = "About";
+            // 
+            // UserDetailsGroupBox
+            // 
+            this.UserDetailsGroupBox.Controls.Add(this.TeamListLabel);
+            this.UserDetailsGroupBox.Controls.Add(this.LoginNameLabel);
+            this.UserDetailsGroupBox.Controls.Add(this.UserCountryLabel);
+            this.UserDetailsGroupBox.Controls.Add(this.SupporterTierLabel);
+            this.UserDetailsGroupBox.Location = new System.Drawing.Point(11, 87);
+            this.UserDetailsGroupBox.Name = "UserDetailsGroupBox";
+            this.UserDetailsGroupBox.Size = new System.Drawing.Size(280, 369);
+            this.UserDetailsGroupBox.TabIndex = 15;
+            this.UserDetailsGroupBox.TabStop = false;
+            this.UserDetailsGroupBox.Text = "User details";
+            // 
+            // singleMatchPredictionToolStripMenuItem
+            // 
+            this.singleMatchPredictionToolStripMenuItem.Name = "singleMatchPredictionToolStripMenuItem";
+            this.singleMatchPredictionToolStripMenuItem.Size = new System.Drawing.Size(241, 26);
+            this.singleMatchPredictionToolStripMenuItem.Text = "Single Match Prediction";
+            // 
+            // futureMatchPredictionToolStripMenuItem
+            // 
+            this.futureMatchPredictionToolStripMenuItem.Name = "futureMatchPredictionToolStripMenuItem";
+            this.futureMatchPredictionToolStripMenuItem.Size = new System.Drawing.Size(241, 26);
+            this.futureMatchPredictionToolStripMenuItem.Text = "Future Match Prediction";
+            // 
+            // addSingleMatchToolStripMenuItem
+            // 
+            this.addSingleMatchToolStripMenuItem.Name = "addSingleMatchToolStripMenuItem";
+            this.addSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(230, 26);
+            this.addSingleMatchToolStripMenuItem.Text = "Add Single Match";
+            // 
+            // addMultipleMatchesToolStripMenuItem
+            // 
+            this.addMultipleMatchesToolStripMenuItem.Name = "addMultipleMatchesToolStripMenuItem";
+            this.addMultipleMatchesToolStripMenuItem.Size = new System.Drawing.Size(230, 26);
+            this.addMultipleMatchesToolStripMenuItem.Text = "Add Multiple Matches";
+            // 
+            // editSingleMatchToolStripMenuItem
+            // 
+            this.editSingleMatchToolStripMenuItem.Name = "editSingleMatchToolStripMenuItem";
+            this.editSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(230, 26);
+            this.editSingleMatchToolStripMenuItem.Text = "Edit Single Match";
+            // 
+            // deleteSingleMatchToolStripMenuItem
+            // 
+            this.deleteSingleMatchToolStripMenuItem.Name = "deleteSingleMatchToolStripMenuItem";
+            this.deleteSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(230, 26);
+            this.deleteSingleMatchToolStripMenuItem.Text = "Delete Single Match";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1317, 600);
-            this.Controls.Add(this.TeamListLabel);
-            this.Controls.Add(this.SupporterTierLabel);
-            this.Controls.Add(this.UserCountryLabel);
-            this.Controls.Add(this.LoginNameLabel);
+            this.ClientSize = new System.Drawing.Size(1504, 570);
+            this.Controls.Add(this.UserDetailsGroupBox);
+            this.Controls.Add(this.StatusBar);
+            this.Controls.Add(this.MainMenu);
             this.Controls.Add(this.AGALabel);
             this.Controls.Add(this.HGALabel);
             this.Controls.Add(this.AwayWinPercentageLabel);
@@ -679,6 +797,10 @@
             this.HomeTeamGroupBox.PerformLayout();
             this.AwayTeamGroupBox.ResumeLayout(false);
             this.AwayTeamGroupBox.PerformLayout();
+            this.MainMenu.ResumeLayout(false);
+            this.MainMenu.PerformLayout();
+            this.UserDetailsGroupBox.ResumeLayout(false);
+            this.UserDetailsGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -741,6 +863,19 @@
         private System.Windows.Forms.Label UserCountryLabel;
         private System.Windows.Forms.Label SupporterTierLabel;
         private System.Windows.Forms.Label TeamListLabel;
+        private System.Windows.Forms.StatusStrip StatusBar;
+        private System.Windows.Forms.MenuStrip MainMenu;
+        private System.Windows.Forms.ToolStripMenuItem predictionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem databaseOperationsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.GroupBox UserDetailsGroupBox;
+        private System.Windows.Forms.ToolStripMenuItem singleMatchPredictionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem futureMatchPredictionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addSingleMatchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addMultipleMatchesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editSingleMatchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteSingleMatchToolStripMenuItem;
     }
 }
 

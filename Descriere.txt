@@ -29,10 +29,11 @@ Prima data cand se realizeaza conexiunea cu serverul, utilizatorul va trebui sa 
 Jetoanele de acces vor fi pastrate... (undeva, dar unde?).
 
 Dupa realizarea conexiunii cu serverul, urmatoarele fisiere vor fi descarcate:
-	1. managercompendium. 
+	1. managercompendium. Pentru datele despre utilizator
 		Date de intrare:
 		1.1. -;
-		Date necesare:
+
+		Date de iesire necesare:
 		1.1. Loginname;
 		1.2. UserID;
 		1.3. SupporterTier;
@@ -46,7 +47,54 @@ Dupa realizarea conexiunii cu serverul, urmatoarele fisiere vor fi descarcate:
 		1.11. CountryId;
 		1.12. LeagueLevelUnitName;
 		1.13. LeagueLevelUnitId (1.6 - 1.13 sunt pentru toate echipele pe care le are);
-	2. 
+
+	2. matches. Pentru a vedea care sunt meciurile viitoare ale unei echipe. 
+		Date de intrare:
+		2.1. teamID = (depinde de echipa cu care lucrez);
+		2.2. isYouth = false;
+		2.3. LastMatchDate = (depinde ce vreau sa fac: sa adaug meciuri din trecut in BD sau sa vad meciurile din viitor pentru predictie);
+
+		Date de iesire necesare:
+		2.1. MatchID;
+		2.2. MatchType;
+
+	3. matchdetails. Pentru a vedea evaluarile celor doua echipe pentru un anumit meci.
+		Date de intrare:
+		3.1. matchID (valoare introdusa fie de utilizator, fie de program, luata din fisierul matches, in functie de caz);
+		3.2. sourceSystem = hattrick;
+
+		Date de iesire necesare:
+		3.1. MatchType (retine tipul meciului. Le iau in considerare pe cele care sunt de liga sau de cupa, reguli normale);
+		3.2. HomeGoals;
+		3.3. HomeTeam.RatingMidfield;
+		3.4. HomeTeam.RatingRightDef;
+		3.5. HomeTeam.RatingMidDef;
+		3.6. HomeTeam.RatingLeftDef;
+		3.7. HomeTeam.RatingRightAtt;
+		3.8. HomeTeam.RatingMidAtt;
+		3.9. HomeTeam.RatingLeftAtt;
+		3.10. AwayGoals;
+		3.11. AwayTeam.RatingMidfield;
+		3.12. AwayTeam.RatingRightDef;
+		3.13. AwayTeam.RatingMidDef;
+		3.14. AwayTeam.RatingLeftDef;
+		3.15. AwayTeam.RatingRightAtt;
+		3.16. AwayTeam.RatingMidAtt;
+		3.17. AwayTeam.RatingLeftAtt;
+
+	4. matchorders. De acolo iau evaluarile estimate pentru un meci viitor.
+		Date de intrare:
+		4.1. actionType = predictratings;
+		4.2. matchID (meciul de la care vreau sa preiau evaluarile pentru predictie);
+
+		Date de iesire necesare:
+		4.1. MatchData.RatingMidfield;
+		4.2. MatchData.RatingRightDef;
+		4.3. MatchData.RatingMidDef;
+		4.4. MatchData.RatingLeftDef;
+		4.5. MatchData.RatingRightAtt;
+		4.6. MatchData.RatingMidAtt;
+		4.7. MatchData.RatingLeftAtt;
 
 4. Baza de date
 
@@ -86,8 +134,6 @@ La pornirea programului, acesta trebuie sa execute urmatorul algoritm:
 
 Pentru ca in Hattrick s-a jucat un numar fabulos de meciuri, este foarte greu sa fie toate meciurile descarcate in baza de date a programului (si probabil nici nu este necesar, avand in vedere ca din 1997 pana azi s-au mai schimbat lucruri in motorul jocului, deci evaluarile de atunci nu mai sunt utile si azi). Din acest motiv, meciurile vor fi introduse treptat in baza de date a programului. Acesta va avea functiile legate de gestionarea meciurilor din baza de date, care sunt prezentate la capitolul 5.
 
-
-
 5. Modul de lucru cu programul
 
 Acest program are doua moduri principale de lucru:
@@ -103,7 +149,6 @@ Acest program are doua moduri principale de lucru:
 			2.2.3. tipul de meci. Se adauga meciurile unei anumite echipe care au tipul ales (campionat sau amical normal) (8);
 		2.3. editarea datelor unui meci ales dupa numarul de identificare (oare o fi necesar?);
 		2.4. stergerea unui meci din baza de date (o fi necesar?).
-
 
 6. Optiunile programului
 
