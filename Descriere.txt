@@ -101,22 +101,22 @@ Dupa realizarea conexiunii cu serverul, urmatoarele fisiere vor fi descarcate:
 Baza de date ce va retine meciurile pe baza carora se vor calcula rezultatele dorite are urmatoarele campuri:
 
 	 1. MatchID: integer; (ID unic)
-	 2. FirstTeamMidfield: integer;
-	 3. FirstTeamRDefense: integer; (R=right, C=central, L=left)
-	 4. FirstTeamCDefense: integer;
-	 5. FirstTeamLDefense: integer;
-	 6. FirstTeamRAttack: integer;
-	 7. FirstTeamCAttack: integer;
-	 8. FirstTeamLAttack: integer;
-	 9. SecondTeamMidfield: integer;
-	10. SecondTeamRDefense: integer;
-	11. SecondTeamCDefense: integer;
-	12. SecondTeamLDefense: integer;
-	13. SecondTeamRAttack: integer;
-	14. SecondTeamCAttack: integer;
-	15. SecondTeamLAttack: integer;
-	16. FirstTeamGoals: integer;
-	17. SecondTeamGoals: integer;
+	 2. HomeTeamMidfield: integer;
+	 3. HomeTeamRDefense: integer; (R=right, C=central, L=left)
+	 4. HomeTeamCDefense: integer;
+	 5. HomeTeamLDefense: integer;
+	 6. HomeTeamRAttack: integer;
+	 7. HomeTeamCAttack: integer;
+	 8. HomeTeamLAttack: integer;
+	 9. AwayTeamMidfield: integer;
+	10. AwayTeamRDefense: integer;
+	11. AwayTeamCDefense: integer;
+	12. AwayTeamLDefense: integer;
+	13. AwayTeamRAttack: integer;
+	14. AwayTeamCAttack: integer;
+	15. AwayTeamLAttack: integer;
+	16. HomeTeamGoals: integer;
+	17. AwayTeamGoals: integer;
 
 La selectarea meciurilor pentru calculul marimilor dorite nu sunt luate in considerare tactica, nivelul tactic si stilul de joc, ci numai evaluarile pe sectoare, dupa cum a fost spus mai sus. De fapt, aceste criterii nici nu pot fi selectate de catre utilizator (2). Meciurile luate in considerare vor fi cele din campionat si meciurile amicale care nu sunt de tip cupa (3).
 

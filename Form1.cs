@@ -192,5 +192,11 @@ namespace HT_Match_Predictor
                     break;
             }
         }
+
+        private void ShowAboutWindow(object sender, System.EventArgs e)
+        {
+            AboutBox A = new AboutBox();
+            A.ShowDialog();
+        }
     }
 }

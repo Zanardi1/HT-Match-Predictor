@@ -723,6 +723,7 @@
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(62, 24);
             this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.ShowAboutWindow);
             // 
             // UserDetailsGroupBox
             // 
@@ -740,37 +741,43 @@
             // singleMatchPredictionToolStripMenuItem
             // 
             this.singleMatchPredictionToolStripMenuItem.Name = "singleMatchPredictionToolStripMenuItem";
-            this.singleMatchPredictionToolStripMenuItem.Size = new System.Drawing.Size(241, 26);
+            this.singleMatchPredictionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.singleMatchPredictionToolStripMenuItem.Size = new System.Drawing.Size(291, 26);
             this.singleMatchPredictionToolStripMenuItem.Text = "Single Match Prediction";
             // 
             // futureMatchPredictionToolStripMenuItem
             // 
             this.futureMatchPredictionToolStripMenuItem.Name = "futureMatchPredictionToolStripMenuItem";
-            this.futureMatchPredictionToolStripMenuItem.Size = new System.Drawing.Size(241, 26);
+            this.futureMatchPredictionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.futureMatchPredictionToolStripMenuItem.Size = new System.Drawing.Size(291, 26);
             this.futureMatchPredictionToolStripMenuItem.Text = "Future Match Prediction";
             // 
             // addSingleMatchToolStripMenuItem
             // 
             this.addSingleMatchToolStripMenuItem.Name = "addSingleMatchToolStripMenuItem";
-            this.addSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(230, 26);
+            this.addSingleMatchToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.addSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(314, 26);
             this.addSingleMatchToolStripMenuItem.Text = "Add Single Match";
             // 
             // addMultipleMatchesToolStripMenuItem
             // 
             this.addMultipleMatchesToolStripMenuItem.Name = "addMultipleMatchesToolStripMenuItem";
-            this.addMultipleMatchesToolStripMenuItem.Size = new System.Drawing.Size(230, 26);
+            this.addMultipleMatchesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.addMultipleMatchesToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
             this.addMultipleMatchesToolStripMenuItem.Text = "Add Multiple Matches";
             // 
             // editSingleMatchToolStripMenuItem
             // 
             this.editSingleMatchToolStripMenuItem.Name = "editSingleMatchToolStripMenuItem";
-            this.editSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(230, 26);
+            this.editSingleMatchToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.editSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
             this.editSingleMatchToolStripMenuItem.Text = "Edit Single Match";
             // 
             // deleteSingleMatchToolStripMenuItem
             // 
             this.deleteSingleMatchToolStripMenuItem.Name = "deleteSingleMatchToolStripMenuItem";
-            this.deleteSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(230, 26);
+            this.deleteSingleMatchToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+            this.deleteSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
             this.deleteSingleMatchToolStripMenuItem.Text = "Delete Single Match";
             // 
             // Form1

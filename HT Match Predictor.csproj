@@ -52,6 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Common\Hacks.cs" />
     <Compile Include="Common\IUpload.cs" />
     <Compile Include="Common\Tracing.cs" />
@@ -82,6 +88,9 @@
     <Compile Include="SkillSelectionWindow.Designer.cs">
       <DependentUpon>SkillSelectionWindow.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -100,6 +109,7 @@
     <EmbeddedResource Include="SkillSelectionWindow.resx">
       <DependentUpon>SkillSelectionWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Common\makefile.flymake" />
     <None Include="OAuth1.0\OAuth.shfbproj" />
     <None Include="packages.config" />
@@ -119,6 +129,9 @@
   <ItemGroup>
     <Content Include="Common\Common.csproj" />
     <Content Include="Descriere.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="db\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
