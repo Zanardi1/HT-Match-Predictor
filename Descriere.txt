@@ -12,7 +12,7 @@ Date de iesire:
 	4. media de goluri inscrise de prima echipa;
 	5. media de goluri inscrise de a doua echipa;
 
-Pentru a obtine datele de iesire, programul indeplineste urmatorul algoritm  (1):
+Pentru a obtine datele de iesire, programul indeplineste urmatorul algoritm (1):
 	1. selecteaza dintr-o baza de date ce contine un numar mare de meciuri, acele meciuri care au avut evaluari identice cu cele introduse de catre utilizator;
 	2. numara cate meciuri a selectat;
 	3. numara cate victorii are fiecare echipa si cate meciuri s-au terminat la egalitate;
@@ -122,10 +122,10 @@ La selectarea meciurilor pentru calculul marimilor dorite nu sunt luate in consi
 
 Meciurile selectate pentru calcule vor fi puse intr-o tabela separata, pe care se va lucra (asta daca e nevoie. Daca nu e nevoie, se va lucra direct in tabela principala din baza de date).
 
-La pornirea programului, acesta trebuie sa execute urmatorul algoritm:
-	1. verifica daca exista baza de date;
-	2. daca exista baza de date, atunci trece la pasul 4;
-	3. daca nu exista baza de date, atunci:
+La pornirea programului, acesta trebuie sa execute urmatorul algoritm, legat de baza de date:
+	1. verifica daca exista fisierul ce contine baza de date;
+	2. daca exista acest fisier, atunci trece la pasul 4;
+	3. daca nu exista acest fisier, atunci:
 		3.1. afiseaza un mesaj care sa anunte acest lucru si ca va fi creata o baza de date noua, goala;
 		3.2. creaza o baza de date noua, goala, cu structura de mai sus;
 	4. se conecteaza la baza de date;
@@ -148,7 +148,9 @@ Acest program are doua moduri principale de lucru:
 			2.2.2. interval de date. Se adauga meciurile unei anumite echipe din intervalul introdus;
 			2.2.3. tipul de meci. Se adauga meciurile unei anumite echipe care au tipul ales (campionat sau amical normal) (8);
 		2.3. editarea datelor unui meci ales dupa numarul de identificare (oare o fi necesar?);
-		2.4. stergerea unui meci din baza de date (o fi necesar?).
+		2.4. stergerea unui meci din baza de date (o fi necesar?);
+		2.5. crearea fisierului cu baza de date;
+		2.6. stergerea fisierului cu baza de date.
 
 6. Optiunile programului
 

@@ -86,16 +86,19 @@
             this.StatusBar = new System.Windows.Forms.StatusStrip();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.predictionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.databaseOperationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.UserDetailsGroupBox = new System.Windows.Forms.GroupBox();
             this.singleMatchPredictionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.futureMatchPredictionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.databaseOperationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.addSingleMatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addMultipleMatchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editSingleMatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSingleMatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UserDetailsGroupBox = new System.Windows.Forms.GroupBox();
             this.HomeTeamGroupBox.SuspendLayout();
             this.AwayTeamGroupBox.SuspendLayout();
             this.MainMenu.SuspendLayout();
@@ -701,9 +704,26 @@
             this.predictionToolStripMenuItem.Size = new System.Drawing.Size(88, 24);
             this.predictionToolStripMenuItem.Text = "Prediction";
             // 
+            // singleMatchPredictionToolStripMenuItem
+            // 
+            this.singleMatchPredictionToolStripMenuItem.Name = "singleMatchPredictionToolStripMenuItem";
+            this.singleMatchPredictionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.singleMatchPredictionToolStripMenuItem.Size = new System.Drawing.Size(291, 26);
+            this.singleMatchPredictionToolStripMenuItem.Text = "Single Match Prediction";
+            // 
+            // futureMatchPredictionToolStripMenuItem
+            // 
+            this.futureMatchPredictionToolStripMenuItem.Name = "futureMatchPredictionToolStripMenuItem";
+            this.futureMatchPredictionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.futureMatchPredictionToolStripMenuItem.Size = new System.Drawing.Size(291, 26);
+            this.futureMatchPredictionToolStripMenuItem.Text = "Future Match Prediction";
+            // 
             // databaseOperationsToolStripMenuItem
             // 
             this.databaseOperationsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.createDatabaseToolStripMenuItem,
+            this.deleteDatabaseToolStripMenuItem,
+            this.toolStripSeparator1,
             this.addSingleMatchToolStripMenuItem,
             this.addMultipleMatchesToolStripMenuItem,
             this.editSingleMatchToolStripMenuItem,
@@ -711,6 +731,55 @@
             this.databaseOperationsToolStripMenuItem.Name = "databaseOperationsToolStripMenuItem";
             this.databaseOperationsToolStripMenuItem.Size = new System.Drawing.Size(159, 24);
             this.databaseOperationsToolStripMenuItem.Text = "Database operations";
+            // 
+            // createDatabaseToolStripMenuItem
+            // 
+            this.createDatabaseToolStripMenuItem.Name = "createDatabaseToolStripMenuItem";
+            this.createDatabaseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.createDatabaseToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
+            this.createDatabaseToolStripMenuItem.Text = "Create Database";
+            this.createDatabaseToolStripMenuItem.Click += new System.EventHandler(this.CreateMatchesDatabase);
+            // 
+            // deleteDatabaseToolStripMenuItem
+            // 
+            this.deleteDatabaseToolStripMenuItem.Name = "deleteDatabaseToolStripMenuItem";
+            this.deleteDatabaseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
+            this.deleteDatabaseToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
+            this.deleteDatabaseToolStripMenuItem.Text = "Delete Database";
+            this.deleteDatabaseToolStripMenuItem.Click += new System.EventHandler(this.DeleteMatchesDatabase);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(282, 6);
+            // 
+            // addSingleMatchToolStripMenuItem
+            // 
+            this.addSingleMatchToolStripMenuItem.Name = "addSingleMatchToolStripMenuItem";
+            this.addSingleMatchToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.addSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
+            this.addSingleMatchToolStripMenuItem.Text = "Add Single Match";
+            // 
+            // addMultipleMatchesToolStripMenuItem
+            // 
+            this.addMultipleMatchesToolStripMenuItem.Name = "addMultipleMatchesToolStripMenuItem";
+            this.addMultipleMatchesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.addMultipleMatchesToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
+            this.addMultipleMatchesToolStripMenuItem.Text = "Add Multiple Matches";
+            // 
+            // editSingleMatchToolStripMenuItem
+            // 
+            this.editSingleMatchToolStripMenuItem.Name = "editSingleMatchToolStripMenuItem";
+            this.editSingleMatchToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.editSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
+            this.editSingleMatchToolStripMenuItem.Text = "Edit Single Match";
+            // 
+            // deleteSingleMatchToolStripMenuItem
+            // 
+            this.deleteSingleMatchToolStripMenuItem.Name = "deleteSingleMatchToolStripMenuItem";
+            this.deleteSingleMatchToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+            this.deleteSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
+            this.deleteSingleMatchToolStripMenuItem.Text = "Delete Single Match";
             // 
             // optionsToolStripMenuItem
             // 
@@ -737,48 +806,6 @@
             this.UserDetailsGroupBox.TabIndex = 15;
             this.UserDetailsGroupBox.TabStop = false;
             this.UserDetailsGroupBox.Text = "User details";
-            // 
-            // singleMatchPredictionToolStripMenuItem
-            // 
-            this.singleMatchPredictionToolStripMenuItem.Name = "singleMatchPredictionToolStripMenuItem";
-            this.singleMatchPredictionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.singleMatchPredictionToolStripMenuItem.Size = new System.Drawing.Size(291, 26);
-            this.singleMatchPredictionToolStripMenuItem.Text = "Single Match Prediction";
-            // 
-            // futureMatchPredictionToolStripMenuItem
-            // 
-            this.futureMatchPredictionToolStripMenuItem.Name = "futureMatchPredictionToolStripMenuItem";
-            this.futureMatchPredictionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.futureMatchPredictionToolStripMenuItem.Size = new System.Drawing.Size(291, 26);
-            this.futureMatchPredictionToolStripMenuItem.Text = "Future Match Prediction";
-            // 
-            // addSingleMatchToolStripMenuItem
-            // 
-            this.addSingleMatchToolStripMenuItem.Name = "addSingleMatchToolStripMenuItem";
-            this.addSingleMatchToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.addSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(314, 26);
-            this.addSingleMatchToolStripMenuItem.Text = "Add Single Match";
-            // 
-            // addMultipleMatchesToolStripMenuItem
-            // 
-            this.addMultipleMatchesToolStripMenuItem.Name = "addMultipleMatchesToolStripMenuItem";
-            this.addMultipleMatchesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.addMultipleMatchesToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
-            this.addMultipleMatchesToolStripMenuItem.Text = "Add Multiple Matches";
-            // 
-            // editSingleMatchToolStripMenuItem
-            // 
-            this.editSingleMatchToolStripMenuItem.Name = "editSingleMatchToolStripMenuItem";
-            this.editSingleMatchToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.editSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
-            this.editSingleMatchToolStripMenuItem.Text = "Edit Single Match";
-            // 
-            // deleteSingleMatchToolStripMenuItem
-            // 
-            this.deleteSingleMatchToolStripMenuItem.Name = "deleteSingleMatchToolStripMenuItem";
-            this.deleteSingleMatchToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.deleteSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
-            this.deleteSingleMatchToolStripMenuItem.Text = "Delete Single Match";
             // 
             // Form1
             // 
@@ -883,6 +910,9 @@
         private System.Windows.Forms.ToolStripMenuItem addMultipleMatchesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editSingleMatchToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteSingleMatchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createDatabaseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteDatabaseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 
