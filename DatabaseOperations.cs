@@ -52,7 +52,7 @@ namespace HT_Match_Predictor
         {
             string Str;
             SqlConnection MyConn = new SqlConnection(ConnectionString);
-            Str = @"CREATE TABLE Matches.[Games]
+            Str = @"CREATE TABLE [dbo].[Games]
 (
     [MatchID] INT NOT NULL, 
     [HomeTeamMidfield] TINYINT NOT NULL, 
