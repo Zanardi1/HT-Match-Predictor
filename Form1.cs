@@ -31,7 +31,7 @@ namespace HT_Match_Predictor
     public partial class Form1 : Form
     {
         private readonly Manager o = new Manager(); //instanta de clasa ce se ocupa de conexiunea cu serverele Hattrick
-        private DatabaseOperations Operations = new DatabaseOperations();
+        private readonly DatabaseOperations Operations = new DatabaseOperations();
         static readonly string CurrentFolder = Path.GetDirectoryName(Application.ExecutablePath); //Retin folderul in care se afla aplicatia
         readonly string XMLFolder = CurrentFolder + "\\XML"; //Retin folderul unde vor fi descarcate fisierele XML
         public int RatingReturned = 0; //retine reprezentarea numerica a evaluarii selectate de catre utilizator in fereastra de selectare a abilitatilor
@@ -202,12 +202,20 @@ namespace HT_Match_Predictor
 
         private void CreateMatchesDatabase(object sender, System.EventArgs e)
         {
+            HelpStatusLabel.Text = "Creating matches database...";
+            Cursor = Cursors.WaitCursor;
             Operations.CreateDatabase();
+            Cursor = Cursors.Default;
+            HelpStatusLabel.Text = "Matches database created.";
         }
 
         private void DeleteMatchesDatabase(object sender, System.EventArgs e)
         {
+            HelpStatusLabel.Text = "Deleting matches database...";
+            Cursor = Cursors.WaitCursor;
             Operations.DeleteDatabase();
+            Cursor = Cursors.Default;
+            HelpStatusLabel.Text = "Matches database deleted.";
         }
     }
 }

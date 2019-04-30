@@ -99,8 +99,10 @@
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UserDetailsGroupBox = new System.Windows.Forms.GroupBox();
+            this.HelpStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.HomeTeamGroupBox.SuspendLayout();
             this.AwayTeamGroupBox.SuspendLayout();
+            this.StatusBar.SuspendLayout();
             this.MainMenu.SuspendLayout();
             this.UserDetailsGroupBox.SuspendLayout();
             this.SuspendLayout();
@@ -675,9 +677,11 @@
             // StatusBar
             // 
             this.StatusBar.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.StatusBar.Location = new System.Drawing.Point(0, 548);
+            this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.HelpStatusLabel});
+            this.StatusBar.Location = new System.Drawing.Point(0, 545);
             this.StatusBar.Name = "StatusBar";
-            this.StatusBar.Size = new System.Drawing.Size(1504, 22);
+            this.StatusBar.Size = new System.Drawing.Size(1504, 25);
             this.StatusBar.TabIndex = 13;
             this.StatusBar.Text = "Welcome";
             // 
@@ -807,6 +811,12 @@
             this.UserDetailsGroupBox.TabStop = false;
             this.UserDetailsGroupBox.Text = "User details";
             // 
+            // HelpStatusLabel
+            // 
+            this.HelpStatusLabel.Name = "HelpStatusLabel";
+            this.HelpStatusLabel.Size = new System.Drawing.Size(71, 20);
+            this.HelpStatusLabel.Text = "Welcome";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -831,6 +841,8 @@
             this.HomeTeamGroupBox.PerformLayout();
             this.AwayTeamGroupBox.ResumeLayout(false);
             this.AwayTeamGroupBox.PerformLayout();
+            this.StatusBar.ResumeLayout(false);
+            this.StatusBar.PerformLayout();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
             this.UserDetailsGroupBox.ResumeLayout(false);
@@ -913,6 +925,7 @@
         private System.Windows.Forms.ToolStripMenuItem createDatabaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteDatabaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripStatusLabel HelpStatusLabel;
     }
 }
 
