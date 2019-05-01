@@ -1,43 +1,77 @@
-﻿using OAuth;
+﻿using Microsoft.Win32;
+using OAuth;
+using System;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Windows.Forms;
-using Microsoft.Win32;
-using System;
+using System.Collections.Generic;
 
 //todo sa scriu o rutina de compunere a URL-ului care va fi trimis catre Hattrick pentru descarcarea fisierelor
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
+//todo bug atunci cand revoc aplicatia din contul Hattrick, jetoanele raman, dar sunt inutilizabile. Din acest motiv primesc o eroare
 
 namespace HT_Match_Predictor
 {
-    public struct MatchRatings //retine evaluarile pe compartimente ale celor doua echipe
-    {
-        public int HomeM; //Home - acasa; Away - deplasare
-        public int HomeRD; //R - dreapta; C = centru; L = stanga
-        public int HomeCD; //D - aparare (defense); M - mijloc (midfield); A - atac (attack)
-        public int HomeLD;
-        public int HomeRA;
-        public int HomeCA;
-        public int HomeLA;
-        public int AwayM;
-        public int AwayRD;
-        public int AwayCD;
-        public int AwayLD;
-        public int AwayRA;
-        public int AwayCA;
-        public int AwayLA;
-    }
-
     public partial class Form1 : Form
     {
-        private readonly Manager o = new Manager(); //instanta de clasa ce se ocupa de conexiunea cu serverele Hattrick
+        private readonly Manager o = new Manager();
+        /// <summary>
+        /// Instanta de clasa ce se ocupa de conexiunea cu serverele Hattrick
+        /// </summary>
         private readonly DatabaseOperations Operations = new DatabaseOperations();
-        static readonly string CurrentFolder = Path.GetDirectoryName(Application.ExecutablePath); //Retin folderul in care se afla aplicatia
-        readonly string XMLFolder = CurrentFolder + "\\XML"; //Retin folderul unde vor fi descarcate fisierele XML
-        public int RatingReturned = 0; //retine reprezentarea numerica a evaluarii selectate de catre utilizator in fereastra de selectare a abilitatilor
-        public MatchRatings Ratings = new MatchRatings();
+        /// <summary>
+        /// Obiect ce se ocupa de operatiile cu BD a programului
+        /// </summary>
+        static readonly string CurrentFolder = Path.GetDirectoryName(Application.ExecutablePath);
+        /// <summary>
+        /// Retin folderul in care se afla aplicatia
+        /// </summary>
+        readonly string XMLFolder = CurrentFolder + "\\XML";
+        /// <summary>
+        /// Retin folderul unde vor fi descarcate fisierele XML
+        /// </summary>
+        public int RatingReturned = 0;
+        /// <summary>
+        /// retine reprezentarea numerica a evaluarii selectate de catre utilizator in fereastra de selectare a abilitatilor. E un numar intre 1 si 80
+        /// </summary>
+        public List<int> MatchRatings = new List<int>(14);
+        /// <summary>
+        /// MatchRatings este o lista de 14 numere intregi, ce retine evaluarile celor doua echipe dintr-un meci. Semnificatia numerelor de ordine din lista este urmatoarea:
+        /// 0. Evaluarea la mijloc (echipa de acasa);
+        /// 1. Evaluarea apararii pe dreapta (echipa de acasa);
+        /// 2. Evaluarea apararii pe centru (echipa de acasa);
+        /// 3. Evaluarea apararii pe stanga (echipa de acasa);
+        /// 4. Evaluarea atacului pe dreapta (echipa de acasa);
+        /// 5. Evaluarea atacului pe centru (echipa de acasa);
+        /// 6. Evaluarea atacului pe stanga (echipa de acasa);
+        /// 7. Evaluarea la mijloc (echipa din deplasare);
+        /// 8. Evaluarea apararii pe dreapta(echipa de acasa);
+        /// 9. Evaluarea apararii pe centru (echipa din deplasare));
+        /// 10. Evaluarea apararii pe stanga (echipa din deplasare));
+        /// 11. Evaluarea atacului pe dreapta (echipa din deplasare));
+        /// 12. Evaluarea atacului pe centru (echipa din deplasare));
+        /// 13. Evaluarea atacului pe stanga (echipa din deplasare));
+        /// </summary>
 
+        private void InitializeMatchRatingList()
+        {
+            for (int i = 0; i < 14; i++)
+                MatchRatings.Add(0);
+        }
+
+        /// <summary>
+        /// Procedura aduce la 0 toate cele 14 elemente ale listei
+        /// </summary>
+        private void ResetMatchRatingList()
+        {
+            for (int i = 0; i < MatchRatings.Count; i++)
+                MatchRatings[i] = 0;
+        }
+
+        /// <summary>
+        /// Procedura ce se ocupa de conectarea la serverele Hattrick
+        /// </summary>
         private void LoginToHattrickServers()
         {
             InitializeAuthenticationObject();
@@ -65,13 +99,12 @@ namespace HT_Match_Predictor
                         Object temp = key.GetValue("Token");
                         if (temp != null)
                         {
-                            Value = temp.ToString();  //"as" because it's REG_SZ...otherwise ToString() might be safe(r)
-                                                                         //do what you like with version
+                            Value = temp.ToString();
                         }
                     }
                 }
             }
-            catch (Exception ex)  //just for demonstration...it's always best to handle specific exceptions
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -94,13 +127,12 @@ namespace HT_Match_Predictor
                         Object temp = key.GetValue("Secret Token");
                         if (temp != null)
                         {
-                            Value = temp.ToString();  //"as" because it's REG_SZ...otherwise ToString() might be safe(r)
-                                                      //do what you like with version
+                            Value = temp.ToString();
                         }
                     }
                 }
             }
-            catch (Exception ex)  //just for demonstration...it's always best to handle specific exceptions
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -123,7 +155,7 @@ namespace HT_Match_Predictor
         {
             o["consumer_key"] = "2BkDvCeUZL1nCIVOn5KhUb";
             o["consumer_secret"] = "PvSRGYlTxCwUKuw9BH9CIWP1AqutO9MB2JRDGHsVlGC";
-            o["token"] = ReadTokenFromRegistry(); 
+            o["token"] = ReadTokenFromRegistry();
             o["token_secret"] = ReadTokenSecretFromRegistry();
         }
 
@@ -178,6 +210,7 @@ namespace HT_Match_Predictor
         {
             InitializeComponent();
             LoginToHattrickServers();
+            InitializeMatchRatingList();
         }
 
         private void ShowSkillWindow(object sender, System.EventArgs e)
@@ -188,81 +221,7 @@ namespace HT_Match_Predictor
             };
             S.ShowDialog(this);
 
-            switch (S.Tag) //atribuie evaluarea numerica primita sectorului corespunzator, in functie de eticheta butonului a carui apasare a deschis fereastra
-            {
-                case "1":
-                    {
-                        Ratings.HomeM = RatingReturned;
-                        break;
-                    }
-                case "2":
-                    {
-                        Ratings.HomeRD = RatingReturned;
-                        break;
-                    }
-                case "3":
-                    {
-                        Ratings.HomeCD = RatingReturned;
-                        break;
-                    }
-                case "4":
-                    {
-                        Ratings.HomeLD = RatingReturned;
-                        break;
-                    }
-                case "5":
-                    {
-                        Ratings.HomeRA = RatingReturned;
-                        break;
-                    }
-                case "6":
-                    {
-                        Ratings.HomeCA = RatingReturned;
-                        break;
-                    }
-                case "7":
-                    {
-                        Ratings.HomeLA = RatingReturned;
-                        break;
-                    }
-                case "8":
-                    {
-                        Ratings.AwayM = RatingReturned;
-                        break;
-                    }
-                case "9":
-                    {
-                        Ratings.AwayRD = RatingReturned;
-                        break;
-                    }
-                case "10":
-                    {
-                        Ratings.AwayCD = RatingReturned;
-                        break;
-                    }
-                case "11":
-                    {
-                        Ratings.AwayLD = RatingReturned;
-                        break;
-                    }
-                case "12":
-                    {
-                        Ratings.AwayRA = RatingReturned;
-                        break;
-                    }
-                case "13":
-                    {
-                        Ratings.AwayCA = RatingReturned;
-                        break;
-                    }
-                case "14":
-                    {
-                        Ratings.AwayLA = RatingReturned;
-                        break;
-                    }
-                default:
-                    break;
-            }
+            MatchRatings[Convert.ToInt16(S.Tag) - 1] = RatingReturned; //atribuie evaluarea numerica primita sectorului corespunzator, in functie de eticheta butonului a carui apasare a deschis fereastra
         }
 
         private void ShowAboutWindow(object sender, System.EventArgs e)
@@ -287,6 +246,32 @@ namespace HT_Match_Predictor
             Operations.DeleteDatabase();
             Cursor = Cursors.Default;
             HelpStatusLabel.Text = "Matches database deleted.";
+        }
+
+        /// <summary>
+        /// Procedura aduce datele specifice simularii la valorile initiale
+        /// </summary>
+        /// <param name="sender">Handler de eveniment</param>
+        /// <param name="e">Handler de eveniment</param>
+        private void ResetData(object sender, EventArgs e)
+        {
+            ResetMatchRatingList();
+
+            foreach (Control C in HomeTeamGroupBox.Controls)
+            {
+                if ((C.GetType() == typeof(Label)) && (C.TabIndex >= 14) && (C.TabIndex <= 20))
+                {
+                    C.Text = "(No rating selected!)";
+                }
+            }
+
+            foreach (Control C in AwayTeamGroupBox.Controls)
+            {
+                if ((C.GetType() == typeof(Label)) && (C.TabIndex >= 21) && (C.TabIndex <= 27))
+                {
+                    C.Text = "(No rating selected!)";
+                }
+            }
         }
     }
 }

@@ -592,6 +592,7 @@
             this.ResetButton.Tag = "16";
             this.ResetButton.Text = "Reset";
             this.ResetButton.UseVisualStyleBackColor = true;
+            this.ResetButton.Click += new System.EventHandler(this.ResetData);
             // 
             // HomeWinPercentageLabel
             // 

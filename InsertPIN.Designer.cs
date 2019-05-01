@@ -81,7 +81,7 @@
             this.Controls.Add(this.InsertPINTextBox);
             this.Name = "InsertPIN";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "InsertPIN";
+            this.Text = "Insert PIN";
             this.ResumeLayout(false);
             this.PerformLayout();
 
