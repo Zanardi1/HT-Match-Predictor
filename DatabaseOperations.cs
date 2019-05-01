@@ -22,7 +22,7 @@ namespace HT_Match_Predictor
         static readonly string DatabaseFolder = Path.GetDirectoryName(Application.ExecutablePath) + "\\db"; //Retin folderul unde va fi pusa baza de date cu meciuri
         readonly string Database = "'" + DatabaseFolder + "\\Matches.mdf'";
         readonly string Log = "'" + DatabaseFolder + "\\MatchesLog.ldf'";
-        readonly string ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Integrated Security=True;Connect Timeout=30";
+        readonly string ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Integrated Security=True;Connect Timeout=30;";
 
         public DatabaseOperations()
         {

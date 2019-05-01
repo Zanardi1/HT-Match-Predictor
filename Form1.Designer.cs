@@ -84,6 +84,7 @@
             this.SupporterTierLabel = new System.Windows.Forms.Label();
             this.TeamListLabel = new System.Windows.Forms.Label();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
+            this.HelpStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.predictionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.singleMatchPredictionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,7 +100,6 @@
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UserDetailsGroupBox = new System.Windows.Forms.GroupBox();
-            this.HelpStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.HomeTeamGroupBox.SuspendLayout();
             this.AwayTeamGroupBox.SuspendLayout();
             this.StatusBar.SuspendLayout();
@@ -685,6 +685,12 @@
             this.StatusBar.TabIndex = 13;
             this.StatusBar.Text = "Welcome";
             // 
+            // HelpStatusLabel
+            // 
+            this.HelpStatusLabel.Name = "HelpStatusLabel";
+            this.HelpStatusLabel.Size = new System.Drawing.Size(71, 20);
+            this.HelpStatusLabel.Text = "Welcome";
+            // 
             // MainMenu
             // 
             this.MainMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -810,12 +816,6 @@
             this.UserDetailsGroupBox.TabIndex = 15;
             this.UserDetailsGroupBox.TabStop = false;
             this.UserDetailsGroupBox.Text = "User details";
-            // 
-            // HelpStatusLabel
-            // 
-            this.HelpStatusLabel.Name = "HelpStatusLabel";
-            this.HelpStatusLabel.Size = new System.Drawing.Size(71, 20);
-            this.HelpStatusLabel.Text = "Welcome";
             // 
             // Form1
             // 

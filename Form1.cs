@@ -3,8 +3,9 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Windows.Forms;
+using Microsoft.Win32;
+using System;
 
-//todo sa vad unde stochez token si token_secret
 //todo sa scriu o rutina de compunere a URL-ului care va fi trimis catre Hattrick pentru descarcarea fisierelor
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
 
@@ -48,12 +49,82 @@ namespace HT_Match_Predictor
             SaveResponseToFile(XMLFolder + "\\a.xml", "http://chpp.hattrick.org/chppxml.ashx?file=matchdetails&version=3.0&matchEvents=false&matchID=638295042");
         }
 
+        /// <summary>
+        /// Functia intoarce valoarea lui token, citita din registri.
+        /// </summary>
+        /// <returns>Sirul de caractere ce reprezinta jetonul (token)</returns>
+        private string ReadTokenFromRegistry()
+        {
+            string Value = string.Empty;
+            try
+            {
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey("HTMPTK"))
+                {
+                    if (key != null)
+                    {
+                        Object temp = key.GetValue("Token");
+                        if (temp != null)
+                        {
+                            Value = temp.ToString();  //"as" because it's REG_SZ...otherwise ToString() might be safe(r)
+                                                                         //do what you like with version
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)  //just for demonstration...it's always best to handle specific exceptions
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return Value;
+        }
+
+        /// <summary>
+        /// Functia intoarce valoarea lui token_secret, citita din registri
+        /// </summary>
+        /// <returns>Sirul de caractere ce reprezinta jetonul secret (token_secret)</returns>
+        private string ReadTokenSecretFromRegistry()
+        {
+            string Value = string.Empty; ;
+            try
+            {
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey("HTMPTK"))
+                {
+                    if (key != null)
+                    {
+                        Object temp = key.GetValue("Secret Token");
+                        if (temp != null)
+                        {
+                            Value = temp.ToString();  //"as" because it's REG_SZ...otherwise ToString() might be safe(r)
+                                                      //do what you like with version
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)  //just for demonstration...it's always best to handle specific exceptions
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return Value;
+        }
+
+        /// <summary>
+        /// Procedura stocheaza cele doua jetoane, token si token_secret in registri
+        /// </summary>
+        private void StoreTokensToRegistry()
+        {
+            RegistryKey Key;
+            Key = Registry.CurrentUser.CreateSubKey("HTMPTK"); //HTMP = HatTrick Match Predictor
+            Key.SetValue("Token", o["token"]);
+            Key.SetValue("Secret Token", o["token_secret"]);
+            Key.Close();
+        }
+
         private void InitializeAuthenticationObject()
         {
             o["consumer_key"] = "2BkDvCeUZL1nCIVOn5KhUb";
             o["consumer_secret"] = "PvSRGYlTxCwUKuw9BH9CIWP1AqutO9MB2JRDGHsVlGC";
-            o["token"] = "gWOcK5n7ZbhNAsbd"; //Stocate temporar sub aceasta forma. Va trebui sa vad cum se stocheaza corect aceste jetoane.
-            o["token_secret"] = "a3GsutimIieDGlLv";
+            o["token"] = ReadTokenFromRegistry(); 
+            o["token_secret"] = ReadTokenSecretFromRegistry();
         }
 
         private void GetRequestToken()
@@ -65,11 +136,11 @@ namespace HT_Match_Predictor
 
         private void GetAccessToken()
         {
-            string pin = string.Empty;
             InsertPIN I = new InsertPIN();
             I.ShowDialog(this);
-            pin = I.InsertPINTextBox.Text;
+            string pin = I.InsertPINTextBox.Text;
             OAuthResponse at = o.AcquireAccessToken("https://chpp.hattrick.org/oauth/access_token.ashx", "GET", pin);
+            StoreTokensToRegistry();
         }
 
         private string GetFileContent(string URLAddress)
