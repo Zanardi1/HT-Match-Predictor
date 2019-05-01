@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
+using System;
 using System.IO;
 using System.Windows.Forms;
 
@@ -19,27 +15,72 @@ namespace HT_Match_Predictor
 {
     class DatabaseOperations
     {
-        static readonly string DatabaseFolder = Path.GetDirectoryName(Application.ExecutablePath) + "\\db"; //Retin folderul unde va fi pusa baza de date cu meciuri
+        /// <summary>
+        /// Retine folderul unde va fi pusa baza de date cu meciuri
+        /// </summary>
+        static readonly string DatabaseFolder = Path.GetDirectoryName(Application.ExecutablePath) + "\\db";
+        /// <summary>
+        /// Retine numele fisierului ce va retine baza de date
+        /// </summary>
         readonly string Database = "'" + DatabaseFolder + "\\Matches.mdf'";
+        /// <summary>
+        /// Retine numele fisierului jurnal
+        /// </summary>
         readonly string Log = "'" + DatabaseFolder + "\\MatchesLog.ldf'";
-        readonly string ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Integrated Security=True;Connect Timeout=30;";
+        /// <summary>
+        /// Retine sirul de conectare la baza de date. Depinde de serverul de BD pe care il am.
+        /// </summary>
+        readonly string CreateDatabaseConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        /// <summary>
+        /// Retine sirul de conectare pentru crearea tabelei
+        /// </summary>
+        readonly string CreateTableConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Matches;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         public DatabaseOperations()
         {
 
         }
 
+        /// <summary>
+        /// Verifica daca baza de date exista. Metoda luata de la https://stackoverflow.com/questions/2232227/check-if-database-exists-before-creating
+        /// </summary>
+        /// <returns>true, daca exista. False, altfel</returns>
         public bool DatabaseExists()
         {
-            return true;
+            bool Exists = false;
+            try
+            {
+                SqlConnection MyConn = new SqlConnection(CreateTableConnectionString);
+                string TestDBQuery = string.Format("SELECT database_id FROM sys.databases WHERE Name = 'Matches'");
+                using (MyConn)
+                {
+                    using (SqlCommand cmd = new SqlCommand(TestDBQuery, MyConn))
+                    {
+                        MyConn.Open();
+                        object Result = cmd.ExecuteScalar();
+                        int DatabaseID = 0;
+                        if (Result != null)
+                        {
+                            int.TryParse(Result.ToString(), out DatabaseID);
+                        }
+                        MyConn.Close();
+                        Exists = (DatabaseID > 0);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Exists = false;
+            }
+            return Exists;
         }
 
         private void CreateDatabaseFile()
         //Creaza fisierul ce contine baza de date
         {
             string Str; //retine comenzile SQL care vor fi trimise
-            SqlConnection MyConn = new SqlConnection(ConnectionString);
-            //todo sa vad cum fac rost de sirul de conexiune (connection string)
+            SqlConnection MyConn = new SqlConnection(CreateDatabaseConnectionString);
             Str = "Create Database Matches on Primary (Name=Matches, Filename=" + Database + ") log on (Name=MatchesLog, Filename=" + Log + ")"; //creaza BD
             SqlCommand command = new SqlCommand(Str, MyConn);
             MyConn.Open();
@@ -51,7 +92,7 @@ namespace HT_Match_Predictor
         //Creaza tabela ce va contine meciurile
         {
             string Str;
-            SqlConnection MyConn = new SqlConnection(ConnectionString);
+            SqlConnection MyConn = new SqlConnection(CreateTableConnectionString);
             Str = @"CREATE TABLE [dbo].[Games]
 (
     [MatchID] INT NOT NULL, 
@@ -91,7 +132,7 @@ namespace HT_Match_Predictor
         //Sterge baza de date ce va retine meciurile.
         {
             string Str;
-            SqlConnection MyConn = new SqlConnection(ConnectionString);
+            SqlConnection MyConn = new SqlConnection(CreateDatabaseConnectionString);
             Str = "drop database Matches";
             SqlCommand command = new SqlCommand(Str, MyConn);
             MyConn.Open();

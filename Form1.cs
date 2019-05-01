@@ -1,11 +1,11 @@
 ﻿using Microsoft.Win32;
 using OAuth;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Windows.Forms;
-using System.Collections.Generic;
 
 //todo sa scriu o rutina de compunere a URL-ului care va fi trimis catre Hattrick pentru descarcarea fisierelor
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
@@ -57,7 +57,9 @@ namespace HT_Match_Predictor
         private void InitializeMatchRatingList()
         {
             for (int i = 0; i < 14; i++)
+            {
                 MatchRatings.Add(0);
+            }
         }
 
         /// <summary>
@@ -66,7 +68,9 @@ namespace HT_Match_Predictor
         private void ResetMatchRatingList()
         {
             for (int i = 0; i < MatchRatings.Count; i++)
+            {
                 MatchRatings[i] = 0;
+            }
         }
 
         /// <summary>
@@ -232,20 +236,34 @@ namespace HT_Match_Predictor
 
         private void CreateMatchesDatabase(object sender, System.EventArgs e)
         {
-            HelpStatusLabel.Text = "Creating matches database...";
-            Cursor = Cursors.WaitCursor;
-            Operations.CreateDatabase();
-            Cursor = Cursors.Default;
-            HelpStatusLabel.Text = "Matches database created.";
+            if (!Operations.DatabaseExists())
+            {
+                HelpStatusLabel.Text = "Creating matches database...";
+                Cursor = Cursors.WaitCursor;
+                Operations.CreateDatabase();
+                Cursor = Cursors.Default;
+                HelpStatusLabel.Text = "Matches database created.";
+            }
+            else
+            {
+                HelpStatusLabel.Text = "The database already exists.";
+            }
         }
 
         private void DeleteMatchesDatabase(object sender, System.EventArgs e)
         {
-            HelpStatusLabel.Text = "Deleting matches database...";
-            Cursor = Cursors.WaitCursor;
-            Operations.DeleteDatabase();
-            Cursor = Cursors.Default;
-            HelpStatusLabel.Text = "Matches database deleted.";
+            if (Operations.DatabaseExists())
+            {
+                HelpStatusLabel.Text = "Deleting matches database...";
+                Cursor = Cursors.WaitCursor;
+                Operations.DeleteDatabase();
+                Cursor = Cursors.Default;
+                HelpStatusLabel.Text = "Matches database deleted.";
+            }
+            else
+            {
+                HelpStatusLabel.Text = "The database does not exist.";
+            }
         }
 
         /// <summary>
