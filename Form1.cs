@@ -91,7 +91,7 @@ namespace HT_Match_Predictor
                 GetRequestToken();
                 GetAccessToken();
             }
-            SaveResponseToFile("http://chpp.hattrick.org/chppxml.ashx?file=matchdetails&version=3.0&matchEvents=false&matchID=638295042", XMLFolder + "\\a.xml");
+            SaveResponseToFile(DownloadString.CreateManagerCompendiumString(), XMLFolder + "\\User.xml");
         }
 
         /// <summary>
