@@ -15,27 +15,26 @@ namespace HT_Match_Predictor
 {
     public partial class Form1 : Form
     {
-        private readonly Manager o = new Manager();
         /// <summary>
         /// Instanta de clasa ce se ocupa de conexiunea cu serverele Hattrick
         /// </summary>
-        private readonly DatabaseOperations Operations = new DatabaseOperations();
+        private readonly Manager o = new Manager();
         /// <summary>
         /// Obiect ce se ocupa de operatiile cu BD a programului
         /// </summary>
-        static readonly string CurrentFolder = Path.GetDirectoryName(Application.ExecutablePath);
+        private readonly DatabaseOperations Operations = new DatabaseOperations();
         /// <summary>
         /// Retin folderul in care se afla aplicatia
         /// </summary>
-        readonly string XMLFolder = CurrentFolder + "\\XML";
+        static readonly string CurrentFolder = Path.GetDirectoryName(Application.ExecutablePath);
         /// <summary>
         /// Retin folderul unde vor fi descarcate fisierele XML
         /// </summary>
-        public int RatingReturned = 0;
+        readonly string XMLFolder = CurrentFolder + "\\XML";
         /// <summary>
         /// retine reprezentarea numerica a evaluarii selectate de catre utilizator in fereastra de selectare a abilitatilor. E un numar intre 1 si 80
         /// </summary>
-        public List<int> MatchRatings = new List<int>(14);
+        public int RatingReturned = 0;
         /// <summary>
         /// MatchRatings este o lista de 14 numere intregi, ce retine evaluarile celor doua echipe dintr-un meci. Semnificatia numerelor de ordine din lista este urmatoarea:
         /// 0. Evaluarea la mijloc (echipa de acasa);
@@ -53,7 +52,15 @@ namespace HT_Match_Predictor
         /// 12. Evaluarea atacului pe centru (echipa din deplasare));
         /// 13. Evaluarea atacului pe stanga (echipa din deplasare));
         /// </summary>
+        public List<int> MatchRatings = new List<int>(14);
+        /// <summary>
+        /// Obiect ce se ocupa de crearea sirului care va fi transmis mai departe pentru descarcarea fisierului XML
+        /// </summary>
+        private readonly DownloadStringCreation DownloadString = new DownloadStringCreation();
 
+        /// <summary>
+        /// Aduce cele 14 evaluari ale unui meci la 0
+        /// </summary>
         private void InitializeMatchRatingList()
         {
             for (int i = 0; i < 14; i++)
@@ -84,7 +91,7 @@ namespace HT_Match_Predictor
                 GetRequestToken();
                 GetAccessToken();
             }
-            SaveResponseToFile(XMLFolder + "\\a.xml", "http://chpp.hattrick.org/chppxml.ashx?file=matchdetails&version=3.0&matchEvents=false&matchID=638295042");
+            SaveResponseToFile("http://chpp.hattrick.org/chppxml.ashx?file=matchdetails&version=3.0&matchEvents=false&matchID=638295042", XMLFolder + "\\a.xml");
         }
 
         /// <summary>
@@ -197,7 +204,7 @@ namespace HT_Match_Predictor
             return temp;
         }
 
-        public void SaveResponseToFile(string DestinationFileName, string SourceURLAddress)
+        public void SaveResponseToFile(string SourceURLAddress, string DestinationFileName)
         {
             try
             {
@@ -228,12 +235,22 @@ namespace HT_Match_Predictor
             MatchRatings[Convert.ToInt16(S.Tag) - 1] = RatingReturned; //atribuie evaluarea numerica primita sectorului corespunzator, in functie de eticheta butonului a carui apasare a deschis fereastra
         }
 
+        /// <summary>
+        /// Afiseaza fereastra cu informatii despre program
+        /// </summary>
+        /// <param name="sender">Event handler</param>
+        /// <param name="e">Event handler</param>
         private void ShowAboutWindow(object sender, System.EventArgs e)
         {
             AboutBox A = new AboutBox();
             A.ShowDialog();
         }
 
+        /// <summary>
+        /// Creaza baza de date cu meciuri
+        /// </summary>
+        /// <param name="sender">Event handler</param>
+        /// <param name="e">Event handler</param>
         private void CreateMatchesDatabase(object sender, System.EventArgs e)
         {
             if (!Operations.DatabaseExists())
@@ -250,6 +267,11 @@ namespace HT_Match_Predictor
             }
         }
 
+        /// <summary>
+        /// Sterge baza de date cu meciuri
+        /// </summary>
+        /// <param name="sender">Event handler</param>
+        /// <param name="e">Event handler</param>
         private void DeleteMatchesDatabase(object sender, System.EventArgs e)
         {
             if (Operations.DatabaseExists())

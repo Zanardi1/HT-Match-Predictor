@@ -1,5 +1,4 @@
 ﻿using System.Data.SqlClient;
-using System;
 using System.IO;
 using System.Windows.Forms;
 
@@ -41,13 +40,19 @@ namespace HT_Match_Predictor
 
         }
 
+        /// <summary>
+        /// Rutina ce verifica daca exista fisierul ce contine baza de date.
+        /// </summary>
+        /// <returns>true, daca fisierul exista</returns>
         public bool DatabaseExists()
         {
             return File.Exists(DatabaseFile);
         }
 
+        /// <summary>
+        /// Rutina de creare a fisierului ce va contine baza de date
+        /// </summary>
         private void CreateDatabaseFile()
-        //Creaza fisierul ce contine baza de date
         {
             string Str; //retine comenzile SQL care vor fi trimise
             SqlConnection MyConn = new SqlConnection(CreateDatabaseConnectionString);
@@ -58,8 +63,10 @@ namespace HT_Match_Predictor
             MyConn.Close();
         }
 
+        /// <summary>
+        /// Rutina de creare a tabelei ce va contine meciurile
+        /// </summary>
         private void CreateDatabaseTable()
-        //Creaza tabela ce va contine meciurile
         {
             string Str;
             SqlConnection MyConn = new SqlConnection(CreateTableConnectionString);
@@ -91,15 +98,19 @@ namespace HT_Match_Predictor
             MyConn.Close();
         }
 
+        /// <summary>
+        /// Rutina efectiva de creare a BD. Are doua parti: crearea fisierului ce va contine BD si crearea tabelei cu meciuri
+        /// </summary>
         public void CreateDatabase()
-        //Creaza baza de date ce va retine meciurile, inclusiv tabela corespunzatoare.
         {
             CreateDatabaseFile();
             CreateDatabaseTable();
         }
 
+        /// <summary>
+        /// Rutina de stergere a BD. Prima data intrerupe orice conexiune la ea, apoi o sterge.
+        /// </summary>
         public void DeleteDatabase()
-        //Sterge baza de date ce va retine meciurile.
         {
             string Str;
             SqlConnection MyConn = new SqlConnection(CreateDatabaseConnectionString);

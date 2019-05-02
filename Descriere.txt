@@ -28,7 +28,7 @@ Prima data cand se realizeaza conexiunea cu serverul, utilizatorul va trebui sa 
 
 Jetoanele de acces vor fi pastrate in registri. Mai precis la Computer\HKEY_CURRENT_USER\HTMPTK.
 
-Dupa realizarea conexiunii cu serverul, urmatoarele fisiere vor fi descarcate:
+Fisierele care vor fi descarcate de-a lungul utilizarii programului sunt:
 	1. managercompendium. Pentru datele despre utilizator
 		Date de intrare:
 		1.1. -;
@@ -95,6 +95,12 @@ Dupa realizarea conexiunii cu serverul, urmatoarele fisiere vor fi descarcate:
 		4.5. MatchData.RatingRightAtt;
 		4.6. MatchData.RatingMidAtt;
 		4.7. MatchData.RatingLeftAtt;
+
+Fisierele descarcate vor fi salvare in folderul XML, astfel:
+	1. Continutul descarcat din managercompendium va fi salvat in fisierul "User.xml";
+	2. Continutul descarcat din matches va fi salvat in fisierul "Matches.xml";
+	3. Continutul descarcat din matchdetails va fi salvat in fisierul "MatchDetails.xml";
+	4. Continutul descarcat din matchorders va fi salvat in fisierul "Orders.xml".
 
 4. Baza de date
 
