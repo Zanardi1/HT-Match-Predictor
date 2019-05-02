@@ -26,7 +26,7 @@ Conexiunea cu serverul se face conform documentatiei Hattrick. Algoritmul de con
 
 Prima data cand se realizeaza conexiunea cu serverul, utilizatorul va trebui sa introduca intr-o fereastra a aplicatiei un sir de caractere numit "pin" (5). 
 
-Jetoanele de acces vor fi pastrate... (undeva, dar unde?).
+Jetoanele de acces vor fi pastrate in registri. Mai precis la Computer\HKEY_CURRENT_USER\HTMPTK.
 
 Dupa realizarea conexiunii cu serverul, urmatoarele fisiere vor fi descarcate:
 	1. managercompendium. Pentru datele despre utilizator

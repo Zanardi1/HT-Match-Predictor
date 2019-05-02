@@ -22,11 +22,11 @@ namespace HT_Match_Predictor
         /// <summary>
         /// Retine numele fisierului ce va retine baza de date
         /// </summary>
-        readonly string Database = "'" + DatabaseFolder + "\\Matches.mdf'";
+        readonly string DatabaseFile = DatabaseFolder + "\\Matches.mdf";
         /// <summary>
         /// Retine numele fisierului jurnal
         /// </summary>
-        readonly string Log = "'" + DatabaseFolder + "\\MatchesLog.ldf'";
+        readonly string DatabaseLog = DatabaseFolder + "\\MatchesLog.ldf";
         /// <summary>
         /// Retine sirul de conectare la baza de date. Depinde de serverul de BD pe care il am.
         /// </summary>
@@ -41,39 +41,9 @@ namespace HT_Match_Predictor
 
         }
 
-        /// <summary>
-        /// Verifica daca baza de date exista. Metoda luata de la https://stackoverflow.com/questions/2232227/check-if-database-exists-before-creating
-        /// </summary>
-        /// <returns>true, daca exista. False, altfel</returns>
         public bool DatabaseExists()
         {
-            bool Exists = false;
-            try
-            {
-                SqlConnection MyConn = new SqlConnection(CreateTableConnectionString);
-                string TestDBQuery = string.Format("SELECT database_id FROM sys.databases WHERE Name = 'Matches'");
-                using (MyConn)
-                {
-                    using (SqlCommand cmd = new SqlCommand(TestDBQuery, MyConn))
-                    {
-                        MyConn.Open();
-                        object Result = cmd.ExecuteScalar();
-                        int DatabaseID = 0;
-                        if (Result != null)
-                        {
-                            int.TryParse(Result.ToString(), out DatabaseID);
-                        }
-                        MyConn.Close();
-                        Exists = (DatabaseID > 0);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                Exists = false;
-            }
-            return Exists;
+            return File.Exists(DatabaseFile);
         }
 
         private void CreateDatabaseFile()
@@ -81,7 +51,7 @@ namespace HT_Match_Predictor
         {
             string Str; //retine comenzile SQL care vor fi trimise
             SqlConnection MyConn = new SqlConnection(CreateDatabaseConnectionString);
-            Str = "Create Database Matches on Primary (Name=Matches, Filename=" + Database + ") log on (Name=MatchesLog, Filename=" + Log + ")"; //creaza BD
+            Str = "Create Database Matches on Primary (Name=Matches, Filename='" + DatabaseFile + "') log on (Name=MatchesLog, Filename='" + DatabaseLog + "')"; //creaza BD
             SqlCommand command = new SqlCommand(Str, MyConn);
             MyConn.Open();
             command.ExecuteNonQuery();
@@ -133,7 +103,7 @@ namespace HT_Match_Predictor
         {
             string Str;
             SqlConnection MyConn = new SqlConnection(CreateDatabaseConnectionString);
-            Str = "drop database Matches";
+            Str = "Alter database Matches set single_user with rollback immediate\r\ndrop database Matches";
             SqlCommand command = new SqlCommand(Str, MyConn);
             MyConn.Open();
             command.ExecuteNonQuery();

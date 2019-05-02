@@ -246,7 +246,7 @@ namespace HT_Match_Predictor
             }
             else
             {
-                HelpStatusLabel.Text = "The database already exists.";
+                HelpStatusLabel.Text = "Database is already created.";
             }
         }
 
@@ -262,7 +262,7 @@ namespace HT_Match_Predictor
             }
             else
             {
-                HelpStatusLabel.Text = "The database does not exist.";
+                HelpStatusLabel.Text = "Database does not exist.";
             }
         }
 
