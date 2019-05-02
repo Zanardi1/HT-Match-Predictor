@@ -30,7 +30,7 @@ namespace HT_Match_Predictor
         /// <summary>
         /// Retin folderul unde vor fi descarcate fisierele XML
         /// </summary>
-        readonly string XMLFolder = CurrentFolder + "\\XML";
+        readonly static public string XMLFolder = CurrentFolder + "\\XML";
         /// <summary>
         /// retine reprezentarea numerica a evaluarii selectate de catre utilizator in fereastra de selectare a abilitatilor. E un numar intre 1 si 80
         /// </summary>
@@ -57,6 +57,10 @@ namespace HT_Match_Predictor
         /// Obiect ce se ocupa de crearea sirului care va fi transmis mai departe pentru descarcarea fisierului XML
         /// </summary>
         private readonly DownloadStringCreation DownloadString = new DownloadStringCreation();
+        /// <summary>
+        /// Obiect ce se ocupa de prelucrarea fisierelor XML descarcate
+        /// </summary>
+        private ParseXMLFiles Parser = new ParseXMLFiles();
 
         /// <summary>
         /// Aduce cele 14 evaluari ale unui meci la 0
@@ -222,6 +226,10 @@ namespace HT_Match_Predictor
             InitializeComponent();
             LoginToHattrickServers();
             InitializeMatchRatingList();
+            Parser.ParseUserFile();
+            LoginNameLabel.Text = "User name: " + Parser.UserName + " (" + Parser.UserID + ")";
+            UserCountryLabel.Text = "Country: " + Parser.UserCountry + " (" + Parser.UserCountryID + ")";
+            SupporterTierLabel.Text = "Supporter: " + Parser.UserSupporterLevel;
         }
 
         private void ShowSkillWindow(object sender, System.EventArgs e)
