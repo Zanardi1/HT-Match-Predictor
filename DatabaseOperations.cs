@@ -1,6 +1,7 @@
 ﻿using System.Data.SqlClient;
 using System.IO;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 //Clasa ce se ocupa de operatiile cu baza de date in care vor fi stocate meciurile. In aceasta clasa vor fi programate urmatoarele functii 
 //1. Testarea existentei fisierului ce contine baza de date. Fisierul trebuie sa fie in folderul db;
@@ -121,19 +122,33 @@ namespace HT_Match_Predictor
             MyConn.Close();
         }
 
-        public void AddAMatch()
+        public void AddAMatch(int MatchIDToInsert, List<int> RatingsToInsert)
+        {
+            string[] CommandPieces = new string[] { "Insert into Games values (", MatchIDToInsert.ToString(), ",", RatingsToInsert[0].ToString(), ",", RatingsToInsert[1].ToString(), ",", RatingsToInsert[2].ToString(), ",", RatingsToInsert[3].ToString(), ",", RatingsToInsert[4].ToString(), ",", RatingsToInsert[5].ToString(), ",", RatingsToInsert[6].ToString(), ",", RatingsToInsert[7].ToString(), ",", RatingsToInsert[8].ToString(), ",", RatingsToInsert[9].ToString(), ",", RatingsToInsert[10].ToString(), ",", RatingsToInsert[11].ToString(), ",", RatingsToInsert[12].ToString(), ",", RatingsToInsert[13].ToString(), ",", RatingsToInsert[14].ToString(), ",", RatingsToInsert[15].ToString(), ");" };
+            string AddMatchCommand = string.Concat(CommandPieces);
+            SqlConnection MyConn = new SqlConnection(CreateTableConnectionString);
+            SqlCommand command = new SqlCommand(AddMatchCommand, MyConn);
+            MyConn.Open();
+            command.ExecuteNonQuery();
+            MyConn.Close();
+            MessageBox.Show("Match inserted successfully");
+        }
+
+        public void EditAMatch(int MatchIDToEdit)
         {
 
         }
 
-        public void EditAMatch(int MatchID)
+        public void DeleteAMatch(int MatchIDToDelete)
         {
-
-        }
-
-        public void DeleteAMatch(int MatchID)
-        {
-
+            string[] CommandPieces = new string[] { "delete from Games where MatchID=",MatchIDToDelete.ToString(), ";" };
+            string DeleteMatchCommand = string.Concat(CommandPieces);
+            SqlConnection MyConn = new SqlConnection(CreateTableConnectionString);
+            SqlCommand command = new SqlCommand(DeleteMatchCommand, MyConn);
+            MyConn.Open();
+            command.ExecuteNonQuery();
+            MyConn.Close();
+            MessageBox.Show("Match deleted successfully");
         }
     }
 }

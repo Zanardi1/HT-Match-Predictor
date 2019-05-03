@@ -45,9 +45,9 @@ namespace HT_Match_Predictor
         /// <summary>
         /// Retine tipul de meci citit
         /// </summary>
-        public int MatchType = 0;
+        public int ReadMatchType = 0;
         /// <summary>
-        /// Retine cele 14 evaluari ale meciului. Semnificatia numerelor de ordine din lista este urmatoarea:
+        /// Retine cele 16 evaluari ale meciului. Semnificatia numerelor de ordine din lista este urmatoarea:
         /// 0. Evaluarea la mijloc (echipa de acasa);
         /// 1. Evaluarea apararii pe dreapta (echipa de acasa);
         /// 2. Evaluarea apararii pe centru (echipa de acasa);
@@ -62,8 +62,10 @@ namespace HT_Match_Predictor
         /// 11. Evaluarea atacului pe dreapta (echipa din deplasare));
         /// 12. Evaluarea atacului pe centru (echipa din deplasare));
         /// 13. Evaluarea atacului pe stanga (echipa din deplasare));
+        /// 14. Numarul de goluri inscrise de echipa de acasa;
+        /// 15. Numarul de goluri inscrise de echipa din deplasare
         /// </summary>
-        public List<int> ReadMatchRatings = new List<int>(14) { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        public List<int> ReadMatchRatings = new List<int>(16) { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
         public ParseXMLFiles()
         {
@@ -181,7 +183,14 @@ namespace HT_Match_Predictor
                 {
                     case "MatchType":
                         {
-                            int.TryParse(i.InnerXml, out MatchType);
+                            int.TryParse(i.InnerXml, out ReadMatchType); //citeste tipul meciului
+                            if ((ReadMatchType != 1) && (ReadMatchType != 4) && (ReadMatchType != 8))
+                            {
+                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                MessageBoxButtons Button = MessageBoxButtons.OK;
+                                MessageBox.Show("Only league, friendly (normal rules) and international friendly (normal rules) matches can be added into the database. The match with the chosen ID was not added.", "Match type error!", Button, Icon);
+                                return;
+                            }
                             break;
                         }
                     case "HomeTeam":
@@ -231,6 +240,12 @@ namespace HT_Match_Predictor
                                         {
                                             int.TryParse(j.InnerXml, out temp);
                                             ReadMatchRatings[6] = temp;
+                                            break;
+                                        }
+                                    case "HomeGoals":
+                                        {
+                                            int.TryParse(j.InnerXml, out temp);
+                                            ReadMatchRatings[14] = temp;
                                             break;
                                         }
                                 }
@@ -284,6 +299,12 @@ namespace HT_Match_Predictor
                                         {
                                             int.TryParse(j.InnerXml, out temp);
                                             ReadMatchRatings[13] = temp;
+                                            break;
+                                        }
+                                    case "AwayGoals":
+                                        {
+                                            int.TryParse(j.InnerXml, out temp);
+                                            ReadMatchRatings[15] = temp;
                                             break;
                                         }
                                 }

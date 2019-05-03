@@ -792,6 +792,7 @@
             this.deleteSingleMatchToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
             this.deleteSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
             this.deleteSingleMatchToolStripMenuItem.Text = "Delete Single Match";
+            this.deleteSingleMatchToolStripMenuItem.Click += new System.EventHandler(this.DeleteSingleMatchFromDatabase);
             // 
             // optionsToolStripMenuItem
             // 

@@ -65,6 +65,10 @@ namespace HT_Match_Predictor
         /// Retine numarul de identificare al meciului care va fi adaugat in baza de date, ca urmare a optiunii de adaugare a unui singur meci.
         /// </summary>
         public int MatchIDToAdd = 0;
+        /// <summary>
+        /// Retine numarul de identificare al meciului care va fi eliminat din baza de date, ca urmare a optiunii de stergere a unui singur meci.
+        /// </summary>
+        public int MatchIDToDelete = 0;
 
 
         /// <summary>
@@ -344,6 +348,13 @@ namespace HT_Match_Predictor
             SaveResponseToFile(DownloadString.CreateMatchDetailsString(MatchIDToAdd), XMLFolder + "\\MatchDetails.xml");
             Parser.ParseMatchDetailsFile();
             MatchRatings = Parser.ReadMatchRatings;
+            Operations.AddAMatch(MatchIDToAdd, MatchRatings);
+        }
+
+        private void DeleteSingleMatchFromDatabase(object sender, EventArgs e)
+        {
+            MatchIDToDelete = 642285406;
+            Operations.DeleteAMatch(MatchIDToDelete);
         }
     }
 }
