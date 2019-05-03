@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Windows.Forms;
 
 /// <summary>
 /// Aceasta clasa se ocupa de urmatoarele lucruri:
@@ -17,7 +18,8 @@ namespace HT_Match_Predictor
         public string UserCountryID = string.Empty;
         public string UserCountry = string.Empty;
         public string UserSupporterLevel = string.Empty;
-        public string UserTeam = string.Empty;
+        public string[] UserTeamNames = new string[3];
+        public int[] UserTeamIDs = new int[3];
         public ParseXMLFiles()
         {
 
@@ -74,6 +76,33 @@ namespace HT_Match_Predictor
                                             break;
                                         }
                                 }
+                            }
+                            break;
+                        }
+                    case "Teams":
+                        {
+                            int counter = 0;
+                            XmlNodeList TeamNodes = i.SelectNodes("*");
+                            foreach (XmlNode j in TeamNodes)
+                            {
+                                XmlNodeList TeamDetails = j.SelectNodes("*");
+                                foreach (XmlNode k in TeamDetails)
+                                {
+                                    switch (k.Name)
+                                    {
+                                        case "TeamName":
+                                            {
+                                                UserTeamNames[counter] = k.InnerXml;
+                                                break;
+                                            }
+                                        case "TeamId":
+                                            {
+                                                int.TryParse(k.InnerXml, out UserTeamIDs[counter]);
+                                                break;
+                                            }
+                                    }
+                                }
+                                counter++;
                             }
                             break;
                         }

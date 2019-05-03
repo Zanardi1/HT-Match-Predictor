@@ -230,6 +230,8 @@ namespace HT_Match_Predictor
             LoginNameLabel.Text = "User name: " + Parser.UserName + " (" + Parser.UserID + ")";
             UserCountryLabel.Text = "Country: " + Parser.UserCountry + " (" + Parser.UserCountryID + ")";
             SupporterTierLabel.Text = "Supporter: " + Parser.UserSupporterLevel;
+            string[] TeamPieces = new string[] { "Team list: \r\n", Parser.UserTeamNames[0]," (", Parser.UserTeamIDs[0].ToString(),")\r\n", Parser.UserTeamNames[1]," (",Parser.UserTeamIDs[1].ToString(),")\r\n", Parser.UserTeamNames[2], " (", Parser.UserTeamIDs[2].ToString(), ")\r\n"};
+            TeamListLabel.Text = String.Concat(TeamPieces);
         }
 
         private void ShowSkillWindow(object sender, System.EventArgs e)
