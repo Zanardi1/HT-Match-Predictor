@@ -770,6 +770,7 @@
             this.addSingleMatchToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
             this.addSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
             this.addSingleMatchToolStripMenuItem.Text = "Add Single Match";
+            this.addSingleMatchToolStripMenuItem.Click += new System.EventHandler(this.AddSingleMatchToDatabase);
             // 
             // addMultipleMatchesToolStripMenuItem
             // 
@@ -813,7 +814,7 @@
             this.UserDetailsGroupBox.Controls.Add(this.SupporterTierLabel);
             this.UserDetailsGroupBox.Location = new System.Drawing.Point(11, 87);
             this.UserDetailsGroupBox.Name = "UserDetailsGroupBox";
-            this.UserDetailsGroupBox.Size = new System.Drawing.Size(280, 369);
+            this.UserDetailsGroupBox.Size = new System.Drawing.Size(280, 235);
             this.UserDetailsGroupBox.TabIndex = 15;
             this.UserDetailsGroupBox.TabStop = false;
             this.UserDetailsGroupBox.Text = "User details";

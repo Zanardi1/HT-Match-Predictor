@@ -125,6 +125,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.DiscardButton;
             this.ClientSize = new System.Drawing.Size(372, 431);
+            this.ControlBox = false;
             this.Controls.Add(this.SubskillLevelLabel);
             this.Controls.Add(this.SkillLevelLabel);
             this.Controls.Add(this.SubskillListBox);

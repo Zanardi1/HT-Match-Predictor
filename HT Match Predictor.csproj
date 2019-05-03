@@ -58,6 +58,12 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddSingleMatchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddSingleMatchForm.Designer.cs">
+      <DependentUpon>AddSingleMatchForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Common\Hacks.cs" />
     <Compile Include="Common\IUpload.cs" />
     <Compile Include="Common\Tracing.cs" />
@@ -93,6 +99,9 @@
     </Compile>
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddSingleMatchForm.resx">
+      <DependentUpon>AddSingleMatchForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

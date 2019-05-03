@@ -60,7 +60,12 @@ namespace HT_Match_Predictor
         /// <summary>
         /// Obiect ce se ocupa de prelucrarea fisierelor XML descarcate
         /// </summary>
-        private ParseXMLFiles Parser = new ParseXMLFiles();
+        private readonly ParseXMLFiles Parser = new ParseXMLFiles();
+        /// <summary>
+        /// Retine numarul de identificare al meciului care va fi adaugat in baza de date, ca urmare a optiunii de adaugare a unui singur meci.
+        /// </summary>
+        public int MatchIDToAdd = 0;
+
 
         /// <summary>
         /// Aduce cele 14 evaluari ale unui meci la 0
@@ -221,17 +226,25 @@ namespace HT_Match_Predictor
             }
         }
 
+        /// <summary>
+        /// Afiseaza detaliile despre utilizator
+        /// </summary>
+        private void DisplayUserDetails()
+        {
+            Parser.ParseUserFile();
+            LoginNameLabel.Text = "User name: " + Parser.UserName + " (" + Parser.UserID + ")";
+            UserCountryLabel.Text = "Country: " + Parser.UserCountry + " (" + Parser.UserCountryID + ")";
+            SupporterTierLabel.Text = "Supporter: " + Parser.UserSupporterLevel;
+            string[] TeamPieces = new string[] { "Team list: \r\n", Parser.UserTeamNames[0], " (", Parser.UserTeamIDs[0].ToString(), ")\r\n", Parser.UserTeamNames[1], " (", Parser.UserTeamIDs[1].ToString(), ")\r\n", Parser.UserTeamNames[2], " (", Parser.UserTeamIDs[2].ToString(), ")\r\n" };
+            TeamListLabel.Text = String.Concat(TeamPieces);
+        }
+
         public Form1()
         {
             InitializeComponent();
             LoginToHattrickServers();
             InitializeMatchRatingList();
-            Parser.ParseUserFile();
-            LoginNameLabel.Text = "User name: " + Parser.UserName + " (" + Parser.UserID + ")";
-            UserCountryLabel.Text = "Country: " + Parser.UserCountry + " (" + Parser.UserCountryID + ")";
-            SupporterTierLabel.Text = "Supporter: " + Parser.UserSupporterLevel;
-            string[] TeamPieces = new string[] { "Team list: \r\n", Parser.UserTeamNames[0]," (", Parser.UserTeamIDs[0].ToString(),")\r\n", Parser.UserTeamNames[1]," (",Parser.UserTeamIDs[1].ToString(),")\r\n", Parser.UserTeamNames[2], " (", Parser.UserTeamIDs[2].ToString(), ")\r\n"};
-            TeamListLabel.Text = String.Concat(TeamPieces);
+            DisplayUserDetails();
         }
 
         private void ShowSkillWindow(object sender, System.EventArgs e)
@@ -322,6 +335,13 @@ namespace HT_Match_Predictor
                     C.Text = "(No rating selected!)";
                 }
             }
+        }
+
+        private void AddSingleMatchToDatabase(object sender, EventArgs e)
+        {
+            AddSingleMatchForm A = new AddSingleMatchForm();
+            A.ShowDialog(this);
+            SaveResponseToFile(DownloadString.CreateMatchDetailsString(MatchIDToAdd), XMLFolder + "\\MatchDetails.xml");
         }
     }
 }
