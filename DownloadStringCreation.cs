@@ -56,7 +56,7 @@ namespace HT_Match_Predictor
 
         public string CreateMatchDetailsString(int MatchID)
         {
-            string[] pieces = { "&version=3.0&matchID=", MatchID.ToString(), "&SourceSystem=hattrick" };
+            string[] pieces = { "&version=3.0&matchEvents=false&matchID=", MatchID.ToString(), "&sourceSystem=hattrick" };
             DownloadedFile = "?file=matchdetails";
             FileParameters = String.Concat(pieces);
             return ComposeFinalString();

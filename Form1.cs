@@ -341,8 +341,9 @@ namespace HT_Match_Predictor
         {
             AddSingleMatchForm A = new AddSingleMatchForm();
             A.ShowDialog(this);
-            //todo bug here
             SaveResponseToFile(DownloadString.CreateMatchDetailsString(MatchIDToAdd), XMLFolder + "\\MatchDetails.xml");
+            Parser.ParseMatchDetailsFile();
+            MatchRatings = Parser.ReadMatchRatings;
         }
     }
 }
