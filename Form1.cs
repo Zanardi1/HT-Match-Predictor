@@ -373,5 +373,11 @@ namespace HT_Match_Predictor
                     Operations.DeleteAMatch(MatchIDToDelete);
             }
         }
+
+        private void AddMultipleMatchesByTeam(object sender, EventArgs e)
+        {
+            AddMultipleMatchesByTeam AddTeam = new AddMultipleMatchesByTeam();
+            AddTeam.ShowDialog(this);
+        }
     }
 }

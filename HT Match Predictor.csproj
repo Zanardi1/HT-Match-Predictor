@@ -58,6 +58,12 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddMultipleMatchesByTeam.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddMultipleMatchesByTeam.Designer.cs">
+      <DependentUpon>AddMultipleMatchesByTeam.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddSingleMatchForm.cs">
       <SubType>Form</SubType>
     </Compile>
