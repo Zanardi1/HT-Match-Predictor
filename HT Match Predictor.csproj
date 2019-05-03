@@ -68,6 +68,12 @@
     <Compile Include="Common\IUpload.cs" />
     <Compile Include="Common\Tracing.cs" />
     <Compile Include="DatabaseOperations.cs" />
+    <Compile Include="DeleteSingleMatchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeleteSingleMatchForm.Designer.cs">
+      <DependentUpon>DeleteSingleMatchForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DownloadStringCreation.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -102,6 +108,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddSingleMatchForm.resx">
       <DependentUpon>AddSingleMatchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeleteSingleMatchForm.resx">
+      <DependentUpon>DeleteSingleMatchForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

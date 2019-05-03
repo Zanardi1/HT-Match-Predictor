@@ -303,11 +303,17 @@ namespace HT_Match_Predictor
         {
             if (Operations.DatabaseExists())
             {
-                HelpStatusLabel.Text = "Deleting matches database...";
-                Cursor = Cursors.WaitCursor;
-                Operations.DeleteDatabase();
-                Cursor = Cursors.Default;
-                HelpStatusLabel.Text = "Matches database deleted.";
+                MessageBoxButtons Buttons = MessageBoxButtons.YesNo;
+                MessageBoxIcon Icon = MessageBoxIcon.Question;
+                DialogResult Result = MessageBox.Show("Are you sure you want to delete the entire matches database? The whole content will be lost!", "Please confirm", Buttons, Icon);
+                if (Result == DialogResult.Yes)
+                {
+                    HelpStatusLabel.Text = "Deleting matches database...";
+                    Cursor = Cursors.WaitCursor;
+                    Operations.DeleteDatabase();
+                    HelpStatusLabel.Text = "Matches database deleted.";
+                    Cursor = Cursors.Default;
+                }
             }
             else
             {
@@ -345,16 +351,27 @@ namespace HT_Match_Predictor
         {
             AddSingleMatchForm A = new AddSingleMatchForm();
             A.ShowDialog(this);
-            SaveResponseToFile(DownloadString.CreateMatchDetailsString(MatchIDToAdd), XMLFolder + "\\MatchDetails.xml");
-            Parser.ParseMatchDetailsFile();
-            MatchRatings = Parser.ReadMatchRatings;
-            Operations.AddAMatch(MatchIDToAdd, MatchRatings);
+            if (MatchIDToAdd != -1)
+            {
+                SaveResponseToFile(DownloadString.CreateMatchDetailsString(MatchIDToAdd), XMLFolder + "\\MatchDetails.xml");
+                Parser.ParseMatchDetailsFile();
+                MatchRatings = Parser.ReadMatchRatings;
+                Operations.AddAMatch(MatchIDToAdd, MatchRatings);
+            }
         }
 
         private void DeleteSingleMatchFromDatabase(object sender, EventArgs e)
         {
-            MatchIDToDelete = 642285406;
-            Operations.DeleteAMatch(MatchIDToDelete);
+            DeleteSingleMatchForm D = new DeleteSingleMatchForm();
+            D.ShowDialog(this);
+            if (MatchIDToDelete != -1)
+            {
+                MessageBoxButtons Buttons = MessageBoxButtons.YesNo;
+                MessageBoxIcon Icon = MessageBoxIcon.Question;
+                DialogResult Result = MessageBox.Show("Are you sure you want to delete from the database the match with the ID: " + MatchIDToDelete.ToString() + "?", "Please confirm", Buttons, Icon);
+                if (Result == DialogResult.Yes)
+                    Operations.DeleteAMatch(MatchIDToDelete);
+            }
         }
     }
 }

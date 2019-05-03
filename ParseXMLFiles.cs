@@ -155,6 +155,7 @@ namespace HT_Match_Predictor
                         }
                 }
             }
+            Reader.Close();
         }
 
         public void ParseMatchesFile()
@@ -313,6 +314,7 @@ namespace HT_Match_Predictor
                         }
                 }
             }
+            Reader.Close();
         }
 
         public void ParseOrdersFile()
