@@ -112,6 +112,9 @@
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AddMultipleMatchesByTeam.resx">
+      <DependentUpon>AddMultipleMatchesByTeam.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddSingleMatchForm.resx">
       <DependentUpon>AddSingleMatchForm.cs</DependentUpon>
     </EmbeddedResource>
