@@ -354,9 +354,11 @@ namespace HT_Match_Predictor
             if (MatchIDToAdd != -1)
             {
                 SaveResponseToFile(DownloadString.CreateMatchDetailsString(MatchIDToAdd), XMLFolder + "\\MatchDetails.xml");
-                Parser.ParseMatchDetailsFile();
-                MatchRatings = Parser.ReadMatchRatings;
-                Operations.AddAMatch(MatchIDToAdd, MatchRatings);
+                if (Parser.ParseMatchDetailsFile() != -1) //Daca face parte din categoria meciurilor ce pot intra in BD
+                {
+                    MatchRatings = Parser.ReadMatchRatings;
+                    Operations.AddAMatch(MatchIDToAdd, MatchRatings);
+                }
             }
         }
 

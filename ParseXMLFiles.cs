@@ -163,7 +163,11 @@ namespace HT_Match_Predictor
 
         }
 
-        public void ParseMatchDetailsFile()
+        /// <summary>
+        /// Interpreteaza fisierul MatchDetails.xml
+        /// </summary>
+        /// <returns>-1, daca meciul nu meci de liga, amical tip normal sau amical international, tip normal; 0 daca totul e in regula</returns>
+        public int ParseMatchDetailsFile()
         {
             int temp; //utilizata deoarece TryParse nu accepta ca variabila de iesire un element dintr-o lista, ci o variabila simpla
             XmlReaderSettings settings = new XmlReaderSettings
@@ -190,7 +194,8 @@ namespace HT_Match_Predictor
                                 MessageBoxIcon Icon = MessageBoxIcon.Error;
                                 MessageBoxButtons Button = MessageBoxButtons.OK;
                                 MessageBox.Show("Only league, friendly (normal rules) and international friendly (normal rules) matches can be added into the database. The match with the chosen ID was not added.", "Match type error!", Button, Icon);
-                                return;
+                                Reader.Close();
+                                return -1;
                             }
                             break;
                         }
@@ -315,6 +320,7 @@ namespace HT_Match_Predictor
                 }
             }
             Reader.Close();
+            return 0;
         }
 
         public void ParseOrdersFile()

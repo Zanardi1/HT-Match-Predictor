@@ -14,7 +14,35 @@ namespace HT_Match_Predictor
     {
         public AddMultipleMatchesByTeam()
         {
+
             InitializeComponent();
+        }
+
+        private void IgnoreChanges(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void SaveChanges(object sender, EventArgs e)
+        {
+            MessageBox.Show(LastMatchDateDateTime.Value.ToLongDateString());
+            Close();
+        }
+
+        /// <summary>
+        /// Stabileste data maxima a controlului la data de azi + un sezon (deoarece niciun meci nu e creat la o distanta de mai mult de un sezon)
+        /// </summary>
+        private void SetMaxDate()
+        {
+            TimeSpan Span = new TimeSpan(14 * 7, 0, 0, 0);
+            DateTime Date = DateTime.Now;
+            DateTime Combined = Date.Add(Span);
+            LastMatchDateDateTime.MaxDate = Combined;
+        }
+
+        private void Startup(object sender, EventArgs e)
+        {
+            SetMaxDate();
         }
     }
 }
