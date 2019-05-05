@@ -100,6 +100,8 @@
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UserDetailsGroupBox = new System.Windows.Forms.GroupBox();
+            this.AdMatchesbyTeamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AdMatchesbyMatchIDRangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HomeTeamGroupBox.SuspendLayout();
             this.AwayTeamGroupBox.SuspendLayout();
             this.StatusBar.SuspendLayout();
@@ -747,7 +749,7 @@
             // 
             this.createDatabaseToolStripMenuItem.Name = "createDatabaseToolStripMenuItem";
             this.createDatabaseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.createDatabaseToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
+            this.createDatabaseToolStripMenuItem.Size = new System.Drawing.Size(271, 26);
             this.createDatabaseToolStripMenuItem.Text = "Create Database";
             this.createDatabaseToolStripMenuItem.Click += new System.EventHandler(this.CreateMatchesDatabase);
             // 
@@ -755,43 +757,44 @@
             // 
             this.deleteDatabaseToolStripMenuItem.Name = "deleteDatabaseToolStripMenuItem";
             this.deleteDatabaseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
-            this.deleteDatabaseToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
+            this.deleteDatabaseToolStripMenuItem.Size = new System.Drawing.Size(271, 26);
             this.deleteDatabaseToolStripMenuItem.Text = "Delete Database";
             this.deleteDatabaseToolStripMenuItem.Click += new System.EventHandler(this.DeleteMatchesDatabase);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(282, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(268, 6);
             // 
             // addSingleMatchToolStripMenuItem
             // 
             this.addSingleMatchToolStripMenuItem.Name = "addSingleMatchToolStripMenuItem";
             this.addSingleMatchToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.addSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
+            this.addSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(271, 26);
             this.addSingleMatchToolStripMenuItem.Text = "Add Single Match";
             this.addSingleMatchToolStripMenuItem.Click += new System.EventHandler(this.AddSingleMatchToDatabase);
             // 
             // addMultipleMatchesToolStripMenuItem
             // 
+            this.addMultipleMatchesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AdMatchesbyTeamToolStripMenuItem,
+            this.AdMatchesbyMatchIDRangeToolStripMenuItem});
             this.addMultipleMatchesToolStripMenuItem.Name = "addMultipleMatchesToolStripMenuItem";
-            this.addMultipleMatchesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.addMultipleMatchesToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
+            this.addMultipleMatchesToolStripMenuItem.Size = new System.Drawing.Size(271, 26);
             this.addMultipleMatchesToolStripMenuItem.Text = "Add Multiple Matches";
-            this.addMultipleMatchesToolStripMenuItem.Click += new System.EventHandler(this.AddMultipleMatchesByTeam);
             // 
             // editSingleMatchToolStripMenuItem
             // 
             this.editSingleMatchToolStripMenuItem.Name = "editSingleMatchToolStripMenuItem";
             this.editSingleMatchToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.editSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
+            this.editSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(271, 26);
             this.editSingleMatchToolStripMenuItem.Text = "Edit Single Match";
             // 
             // deleteSingleMatchToolStripMenuItem
             // 
             this.deleteSingleMatchToolStripMenuItem.Name = "deleteSingleMatchToolStripMenuItem";
             this.deleteSingleMatchToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.deleteSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
+            this.deleteSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(271, 26);
             this.deleteSingleMatchToolStripMenuItem.Text = "Delete Single Match";
             this.deleteSingleMatchToolStripMenuItem.Click += new System.EventHandler(this.DeleteSingleMatchFromDatabase);
             // 
@@ -820,6 +823,23 @@
             this.UserDetailsGroupBox.TabIndex = 15;
             this.UserDetailsGroupBox.TabStop = false;
             this.UserDetailsGroupBox.Text = "User details";
+            // 
+            // AdMatchesbyTeamToolStripMenuItem
+            // 
+            this.AdMatchesbyTeamToolStripMenuItem.Name = "AdMatchesbyTeamToolStripMenuItem";
+            this.AdMatchesbyTeamToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.M)));
+            this.AdMatchesbyTeamToolStripMenuItem.Size = new System.Drawing.Size(290, 26);
+            this.AdMatchesbyTeamToolStripMenuItem.Text = "By Team";
+            this.AdMatchesbyTeamToolStripMenuItem.Click += new System.EventHandler(this.AddMultipleMatchesByTeam);
+            // 
+            // AdMatchesbyMatchIDRangeToolStripMenuItem
+            // 
+            this.AdMatchesbyMatchIDRangeToolStripMenuItem.Name = "AdMatchesbyMatchIDRangeToolStripMenuItem";
+            this.AdMatchesbyMatchIDRangeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.B)));
+            this.AdMatchesbyMatchIDRangeToolStripMenuItem.Size = new System.Drawing.Size(290, 26);
+            this.AdMatchesbyMatchIDRangeToolStripMenuItem.Text = "By Match ID Range";
             // 
             // Form1
             // 
@@ -930,6 +950,8 @@
         private System.Windows.Forms.ToolStripMenuItem deleteDatabaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripStatusLabel HelpStatusLabel;
+        private System.Windows.Forms.ToolStripMenuItem AdMatchesbyTeamToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AdMatchesbyMatchIDRangeToolStripMenuItem;
     }
 }
 
