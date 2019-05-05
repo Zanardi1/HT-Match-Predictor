@@ -354,10 +354,13 @@ namespace HT_Match_Predictor
             if (MatchIDToAdd != -1)
             {
                 SaveResponseToFile(DownloadString.CreateMatchDetailsString(MatchIDToAdd), XMLFolder + "\\MatchDetails.xml");
-                if (Parser.ParseMatchDetailsFile() != -1) //Daca face parte din categoria meciurilor ce pot intra in BD
+                if (Parser.ParseMatchDetailsFile(true) != -1) //Daca face parte din categoria meciurilor ce pot intra in BD
                 {
                     MatchRatings = Parser.ReadMatchRatings;
                     Operations.AddAMatch(MatchIDToAdd, MatchRatings);
+                    MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                    MessageBoxIcon Icon = MessageBoxIcon.Information;
+                    MessageBox.Show("Match inserted successfully", "Operation complete", Buttons, Icon);
                 }
             }
         }
@@ -392,6 +395,35 @@ namespace HT_Match_Predictor
                     MessageBoxIcon Icon = MessageBoxIcon.Error;
                     MessageBox.Show("The team ID can only contain numbers", "Error", Buttons, Icon);
                 }
+        }
+
+        private void AddMultipleMatchesByID(object sender, EventArgs e)
+        {
+            int NumberOfMatchesAdded = 0; //retine cate meciuri au fost adaugate in baza de date
+            AddMultipleMatchesByMatchIDRange AddID = new AddMultipleMatchesByMatchIDRange();
+            AddID.ShowDialog(this);
+            int.TryParse(AddID.LowerBoundIDTextBox.Text, out int MatchIDLowerBound);
+            int.TryParse(AddID.HigherBoundIDTextBox.Text, out int MatchIDHigherBound);
+            Cursor = Cursors.WaitCursor;
+            for (int i = MatchIDLowerBound; i <= MatchIDHigherBound; i++)
+            {
+                SaveResponseToFile(DownloadString.CreateMatchDetailsString(i), XMLFolder + "\\MatchDetails.xml");
+                if (Parser.ParseMatchDetailsFile(false) != -1) //Daca face parte din categoria meciurilor ce pot intra in BD
+                {
+                    if (Parser.ReadMatchRatings[0] != 0)
+                    {
+                        MatchRatings = Parser.ReadMatchRatings;
+                        Operations.AddAMatch(i, MatchRatings);
+                        NumberOfMatchesAdded++;
+                    }
+                }
+                MatchRatings = Parser.ResetMatchRatingsList();
+                //Dupa fiecare meci citit se aduce la 0 lista cu evaluari ale meciului. Motivul este acela ca in baza de date, evaluarile sunt trecute ca numere de la 1 la 80. Daca urmeaza sa fie adaugat in baza de date un meci care se va disputa, el nu va avea nicio evaluare, deci elementele listei vor ramane in continuare 0. Astfel se poate testa daca meciul care ar fi introdus in BD s-a jucat sau urmeaza sa se joace.
+            }
+            Cursor = Cursors.Default;
+            MessageBoxButtons Buttons = MessageBoxButtons.OK;
+            MessageBoxIcon Icon = MessageBoxIcon.Information;
+            MessageBox.Show("Specified kind of matches added successfully! " + NumberOfMatchesAdded.ToString() + " matches were added to the database, from the " + (MatchIDHigherBound - MatchIDLowerBound + 1).ToString() + " matches specified.", "Operation complete", Buttons, Icon);
         }
     }
 }

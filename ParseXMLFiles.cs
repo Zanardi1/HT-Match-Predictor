@@ -72,6 +72,13 @@ namespace HT_Match_Predictor
 
         }
 
+        public List<int> ResetMatchRatingsList()
+        {
+            for (int i = 0; i < ReadMatchRatings.Count; i++)
+                ReadMatchRatings[i] = 0;
+            return ReadMatchRatings;
+        }
+
         public void ParseUserFile()
         {
             XmlReaderSettings settings = new XmlReaderSettings
@@ -167,7 +174,7 @@ namespace HT_Match_Predictor
         /// Interpreteaza fisierul MatchDetails.xml
         /// </summary>
         /// <returns>-1, daca meciul nu meci de liga, amical tip normal sau amical international, tip normal; 0 daca totul e in regula</returns>
-        public int ParseMatchDetailsFile()
+        public int ParseMatchDetailsFile(bool ShowErrorMessage)
         {
             int temp; //utilizata deoarece TryParse nu accepta ca variabila de iesire un element dintr-o lista, ci o variabila simpla
             XmlReaderSettings settings = new XmlReaderSettings
@@ -191,9 +198,12 @@ namespace HT_Match_Predictor
                             int.TryParse(i.InnerXml, out ReadMatchType); //citeste tipul meciului
                             if ((ReadMatchType != 1) && (ReadMatchType != 4) && (ReadMatchType != 8))
                             {
-                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                MessageBoxButtons Button = MessageBoxButtons.OK;
-                                MessageBox.Show("Only league, friendly (normal rules) and international friendly (normal rules) matches can be added into the database. The match with the chosen ID was not added.", "Match type error!", Button, Icon);
+                                if (ShowErrorMessage)
+                                {
+                                    MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                    MessageBoxButtons Button = MessageBoxButtons.OK;
+                                    MessageBox.Show("Only league, friendly (normal rules) and international friendly (normal rules) matches can be added into the database. The match with the chosen ID was not added.", "Match type error!", Button, Icon);
+                                }
                                 Reader.Close();
                                 return -1;
                             }

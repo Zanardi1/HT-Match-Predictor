@@ -95,13 +95,13 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.addSingleMatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addMultipleMatchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AdMatchesbyTeamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AdMatchesbyMatchIDRangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editSingleMatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSingleMatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UserDetailsGroupBox = new System.Windows.Forms.GroupBox();
-            this.AdMatchesbyTeamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AdMatchesbyMatchIDRangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HomeTeamGroupBox.SuspendLayout();
             this.AwayTeamGroupBox.SuspendLayout();
             this.StatusBar.SuspendLayout();
@@ -783,6 +783,24 @@
             this.addMultipleMatchesToolStripMenuItem.Size = new System.Drawing.Size(271, 26);
             this.addMultipleMatchesToolStripMenuItem.Text = "Add Multiple Matches";
             // 
+            // AdMatchesbyTeamToolStripMenuItem
+            // 
+            this.AdMatchesbyTeamToolStripMenuItem.Name = "AdMatchesbyTeamToolStripMenuItem";
+            this.AdMatchesbyTeamToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.M)));
+            this.AdMatchesbyTeamToolStripMenuItem.Size = new System.Drawing.Size(290, 26);
+            this.AdMatchesbyTeamToolStripMenuItem.Text = "By Team";
+            this.AdMatchesbyTeamToolStripMenuItem.Click += new System.EventHandler(this.AddMultipleMatchesByTeam);
+            // 
+            // AdMatchesbyMatchIDRangeToolStripMenuItem
+            // 
+            this.AdMatchesbyMatchIDRangeToolStripMenuItem.Name = "AdMatchesbyMatchIDRangeToolStripMenuItem";
+            this.AdMatchesbyMatchIDRangeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.B)));
+            this.AdMatchesbyMatchIDRangeToolStripMenuItem.Size = new System.Drawing.Size(290, 26);
+            this.AdMatchesbyMatchIDRangeToolStripMenuItem.Text = "By Match ID Range";
+            this.AdMatchesbyMatchIDRangeToolStripMenuItem.Click += new System.EventHandler(this.AddMultipleMatchesByID);
+            // 
             // editSingleMatchToolStripMenuItem
             // 
             this.editSingleMatchToolStripMenuItem.Name = "editSingleMatchToolStripMenuItem";
@@ -823,23 +841,6 @@
             this.UserDetailsGroupBox.TabIndex = 15;
             this.UserDetailsGroupBox.TabStop = false;
             this.UserDetailsGroupBox.Text = "User details";
-            // 
-            // AdMatchesbyTeamToolStripMenuItem
-            // 
-            this.AdMatchesbyTeamToolStripMenuItem.Name = "AdMatchesbyTeamToolStripMenuItem";
-            this.AdMatchesbyTeamToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.M)));
-            this.AdMatchesbyTeamToolStripMenuItem.Size = new System.Drawing.Size(290, 26);
-            this.AdMatchesbyTeamToolStripMenuItem.Text = "By Team";
-            this.AdMatchesbyTeamToolStripMenuItem.Click += new System.EventHandler(this.AddMultipleMatchesByTeam);
-            // 
-            // AdMatchesbyMatchIDRangeToolStripMenuItem
-            // 
-            this.AdMatchesbyMatchIDRangeToolStripMenuItem.Name = "AdMatchesbyMatchIDRangeToolStripMenuItem";
-            this.AdMatchesbyMatchIDRangeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.B)));
-            this.AdMatchesbyMatchIDRangeToolStripMenuItem.Size = new System.Drawing.Size(290, 26);
-            this.AdMatchesbyMatchIDRangeToolStripMenuItem.Text = "By Match ID Range";
             // 
             // Form1
             // 

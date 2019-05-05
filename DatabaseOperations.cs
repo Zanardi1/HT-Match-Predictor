@@ -131,7 +131,6 @@ namespace HT_Match_Predictor
             MyConn.Open();
             command.ExecuteNonQuery();
             MyConn.Close();
-            MessageBox.Show("Match inserted successfully");
         }
 
         public void EditAMatch(int MatchIDToEdit)
