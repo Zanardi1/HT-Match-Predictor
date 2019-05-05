@@ -385,9 +385,9 @@ namespace HT_Match_Predictor
             AddMultipleMatchesByTeam AddTeam = new AddMultipleMatchesByTeam();
             AddTeam.ShowDialog(this);
             if (AddTeam.SeniorTeamIDTextBox.Text != string.Empty)
-                if (int.TryParse(AddTeam.SeniorTeamIDTextBox.Text, out int TeamID))
+                if ((int.TryParse(AddTeam.SeniorTeamIDTextBox.Text, out int TeamID))&&(int.TryParse(AddTeam.SeasonTextBox.Text, out int Season)))
                 {
-                    SaveResponseToFile(DownloadString.CreateMatchArchiveString(TeamID, AddTeam.FirstMatchDateDateTime.Value, AddTeam.LastMatchDateTime.Value), XMLFolder + "\\Archive.xml");
+                    SaveResponseToFile(DownloadString.CreateMatchArchiveString(TeamID, Season), XMLFolder + "\\Archive.xml");
                 }
                 else
                 {

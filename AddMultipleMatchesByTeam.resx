@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ExplanationLabel.Text" xml:space="preserve">
-    <value>This window allows you to insert into the match database the matches played by a team in the past. Specify whose team you want to insert the matches by its ID, taken from the team page. You can only select matches as far as the last two seasons (228 days).</value>
+    <value>This window allows you to insert into the match database the matches played by a team in the past. Specify whose team you want to insert the matches by its ID, taken from the team page, the the season from where you want the matches to be extracted.</value>
   </data>
 </root>

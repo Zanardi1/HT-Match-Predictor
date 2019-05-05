@@ -31,10 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddMultipleMatchesByTeam));
             this.ExplanationLabel = new System.Windows.Forms.Label();
             this.SelectionCriteriaGroupBox = new System.Windows.Forms.GroupBox();
-            this.LastMatchDateTime = new System.Windows.Forms.DateTimePicker();
-            this.AndLabel = new System.Windows.Forms.Label();
-            this.FirstMatchDateDateTime = new System.Windows.Forms.DateTimePicker();
-            this.DownloadMatchesLabel = new System.Windows.Forms.Label();
+            this.SeasonTextBox = new System.Windows.Forms.TextBox();
+            this.SeasonLabel = new System.Windows.Forms.Label();
             this.SeniorTeamIDTextBox = new System.Windows.Forms.TextBox();
             this.SeniorTeamIDLabel = new System.Windows.Forms.Label();
             this.OKButton = new System.Windows.Forms.Button();
@@ -52,50 +50,32 @@
             // 
             // SelectionCriteriaGroupBox
             // 
-            this.SelectionCriteriaGroupBox.Controls.Add(this.LastMatchDateTime);
-            this.SelectionCriteriaGroupBox.Controls.Add(this.AndLabel);
-            this.SelectionCriteriaGroupBox.Controls.Add(this.FirstMatchDateDateTime);
-            this.SelectionCriteriaGroupBox.Controls.Add(this.DownloadMatchesLabel);
+            this.SelectionCriteriaGroupBox.Controls.Add(this.SeasonTextBox);
+            this.SelectionCriteriaGroupBox.Controls.Add(this.SeasonLabel);
             this.SelectionCriteriaGroupBox.Controls.Add(this.SeniorTeamIDTextBox);
             this.SelectionCriteriaGroupBox.Controls.Add(this.SeniorTeamIDLabel);
             this.SelectionCriteriaGroupBox.Location = new System.Drawing.Point(15, 119);
             this.SelectionCriteriaGroupBox.Name = "SelectionCriteriaGroupBox";
-            this.SelectionCriteriaGroupBox.Size = new System.Drawing.Size(384, 240);
+            this.SelectionCriteriaGroupBox.Size = new System.Drawing.Size(384, 124);
             this.SelectionCriteriaGroupBox.TabIndex = 1;
             this.SelectionCriteriaGroupBox.TabStop = false;
             this.SelectionCriteriaGroupBox.Text = "Selection criteria";
             // 
-            // LastMatchDateTime
+            // SeasonTextBox
             // 
-            this.LastMatchDateTime.Location = new System.Drawing.Point(79, 197);
-            this.LastMatchDateTime.Name = "LastMatchDateTime";
-            this.LastMatchDateTime.Size = new System.Drawing.Size(200, 22);
-            this.LastMatchDateTime.TabIndex = 5;
+            this.SeasonTextBox.Location = new System.Drawing.Point(142, 82);
+            this.SeasonTextBox.Name = "SeasonTextBox";
+            this.SeasonTextBox.Size = new System.Drawing.Size(200, 22);
+            this.SeasonTextBox.TabIndex = 3;
             // 
-            // AndLabel
+            // SeasonLabel
             // 
-            this.AndLabel.AutoSize = true;
-            this.AndLabel.Location = new System.Drawing.Point(23, 163);
-            this.AndLabel.Name = "AndLabel";
-            this.AndLabel.Size = new System.Drawing.Size(36, 17);
-            this.AndLabel.TabIndex = 4;
-            this.AndLabel.Text = "and:";
-            // 
-            // FirstMatchDateDateTime
-            // 
-            this.FirstMatchDateDateTime.Location = new System.Drawing.Point(79, 124);
-            this.FirstMatchDateDateTime.Name = "FirstMatchDateDateTime";
-            this.FirstMatchDateDateTime.Size = new System.Drawing.Size(200, 22);
-            this.FirstMatchDateDateTime.TabIndex = 3;
-            // 
-            // DownloadMatchesLabel
-            // 
-            this.DownloadMatchesLabel.AutoSize = true;
-            this.DownloadMatchesLabel.Location = new System.Drawing.Point(23, 89);
-            this.DownloadMatchesLabel.Name = "DownloadMatchesLabel";
-            this.DownloadMatchesLabel.Size = new System.Drawing.Size(188, 17);
-            this.DownloadMatchesLabel.TabIndex = 2;
-            this.DownloadMatchesLabel.Text = "Download matches between:";
+            this.SeasonLabel.AutoSize = true;
+            this.SeasonLabel.Location = new System.Drawing.Point(23, 82);
+            this.SeasonLabel.Name = "SeasonLabel";
+            this.SeasonLabel.Size = new System.Drawing.Size(60, 17);
+            this.SeasonLabel.TabIndex = 2;
+            this.SeasonLabel.Text = "Season:";
             // 
             // SeniorTeamIDTextBox
             // 
@@ -115,7 +95,7 @@
             // 
             // OKButton
             // 
-            this.OKButton.Location = new System.Drawing.Point(15, 385);
+            this.OKButton.Location = new System.Drawing.Point(15, 262);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(142, 23);
             this.OKButton.TabIndex = 2;
@@ -126,7 +106,7 @@
             // DiscardButton
             // 
             this.DiscardButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.DiscardButton.Location = new System.Drawing.Point(257, 385);
+            this.DiscardButton.Location = new System.Drawing.Point(257, 262);
             this.DiscardButton.Name = "DiscardButton";
             this.DiscardButton.Size = new System.Drawing.Size(142, 23);
             this.DiscardButton.TabIndex = 3;
@@ -140,7 +120,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.DiscardButton;
-            this.ClientSize = new System.Drawing.Size(434, 433);
+            this.ClientSize = new System.Drawing.Size(434, 310);
             this.ControlBox = false;
             this.Controls.Add(this.DiscardButton);
             this.Controls.Add(this.OKButton);
@@ -149,7 +129,6 @@
             this.Name = "AddMultipleMatchesByTeam";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add multiple matches played by a team";
-            this.Activated += new System.EventHandler(this.Startup);
             this.SelectionCriteriaGroupBox.ResumeLayout(false);
             this.SelectionCriteriaGroupBox.PerformLayout();
             this.ResumeLayout(false);
@@ -161,12 +140,10 @@
         private System.Windows.Forms.Label ExplanationLabel;
         private System.Windows.Forms.GroupBox SelectionCriteriaGroupBox;
         private System.Windows.Forms.Label SeniorTeamIDLabel;
-        private System.Windows.Forms.Label DownloadMatchesLabel;
         private System.Windows.Forms.Button OKButton;
         private System.Windows.Forms.Button DiscardButton;
-        private System.Windows.Forms.Label AndLabel;
         public System.Windows.Forms.TextBox SeniorTeamIDTextBox;
-        public System.Windows.Forms.DateTimePicker FirstMatchDateDateTime;
-        public System.Windows.Forms.DateTimePicker LastMatchDateTime;
+        private System.Windows.Forms.Label SeasonLabel;
+        public System.Windows.Forms.TextBox SeasonTextBox;
     }
 }
