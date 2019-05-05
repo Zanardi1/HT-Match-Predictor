@@ -69,5 +69,13 @@ namespace HT_Match_Predictor
             FileParameters = String.Concat(pieces);
             return ComposeFinalString();
         }
+
+        public string CreateMatchArchiveString(int TeamID, DateTime FirstDate, DateTime LastDate)
+        {
+            string[] pieces = { "&version=1.4&teamID=", TeamID.ToString(), "&isYouth=false&FirstMatchDate=", FirstDate.Date.ToString(),"&LastMatchDate=", LastDate.Date.ToString() };
+            DownloadedFile = "?file=matchesarchive";
+            FileParameters = string.Concat(pieces);
+            return ComposeFinalString();
+        }
     }
 }

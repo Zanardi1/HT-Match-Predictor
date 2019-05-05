@@ -378,8 +378,20 @@ namespace HT_Match_Predictor
 
         private void AddMultipleMatchesByTeam(object sender, EventArgs e)
         {
+            //todo cred ca aici e un bug la ei, atunci cand apelez functia matches inclusiv datele de inceput si de final
             AddMultipleMatchesByTeam AddTeam = new AddMultipleMatchesByTeam();
             AddTeam.ShowDialog(this);
+            if (AddTeam.SeniorTeamIDTextBox.Text != string.Empty)
+                if (int.TryParse(AddTeam.SeniorTeamIDTextBox.Text, out int TeamID))
+                {
+                    SaveResponseToFile(DownloadString.CreateMatchArchiveString(TeamID, AddTeam.FirstMatchDateDateTime.Value, AddTeam.LastMatchDateTime.Value), XMLFolder + "\\Archive.xml");
+                }
+                else
+                {
+                    MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                    MessageBoxIcon Icon = MessageBoxIcon.Error;
+                    MessageBox.Show("The team ID can only contain numbers", "Error", Buttons, Icon);
+                }
         }
     }
 }

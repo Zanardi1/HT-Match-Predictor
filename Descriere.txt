@@ -52,7 +52,7 @@ Fisierele care vor fi descarcate de-a lungul utilizarii programului sunt:
 		Date de intrare:
 		2.1. teamID = (depinde de echipa cu care lucrez);
 		2.2. isYouth = false;
-		2.3. LastMatchDate = (depinde ce vreau sa fac: sa adaug meciuri din trecut in BD sau sa vad meciurile din viitor pentru predictie);
+		2.3. LastMatchDate = (data pana la care se iau meciurile din viitor in calcul);
 
 		Date de iesire necesare:
 		2.1. MatchID;
@@ -96,11 +96,22 @@ Fisierele care vor fi descarcate de-a lungul utilizarii programului sunt:
 		4.6. MatchData.RatingMidAtt;
 		4.7. MatchData.RatingLeftAtt;
 
+	5. matchesarchive. E folosit pentru a adauga in baza de date meciurile din ultimele maxim doua sezoane ale unei echipe specificate.
+		Date de intrare:
+		5.1. teamID = numarul de identificare al echipei de la care descarc meciurile;
+		5.2. FirstMatchDate = Data cea mai indepartata de prezent. Maximul va fi data de azi - 2 sezoane;
+		5.3. LastMatchDate = Data cea mai apropiata de prezent. Minimul va fi setat la data de azi;
+
+		Date de iesire necesare:
+		5.1. MatchList.Match.MatchID (va fi folosit ca data de intrare la fisierul matchdetails)
+		5.2. MatchList.Match.MatchType (va fi folosit ca filtru de selectie pentru matchdetails)
+
 Fisierele descarcate vor fi salvare in folderul XML, astfel:
 	1. Continutul descarcat din managercompendium va fi salvat in fisierul "User.xml";
 	2. Continutul descarcat din matches va fi salvat in fisierul "Matches.xml";
 	3. Continutul descarcat din matchdetails va fi salvat in fisierul "MatchDetails.xml";
 	4. Continutul descarcat din matchorders va fi salvat in fisierul "Orders.xml".
+	5. Continutul descarcat din matchesarchive va fi salvar in fisierul "Archive.xml"
 
 4. Baza de date
 

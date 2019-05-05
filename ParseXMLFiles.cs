@@ -327,5 +327,10 @@ namespace HT_Match_Predictor
         {
 
         }
+
+        public void ParseArchiveFile()
+        {
+
+        }
     }
 }

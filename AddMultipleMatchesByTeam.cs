@@ -25,7 +25,6 @@ namespace HT_Match_Predictor
 
         private void SaveChanges(object sender, EventArgs e)
         {
-            MessageBox.Show(LastMatchDateDateTime.Value.ToLongDateString());
             Close();
         }
 
@@ -34,12 +33,18 @@ namespace HT_Match_Predictor
         /// </summary>
         private void SetMaxDate()
         {
-            TimeSpan Span = new TimeSpan(14 * 7, 0, 0, 0);
-            DateTime Date = DateTime.Now;
-            DateTime Combined = Date.Add(Span);
-            LastMatchDateDateTime.MaxDate = Combined;
+            TimeSpan MaxPeriod = new TimeSpan(224, 0, 0, 0);
+            FirstMatchDateDateTime.MinDate = DateTime.Now.Subtract(MaxPeriod);
+            FirstMatchDateDateTime.MaxDate = DateTime.Now;
+            LastMatchDateTime.MinDate = DateTime.Now.Subtract(MaxPeriod);
+            LastMatchDateTime.MaxDate = DateTime.Now;
         }
 
+        /// <summary>
+        /// Actiuni efectuate la afisarea ferestrei
+        /// </summary>
+        /// <param name="sender">Handler de eveniment</param>
+        /// <param name="e">Handler de eveniment</param>
         private void Startup(object sender, EventArgs e)
         {
             SetMaxDate();
