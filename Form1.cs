@@ -381,7 +381,7 @@ namespace HT_Match_Predictor
 
         private void AddMultipleMatchesByTeam(object sender, EventArgs e)
         {
-            //todo cred ca aici e un bug la ei, atunci cand apelez functia matches inclusiv datele de inceput si de final
+            //todo de perfectionat
             AddMultipleMatchesByTeam AddTeam = new AddMultipleMatchesByTeam();
             AddTeam.ShowDialog(this);
             if (AddTeam.SeniorTeamIDTextBox.Text != string.Empty)
