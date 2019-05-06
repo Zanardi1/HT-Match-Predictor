@@ -96,15 +96,13 @@ Fisierele care vor fi descarcate de-a lungul utilizarii programului sunt:
 		4.6. MatchData.RatingMidAtt;
 		4.7. MatchData.RatingLeftAtt;
 
-	5. matchesarchive. E folosit pentru a adauga in baza de date meciurile din ultimele maxim doua sezoane ale unei echipe specificate.
+	5. matchesarchive. E folosit pentru a adauga in baza de date meciurile dintr-un sezon al carui numar este specificat de catre utilizator.
 		Date de intrare:
 		5.1. teamID = numarul de identificare al echipei de la care descarc meciurile;
-		5.2. FirstMatchDate = Data cea mai indepartata de prezent. Maximul va fi data de azi - 2 sezoane;
-		5.3. LastMatchDate = Data cea mai apropiata de prezent. Minimul va fi setat la data de azi;
+		5.2. season = sezonul pentru care se descarca meciurile echipei alese.
 
 		Date de iesire necesare:
 		5.1. MatchList.Match.MatchID (va fi folosit ca data de intrare la fisierul matchdetails)
-		5.2. MatchList.Match.MatchType (va fi folosit ca filtru de selectie pentru matchdetails)
 
 Fisierele descarcate vor fi salvare in folderul XML, astfel:
 	1. Continutul descarcat din managercompendium va fi salvat in fisierul "User.xml";

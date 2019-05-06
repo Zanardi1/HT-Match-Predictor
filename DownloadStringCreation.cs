@@ -72,7 +72,7 @@ namespace HT_Match_Predictor
 
         public string CreateMatchArchiveString(int TeamID, int Season)
         {
-            string[] pieces = { "&version=1.4&teamID=", TeamID.ToString(), "&isYouth=false&season=",Season.ToString() };
+            string[] pieces = { "&version=1.4&teamID=", TeamID.ToString(), "&isYouth=false&season=", Season.ToString() };
             DownloadedFile = "?file=matchesarchive";
             FileParameters = string.Concat(pieces);
             return ComposeFinalString();

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Xml;
 using System.Windows.Forms;
+using System.Xml;
+
+//todo sa vad daca pot scrie mai putine linii de cod pentru a face acelasi lucru cu procesarea fisierelor XML
 
 /// <summary>
 /// Aceasta clasa se ocupa de urmatoarele lucruri:
@@ -75,7 +77,9 @@ namespace HT_Match_Predictor
         public List<int> ResetMatchRatingsList()
         {
             for (int i = 0; i < ReadMatchRatings.Count; i++)
+            {
                 ReadMatchRatings[i] = 0;
+            }
             return ReadMatchRatings;
         }
 
@@ -338,9 +342,58 @@ namespace HT_Match_Predictor
 
         }
 
-        public void ParseArchiveFile()
+        /// <summary>
+        /// Prelucreaza fisierul arhiva, Archive.xml
+        /// </summary>
+        /// <returns>O lista cu numerele de identificare ale meciurilor din arhiva</returns>
+        public List<int> ParseArchiveFile()
         {
+            List<int> MatchIDList = new List<int> { };
+            XmlReaderSettings settings = new XmlReaderSettings
+            {
+                DtdProcessing = DtdProcessing.Parse,
+                IgnoreComments = true,
+                CheckCharacters = true
+            };
+            XmlReader Reader = XmlReader.Create(Form1.XMLFolder + "\\Archive.xml", settings);
+            XmlDocument doc = new XmlDocument();
+            doc.Load(Reader);
 
+            XmlNode Current = doc.DocumentElement.SelectSingleNode("Team");
+            XmlNodeList TeamIDNodeList = Current.SelectNodes("MatchList");
+            foreach (XmlNode i in TeamIDNodeList)
+            {
+                switch (i.Name)
+                {
+                    case "MatchList":
+                        {
+                            XmlNodeList MatchNodeList = i.SelectNodes("Match");
+                            foreach (XmlNode j in MatchNodeList)
+                            {
+                                switch (j.Name)
+                                {
+                                    case "Match":
+                                        {
+                                            XmlNodeList MatchIDNodeList = j.SelectNodes("MatchID");
+                                            foreach (XmlNode k in MatchIDNodeList)
+                                                switch (k.Name)
+                                                {
+                                                    case "MatchID":
+                                                        {
+                                                            if (int.TryParse(k.InnerXml, out int temp))
+                                                                MatchIDList.Add(temp);
+                                                            break;
+                                                        }
+                                                }
+                                            break;
+                                        }
+                                }
+                            }
+                            break;
+                        }
+                }
+            }
+            return MatchIDList;
         }
     }
 }
