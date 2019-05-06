@@ -375,17 +375,19 @@ namespace HT_Match_Predictor
                 MessageBoxIcon Icon = MessageBoxIcon.Question;
                 DialogResult Result = MessageBox.Show("Are you sure you want to delete from the database the match with the ID: " + MatchIDToDelete.ToString() + "?", "Please confirm", Buttons, Icon);
                 if (Result == DialogResult.Yes)
+                {
                     Operations.DeleteAMatch(MatchIDToDelete);
+                }
             }
         }
 
         private void AddMultipleMatchesByTeam(object sender, EventArgs e)
         {
-            //todo de perfectionat
             List<int> MatchesIDList = new List<int> { }; //retine numerele de identificare ale meciurilor citite din fisier
             AddMultipleMatchesByTeam AddTeam = new AddMultipleMatchesByTeam();
             AddTeam.ShowDialog(this);
             if (AddTeam.SeniorTeamIDTextBox.Text != string.Empty)
+            {
                 if ((int.TryParse(AddTeam.SeniorTeamIDTextBox.Text, out int TeamID)) && (int.TryParse(AddTeam.SeasonTextBox.Text, out int Season)))
                 {
                     SaveResponseToFile(DownloadString.CreateMatchArchiveString(TeamID, Season), XMLFolder + "\\Archive.xml");
@@ -414,6 +416,7 @@ namespace HT_Match_Predictor
                     MessageBoxIcon Icon = MessageBoxIcon.Error;
                     MessageBox.Show("The team ID and the season can only contain numbers", "Error", Buttons, Icon);
                 }
+            }
         }
 
         private void AddMultipleMatchesByID(object sender, EventArgs e)
