@@ -426,7 +426,7 @@ namespace HT_Match_Predictor
         {
             int NumberOfMatchesAdded = 0; //retine cate meciuri au fost adaugate in baza de date
             AddMultipleMatchesByMatchIDRange AddID = new AddMultipleMatchesByMatchIDRange();
-            if (AddID.ShowDialog(this)==DialogResult.OK)
+            if (AddID.ShowDialog(this) == DialogResult.OK)
             {
                 int.TryParse(AddID.LowerBoundIDTextBox.Text, out int MatchIDLowerBound);
                 int.TryParse(AddID.HigherBoundIDTextBox.Text, out int MatchIDHigherBound);

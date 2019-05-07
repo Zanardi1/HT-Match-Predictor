@@ -97,7 +97,6 @@
             this.addMultipleMatchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AdMatchesbyTeamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AdMatchesbyMatchIDRangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editSingleMatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSingleMatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -739,7 +738,6 @@
             this.toolStripSeparator1,
             this.addSingleMatchToolStripMenuItem,
             this.addMultipleMatchesToolStripMenuItem,
-            this.editSingleMatchToolStripMenuItem,
             this.deleteSingleMatchToolStripMenuItem});
             this.databaseOperationsToolStripMenuItem.Name = "databaseOperationsToolStripMenuItem";
             this.databaseOperationsToolStripMenuItem.Size = new System.Drawing.Size(159, 24);
@@ -798,13 +796,6 @@
             this.AdMatchesbyMatchIDRangeToolStripMenuItem.Size = new System.Drawing.Size(261, 26);
             this.AdMatchesbyMatchIDRangeToolStripMenuItem.Text = "By Match ID Range";
             this.AdMatchesbyMatchIDRangeToolStripMenuItem.Click += new System.EventHandler(this.AddMultipleMatchesByID);
-            // 
-            // editSingleMatchToolStripMenuItem
-            // 
-            this.editSingleMatchToolStripMenuItem.Name = "editSingleMatchToolStripMenuItem";
-            this.editSingleMatchToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.editSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(271, 26);
-            this.editSingleMatchToolStripMenuItem.Text = "Edit Single Match";
             // 
             // deleteSingleMatchToolStripMenuItem
             // 
@@ -943,7 +934,6 @@
         private System.Windows.Forms.ToolStripMenuItem futureMatchPredictionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addSingleMatchToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addMultipleMatchesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editSingleMatchToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteSingleMatchToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createDatabaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteDatabaseToolStripMenuItem;
