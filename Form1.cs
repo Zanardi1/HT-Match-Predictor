@@ -383,13 +383,10 @@ namespace HT_Match_Predictor
 
         private void AddMultipleMatchesByTeam(object sender, EventArgs e)
         {
+            int NumberOfMatchesAdded = 0;
             List<int> MatchesIDList = new List<int> { }; //retine numerele de identificare ale meciurilor citite din fisier
-            DialogResult r;
             AddMultipleMatchesByTeam AddTeam = new AddMultipleMatchesByTeam();
-            //if (AddTeam.ShowDialog(this) == DialogResult.OK)
-            // todo bug here
-            r = AddTeam.ShowDialog(this);
-            MessageBox.Show(r.ToString());
+            if (AddTeam.ShowDialog(this) == DialogResult.OK)
             {
                 Cursor = Cursors.WaitCursor;
                 SaveResponseToFile(DownloadString.CreateMatchArchiveString(AddTeam.TeamID, AddTeam.SeasonNumber), XMLFolder + "\\Archive.xml");
@@ -403,6 +400,7 @@ namespace HT_Match_Predictor
                         {
                             MatchRatings = Parser.ReadMatchRatings;
                             Operations.AddAMatch(MatchesIDList[i], MatchRatings);
+                            NumberOfMatchesAdded++;
                         }
                     }
                     MatchRatings = Parser.ResetMatchRatingsList();
@@ -410,7 +408,7 @@ namespace HT_Match_Predictor
                 Cursor = Cursors.Default;
                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
                 MessageBoxIcon Icon = MessageBoxIcon.Information;
-                MessageBox.Show("Specified kind of matches added successfully!", "Operation complete", Buttons, Icon);
+                MessageBox.Show($"Specified kind of matches added successfully! {NumberOfMatchesAdded.ToString()} matches added to the database from the {MatchesIDList.Count.ToString()} matches played in the selected season", "Operation complete", Buttons, Icon);
             }
         }
 

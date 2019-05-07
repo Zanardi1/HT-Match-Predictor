@@ -57,6 +57,7 @@ namespace HT_Match_Predictor
         /// <param name="e">Event handler</param>
         private void IgnoreChanges(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             Close();
         }
 
@@ -67,52 +68,53 @@ namespace HT_Match_Predictor
         /// <param name="e">Event handler</param>
         private void SaveChanges(object sender, EventArgs e)
         {
-            if (TestDataValidity() == 0)
+            int TestResult = TestDataValidity();
+            switch (TestResult)
             {
-                SeniorTeamIDTextBox.BackColor = SystemColors.Window;
-                Close();
-            }
-            else
-            {
-                switch (TestDataValidity())
-                {
-                    case 1:
-                        {
-                            SeniorTeamIDTextBox.BackColor = SystemColors.MenuHighlight;
-                            MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                            MessageBoxIcon Icon = MessageBoxIcon.Error;
-                            MessageBox.Show("The field of the team ID is empty. Please insert the team ID and try again", "Error saving your data", Buttons, Icon);
-                            break;
-                        }
-                    case 2:
-                        {
-                            SeasonTextBox.BackColor = SystemColors.MenuHighlight;
-                            MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                            MessageBoxIcon Icon = MessageBoxIcon.Error;
-                            MessageBox.Show("The season field is empty. Please insert the team ID and try again", "Error saving your data", Buttons, Icon);
-                            break;
-                        }
-                    case 3:
-                        {
-                            SeniorTeamIDTextBox.BackColor = SystemColors.MenuHighlight;
-                            MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                            MessageBoxIcon Icon = MessageBoxIcon.Error;
-                            MessageBox.Show("The field of the team ID must have only numbers. Please insert the team ID and try again", "Error saving your data", Buttons, Icon);
-                            break;
-                        }
-                    case 4:
-                        {
-                            SeasonTextBox.BackColor = SystemColors.MenuHighlight;
-                            MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                            MessageBoxIcon Icon = MessageBoxIcon.Error;
-                            MessageBox.Show("The season field must have only numbers. Please insert the team ID and try again", "Error saving your data", Buttons, Icon);
-                            break;
-                        }
-                    default:
-                        {
-                            break;
-                        }
-                }
+                case 0:
+                    {
+                        SeniorTeamIDTextBox.BackColor = SystemColors.Window;
+                        SeasonTextBox.BackColor = SystemColors.Window;
+                        DialogResult = DialogResult.OK;
+                        Close();
+                        break;
+                    }
+                case 1:
+                    {
+                        SeniorTeamIDTextBox.BackColor = SystemColors.MenuHighlight;
+                        MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                        MessageBoxIcon Icon = MessageBoxIcon.Error;
+                        MessageBox.Show("The field of the team ID is empty. Please insert the team ID and try again", "Error saving your data", Buttons, Icon);
+                        break;
+                    }
+                case 2:
+                    {
+                        SeasonTextBox.BackColor = SystemColors.MenuHighlight;
+                        MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                        MessageBoxIcon Icon = MessageBoxIcon.Error;
+                        MessageBox.Show("The season field is empty. Please insert the team ID and try again", "Error saving your data", Buttons, Icon);
+                        break;
+                    }
+                case 3:
+                    {
+                        SeniorTeamIDTextBox.BackColor = SystemColors.MenuHighlight;
+                        MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                        MessageBoxIcon Icon = MessageBoxIcon.Error;
+                        MessageBox.Show("The field of the team ID must have only numbers. Please insert the team ID and try again", "Error saving your data", Buttons, Icon);
+                        break;
+                    }
+                case 4:
+                    {
+                        SeasonTextBox.BackColor = SystemColors.MenuHighlight;
+                        MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                        MessageBoxIcon Icon = MessageBoxIcon.Error;
+                        MessageBox.Show("The season field must have only numbers. Please insert the team ID and try again", "Error saving your data", Buttons, Icon);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
             }
         }
     }
