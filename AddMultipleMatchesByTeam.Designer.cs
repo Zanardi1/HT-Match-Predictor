@@ -79,6 +79,8 @@
             // 
             // SeniorTeamIDTextBox
             // 
+            this.SeniorTeamIDTextBox.BackColor = System.Drawing.SystemColors.Window;
+            this.SeniorTeamIDTextBox.ForeColor = System.Drawing.SystemColors.WindowText;
             this.SeniorTeamIDTextBox.Location = new System.Drawing.Point(142, 39);
             this.SeniorTeamIDTextBox.Name = "SeniorTeamIDTextBox";
             this.SeniorTeamIDTextBox.Size = new System.Drawing.Size(200, 22);

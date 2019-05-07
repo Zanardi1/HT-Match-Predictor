@@ -384,41 +384,33 @@ namespace HT_Match_Predictor
         private void AddMultipleMatchesByTeam(object sender, EventArgs e)
         {
             List<int> MatchesIDList = new List<int> { }; //retine numerele de identificare ale meciurilor citite din fisier
+            DialogResult r;
             AddMultipleMatchesByTeam AddTeam = new AddMultipleMatchesByTeam();
-            if (AddTeam.ShowDialog(this) == DialogResult.OK)
+            //if (AddTeam.ShowDialog(this) == DialogResult.OK)
+            // todo bug here
+            r = AddTeam.ShowDialog(this);
+            MessageBox.Show(r.ToString());
             {
-                if ((AddTeam.SeniorTeamIDTextBox.Text != string.Empty) && (AddTeam.SeasonTextBox.Text != string.Empty))
+                Cursor = Cursors.WaitCursor;
+                SaveResponseToFile(DownloadString.CreateMatchArchiveString(AddTeam.TeamID, AddTeam.SeasonNumber), XMLFolder + "\\Archive.xml");
+                MatchesIDList = Parser.ParseArchiveFile();
+                for (int i = 0; i < MatchesIDList.Count; i++)
                 {
-                    if ((int.TryParse(AddTeam.SeniorTeamIDTextBox.Text, out int TeamID)) && (int.TryParse(AddTeam.SeasonTextBox.Text, out int Season)))
+                    SaveResponseToFile(DownloadString.CreateMatchDetailsString(MatchesIDList[i]), XMLFolder + "\\MatchDetails.xml");
+                    if (Parser.ParseMatchDetailsFile(false) != -1)
                     {
-                        Cursor = Cursors.WaitCursor;
-                        SaveResponseToFile(DownloadString.CreateMatchArchiveString(TeamID, Season), XMLFolder + "\\Archive.xml");
-                        MatchesIDList = Parser.ParseArchiveFile();
-                        for (int i = 0; i < MatchesIDList.Count; i++)
+                        if (Parser.ReadMatchRatings[0] != 0)
                         {
-                            SaveResponseToFile(DownloadString.CreateMatchDetailsString(MatchesIDList[i]), XMLFolder + "\\MatchDetails.xml");
-                            if (Parser.ParseMatchDetailsFile(false) != -1)
-                            {
-                                if (Parser.ReadMatchRatings[0] != 0)
-                                {
-                                    MatchRatings = Parser.ReadMatchRatings;
-                                    Operations.AddAMatch(MatchesIDList[i], MatchRatings);
-                                }
-                            }
-                            MatchRatings = Parser.ResetMatchRatingsList();
+                            MatchRatings = Parser.ReadMatchRatings;
+                            Operations.AddAMatch(MatchesIDList[i], MatchRatings);
                         }
-                        Cursor = Cursors.Default;
-                        MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                        MessageBoxIcon Icon = MessageBoxIcon.Information;
-                        MessageBox.Show("Specified kind of matches added successfully!", "Operation complete", Buttons, Icon);
                     }
-                    else
-                    {
-                        MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                        MessageBoxIcon Icon = MessageBoxIcon.Error;
-                        MessageBox.Show("The team ID and the season can only contain numbers", "Error", Buttons, Icon);
-                    }
+                    MatchRatings = Parser.ResetMatchRatingsList();
                 }
+                Cursor = Cursors.Default;
+                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                MessageBoxIcon Icon = MessageBoxIcon.Information;
+                MessageBox.Show("Specified kind of matches added successfully!", "Operation complete", Buttons, Icon);
             }
         }
 
