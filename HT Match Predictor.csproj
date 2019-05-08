@@ -80,12 +80,6 @@
     <Compile Include="Common\IUpload.cs" />
     <Compile Include="Common\Tracing.cs" />
     <Compile Include="DatabaseOperations.cs" />
-    <Compile Include="DeleteSingleMatchForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DeleteSingleMatchForm.Designer.cs">
-      <DependentUpon>DeleteSingleMatchForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="DownloadStringCreation.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -98,6 +92,11 @@
     </Compile>
     <Compile Include="InsertPIN.Designer.cs">
       <DependentUpon>InsertPIN.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MatchesDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MatchesDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="OAuth1.0\IOAuthSettings.cs" />
     <Compile Include="OAuth1.0\OAuth.cs" />
@@ -127,9 +126,6 @@
     <EmbeddedResource Include="AddSingleMatchForm.resx">
       <DependentUpon>AddSingleMatchForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DeleteSingleMatchForm.resx">
-      <DependentUpon>DeleteSingleMatchForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -150,6 +146,17 @@
     </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
     <None Include="Common\makefile.flymake" />
+    <None Include="MatchesDataSet.xsc">
+      <DependentUpon>MatchesDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="MatchesDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>MatchesDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="MatchesDataSet.xss">
+      <DependentUpon>MatchesDataSet.xsd</DependentUpon>
+    </None>
     <None Include="OAuth1.0\OAuth.shfbproj" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

@@ -7,7 +7,6 @@ using System.Net;
 using System.Text;
 using System.Windows.Forms;
 
-//todo sa scriu o rutina de compunere a URL-ului care va fi trimis catre Hattrick pentru descarcarea fisierelor
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
 //todo bug atunci cand revoc aplicatia din contul Hattrick, jetoanele raman, dar sunt inutilizabile. Din acest motiv primesc o eroare
 
@@ -361,22 +360,6 @@ namespace HT_Match_Predictor
                     MessageBoxButtons Buttons = MessageBoxButtons.OK;
                     MessageBoxIcon Icon = MessageBoxIcon.Information;
                     MessageBox.Show("Match inserted successfully", "Operation complete", Buttons, Icon);
-                }
-            }
-        }
-
-        private void DeleteSingleMatchFromDatabase(object sender, EventArgs e)
-        {
-            DeleteSingleMatchForm D = new DeleteSingleMatchForm();
-            D.ShowDialog(this);
-            if (MatchIDToDelete != -1)
-            {
-                MessageBoxButtons Buttons = MessageBoxButtons.YesNo;
-                MessageBoxIcon Icon = MessageBoxIcon.Question;
-                DialogResult Result = MessageBox.Show("Are you sure you want to delete from the database the match with the ID: " + MatchIDToDelete.ToString() + "?", "Please confirm", Buttons, Icon);
-                if (Result == DialogResult.Yes)
-                {
-                    Operations.DeleteAMatch(MatchIDToDelete);
                 }
             }
         }

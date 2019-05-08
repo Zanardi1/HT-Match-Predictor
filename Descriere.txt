@@ -162,10 +162,8 @@ Acest program are doua moduri principale de lucru:
 			2.2.1. echipa. Se adauga meciurile unei anumite echipe;
 			2.2.2. interval de date. Se adauga meciurile unei anumite echipe din intervalul introdus;
 			2.2.3. tipul de meci. Se adauga meciurile unei anumite echipe care au tipul ales (campionat sau amical normal) (8);
-		2.3. editarea datelor unui meci ales dupa numarul de identificare (oare o fi necesar?);
-		2.4. stergerea unui meci din baza de date (o fi necesar?);
-		2.5. crearea fisierului cu baza de date;
-		2.6. stergerea fisierului cu baza de date.
+		2.3. crearea fisierului cu baza de date;
+		2.4. stergerea fisierului cu baza de date.
 
 6. Optiunile programului
 
