@@ -55,9 +55,8 @@ namespace HT_Match_Predictor
         /// </summary>
         private void CreateDatabaseFile()
         {
-            string Str; //retine comenzile SQL care vor fi trimise
             SqlConnection MyConn = new SqlConnection(CreateDatabaseConnectionString);
-            Str = "Create Database Matches on Primary (Name=Matches, Filename='" + DatabaseFile + "') log on (Name=MatchesLog, Filename='" + DatabaseLog + "')"; //creaza BD
+            string Str = "Create Database Matches on Primary (Name=Matches, Filename='" + DatabaseFile + "') log on (Name=MatchesLog, Filename='" + DatabaseLog + "')"; //retine comanda SQL care creeaza BD
             SqlCommand command = new SqlCommand(Str, MyConn);
             MyConn.Open();
             command.ExecuteNonQuery();

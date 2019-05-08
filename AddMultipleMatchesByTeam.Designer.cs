@@ -37,6 +37,8 @@
             this.SeniorTeamIDLabel = new System.Windows.Forms.Label();
             this.OKButton = new System.Windows.Forms.Button();
             this.DiscardButton = new System.Windows.Forms.Button();
+            this.ProgressLabel = new System.Windows.Forms.Label();
+            this.AddingProgressBar = new System.Windows.Forms.ProgressBar();
             this.SelectionCriteriaGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -116,14 +118,32 @@
             this.DiscardButton.UseVisualStyleBackColor = true;
             this.DiscardButton.Click += new System.EventHandler(this.IgnoreChanges);
             // 
+            // ProgressLabel
+            // 
+            this.ProgressLabel.AutoSize = true;
+            this.ProgressLabel.Location = new System.Drawing.Point(12, 310);
+            this.ProgressLabel.Name = "ProgressLabel";
+            this.ProgressLabel.Size = new System.Drawing.Size(69, 17);
+            this.ProgressLabel.TabIndex = 4;
+            this.ProgressLabel.Text = "Progress:";
+            // 
+            // AddingProgressBar
+            // 
+            this.AddingProgressBar.Location = new System.Drawing.Point(15, 343);
+            this.AddingProgressBar.Name = "AddingProgressBar";
+            this.AddingProgressBar.Size = new System.Drawing.Size(384, 23);
+            this.AddingProgressBar.TabIndex = 5;
+            // 
             // AddMultipleMatchesByTeam
             // 
             this.AcceptButton = this.OKButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.DiscardButton;
-            this.ClientSize = new System.Drawing.Size(434, 310);
+            this.ClientSize = new System.Drawing.Size(434, 389);
             this.ControlBox = false;
+            this.Controls.Add(this.AddingProgressBar);
+            this.Controls.Add(this.ProgressLabel);
             this.Controls.Add(this.DiscardButton);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.SelectionCriteriaGroupBox);
@@ -134,6 +154,7 @@
             this.SelectionCriteriaGroupBox.ResumeLayout(false);
             this.SelectionCriteriaGroupBox.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -147,5 +168,7 @@
         public System.Windows.Forms.TextBox SeniorTeamIDTextBox;
         private System.Windows.Forms.Label SeasonLabel;
         public System.Windows.Forms.TextBox SeasonTextBox;
+        private System.Windows.Forms.Label ProgressLabel;
+        private System.Windows.Forms.ProgressBar AddingProgressBar;
     }
 }
