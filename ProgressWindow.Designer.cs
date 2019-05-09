@@ -56,6 +56,8 @@
             this.ControlBox = false;
             this.Controls.Add(this.ProgressLabel);
             this.Controls.Add(this.TheProgressBar);
+            this.MaximumSize = new System.Drawing.Size(378, 174);
+            this.MinimumSize = new System.Drawing.Size(378, 174);
             this.Name = "ProgressWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Matches Adding Progress";

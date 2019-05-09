@@ -31,13 +31,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddMultipleMatchesByMatchIDRange));
             this.ExplanationLabel = new System.Windows.Forms.Label();
             this.MatchIDGroupBox = new System.Windows.Forms.GroupBox();
+            this.HigherBoundLabel = new System.Windows.Forms.Label();
+            this.LowerBoundLabel = new System.Windows.Forms.Label();
             this.HigherBoundIDTextBox = new System.Windows.Forms.TextBox();
             this.LowerBoundIDTextBox = new System.Windows.Forms.TextBox();
             this.AddLabel = new System.Windows.Forms.Label();
             this.OKButton = new System.Windows.Forms.Button();
             this.DiscardButton = new System.Windows.Forms.Button();
-            this.LowerBoundLabel = new System.Windows.Forms.Label();
-            this.HigherBoundLabel = new System.Windows.Forms.Label();
             this.MatchIDGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,6 +62,24 @@
             this.MatchIDGroupBox.TabIndex = 1;
             this.MatchIDGroupBox.TabStop = false;
             this.MatchIDGroupBox.Text = "Select the match ID range";
+            // 
+            // HigherBoundLabel
+            // 
+            this.HigherBoundLabel.AutoSize = true;
+            this.HigherBoundLabel.Location = new System.Drawing.Point(6, 151);
+            this.HigherBoundLabel.Name = "HigherBoundLabel";
+            this.HigherBoundLabel.Size = new System.Drawing.Size(98, 17);
+            this.HigherBoundLabel.TabIndex = 5;
+            this.HigherBoundLabel.Text = "Higher bound:";
+            // 
+            // LowerBoundLabel
+            // 
+            this.LowerBoundLabel.AutoSize = true;
+            this.LowerBoundLabel.Location = new System.Drawing.Point(6, 105);
+            this.LowerBoundLabel.Name = "LowerBoundLabel";
+            this.LowerBoundLabel.Size = new System.Drawing.Size(94, 17);
+            this.LowerBoundLabel.TabIndex = 4;
+            this.LowerBoundLabel.Text = "Lower bound:";
             // 
             // HigherBoundIDTextBox
             // 
@@ -106,36 +124,21 @@
             this.DiscardButton.UseVisualStyleBackColor = true;
             this.DiscardButton.Click += new System.EventHandler(this.DiscardChanges);
             // 
-            // LowerBoundLabel
-            // 
-            this.LowerBoundLabel.AutoSize = true;
-            this.LowerBoundLabel.Location = new System.Drawing.Point(6, 105);
-            this.LowerBoundLabel.Name = "LowerBoundLabel";
-            this.LowerBoundLabel.Size = new System.Drawing.Size(94, 17);
-            this.LowerBoundLabel.TabIndex = 4;
-            this.LowerBoundLabel.Text = "Lower bound:";
-            // 
-            // HigherBoundLabel
-            // 
-            this.HigherBoundLabel.AutoSize = true;
-            this.HigherBoundLabel.Location = new System.Drawing.Point(6, 151);
-            this.HigherBoundLabel.Name = "HigherBoundLabel";
-            this.HigherBoundLabel.Size = new System.Drawing.Size(98, 17);
-            this.HigherBoundLabel.TabIndex = 5;
-            this.HigherBoundLabel.Text = "Higher bound:";
-            // 
             // AddMultipleMatchesByMatchIDRange
             // 
             this.AcceptButton = this.OKButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.DiscardButton;
-            this.ClientSize = new System.Drawing.Size(425, 398);
-            this.ControlBox = false;
+            this.ClientSize = new System.Drawing.Size(425, 405);
             this.Controls.Add(this.DiscardButton);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.MatchIDGroupBox);
             this.Controls.Add(this.ExplanationLabel);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(443, 452);
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(443, 452);
             this.Name = "AddMultipleMatchesByMatchIDRange";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add Matches By Match ID Range";

@@ -122,12 +122,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.DiscardButton;
-            this.ClientSize = new System.Drawing.Size(434, 305);
-            this.ControlBox = false;
+            this.ClientSize = new System.Drawing.Size(434, 313);
             this.Controls.Add(this.DiscardButton);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.SelectionCriteriaGroupBox);
             this.Controls.Add(this.ExplanationLabel);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(452, 360);
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(452, 360);
             this.Name = "AddMultipleMatchesByTeam";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add multiple matches played by a team";

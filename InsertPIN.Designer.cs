@@ -36,7 +36,7 @@
             // 
             // InsertPINTextBox
             // 
-            this.InsertPINTextBox.Location = new System.Drawing.Point(37, 113);
+            this.InsertPINTextBox.Location = new System.Drawing.Point(16, 99);
             this.InsertPINTextBox.Name = "InsertPINTextBox";
             this.InsertPINTextBox.Size = new System.Drawing.Size(196, 22);
             this.InsertPINTextBox.TabIndex = 0;
@@ -44,7 +44,7 @@
             // InsertPINLabel
             // 
             this.InsertPINLabel.AutoSize = true;
-            this.InsertPINLabel.Location = new System.Drawing.Point(34, 89);
+            this.InsertPINLabel.Location = new System.Drawing.Point(13, 75);
             this.InsertPINLabel.Name = "InsertPINLabel";
             this.InsertPINLabel.Size = new System.Drawing.Size(177, 17);
             this.InsertPINLabel.TabIndex = 1;
@@ -52,7 +52,7 @@
             // 
             // OKButton
             // 
-            this.OKButton.Location = new System.Drawing.Point(269, 113);
+            this.OKButton.Location = new System.Drawing.Point(248, 99);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(75, 23);
             this.OKButton.TabIndex = 2;
@@ -62,7 +62,7 @@
             // 
             // ExplanationLabel
             // 
-            this.ExplanationLabel.Location = new System.Drawing.Point(34, 25);
+            this.ExplanationLabel.Location = new System.Drawing.Point(10, 12);
             this.ExplanationLabel.Name = "ExplanationLabel";
             this.ExplanationLabel.Size = new System.Drawing.Size(434, 53);
             this.ExplanationLabel.TabIndex = 3;
@@ -74,11 +74,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(480, 179);
+            this.ClientSize = new System.Drawing.Size(443, 140);
+            this.ControlBox = false;
             this.Controls.Add(this.ExplanationLabel);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.InsertPINLabel);
             this.Controls.Add(this.InsertPINTextBox);
+            this.MaximumSize = new System.Drawing.Size(461, 187);
+            this.MinimumSize = new System.Drawing.Size(461, 187);
             this.Name = "InsertPIN";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Insert PIN";

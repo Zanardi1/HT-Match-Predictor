@@ -78,13 +78,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.DiscardButton;
             this.ClientSize = new System.Drawing.Size(459, 94);
-            this.ControlBox = false;
             this.Controls.Add(this.DiscardButton);
             this.Controls.Add(this.MatchIDTextBox);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.ExplanationLabel);
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(477, 141);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(477, 141);
             this.Name = "AddSingleMatchForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add a single match";

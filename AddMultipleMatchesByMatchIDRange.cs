@@ -12,18 +12,19 @@ namespace HT_Match_Predictor
         }
 
         /// <summary>
-        /// Functia verifica datele introduse in fereastra daca respecta formatul cerut (sa contina numai numere).
+        /// Functia verifica datele introduse in fereastra daca respecta formatul cerut (sa contina numai >0 iar limita inferioara sa fie mai mica decat cea superioara).
         /// </summary>
         /// <returns>0 - daca totul e in regula;
         /// 1 - daca in primul text box nu e introdus nimic;
         /// 2 - daca in al doilea text box nu e introdus nimic;
         /// 3 - daca in primul text box sunt introduse si litere;
-        /// 4 - daca in al doilea text box sunt introduse si litere.</returns>
+        /// 4 - daca in al doilea text box sunt introduse si litere.
+        /// 5 - daca limita inferioara nu e mai mica decat cea superioara
+        /// 6 - daca limita inferioara este <=0
+        /// 7 - daca limita superioara e <=0</returns>
         private int TestForDataValidity()
         {
             int Result = 0;
-            LowerBoundIDTextBox.Text.Trim();
-            HigherBoundIDTextBox.Text.Trim();
             if (LowerBoundIDTextBox.Text == string.Empty)
             {
                 Result = 1;
@@ -32,14 +33,28 @@ namespace HT_Match_Predictor
             {
                 Result = 2;
             }
-            if (!int.TryParse(LowerBoundIDTextBox.Text, out int temp))
+            if (!int.TryParse(LowerBoundIDTextBox.Text, out int LowLimit))
             {
                 Result = 3;
             }
-            if (!int.TryParse(HigherBoundIDTextBox.Text, out temp))
+            if (!int.TryParse(HigherBoundIDTextBox.Text, out int HighLimit))
             {
                 Result = 4;
             }
+            if (LowLimit >= HighLimit)
+            {
+                Result = 5;
+            }
+            if (LowLimit < 0)
+            {
+                Result = 6;
+            }
+
+            if (HighLimit < 0)
+            {
+                Result = 7;
+            }
+
             return Result;
         }
 
@@ -92,6 +107,31 @@ namespace HT_Match_Predictor
                         MessageBoxButtons Buttons = MessageBoxButtons.OK;
                         MessageBoxIcon Icon = MessageBoxIcon.Error;
                         MessageBox.Show("The field for the higher end of the matches must contain only numbers.", "Error saving your data", Buttons, Icon);
+                        break;
+                    }
+                case 5:
+                    {
+                        LowerBoundIDTextBox.BackColor = SystemColors.MenuHighlight;
+                        HigherBoundIDTextBox.BackColor = SystemColors.MenuHighlight;
+                        MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                        MessageBoxIcon Icon = MessageBoxIcon.Error;
+                        MessageBox.Show("The lower bound match ID must be lower than the higher bound match ID.", "Error saving your data", Buttons, Icon);
+                        break;
+                    }
+                case 6:
+                    {
+                        LowerBoundIDTextBox.BackColor = SystemColors.MenuHighlight;
+                        MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                        MessageBoxIcon Icon = MessageBoxIcon.Error;
+                        MessageBox.Show("The lower bound match ID must be higher than 0.", "Error saving your data", Buttons, Icon);
+                        break;
+                    }
+                case 7:
+                    {
+                        HigherBoundIDTextBox.BackColor = SystemColors.MenuHighlight;
+                        MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                        MessageBoxIcon Icon = MessageBoxIcon.Error;
+                        MessageBox.Show("The higher bound match ID must be higher than 0.", "Error saving your data", Buttons, Icon);
                         break;
                     }
                 default:

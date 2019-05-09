@@ -428,7 +428,7 @@ namespace HT_Match_Predictor
                     }
                     MatchRatings = Parser.ResetMatchRatingsList();
                     //Dupa fiecare meci citit se aduce la 0 lista cu evaluari ale meciului. Motivul este acela ca in baza de date, evaluarile sunt trecute ca numere de la 1 la 80. Daca urmeaza sa fie adaugat in baza de date un meci care se va disputa, el nu va avea nicio evaluare, deci elementele listei vor ramane in continuare 0. Astfel se poate testa daca meciul care ar fi introdus in BD s-a jucat sau urmeaza sa se joace.
-                    PW.ProgressLabel.Text = "Progress... " + (i-MatchIDLowerBound + 1).ToString() + "/" + (MatchIDHigherBound-MatchIDLowerBound+1).ToString();
+                    PW.ProgressLabel.Text = "Progress... " + (i - MatchIDLowerBound + 1).ToString() + "/" + (MatchIDHigherBound - MatchIDLowerBound + 1).ToString();
                     PW.TheProgressBar.Value++;
                     PW.ProgressLabel.Refresh();
                 }
@@ -438,6 +438,17 @@ namespace HT_Match_Predictor
                 MessageBox.Show("Specified kind of matches added successfully! " + NumberOfMatchesAdded.ToString() + " matches were added to the database, from the " + (MatchIDHigherBound - MatchIDLowerBound + 1).ToString() + " matches specified.", "Operation complete", Buttons, Icon);
                 PW.Close();
             }
+        }
+
+        /// <summary>
+        /// Procedura se ocupa cu afisarea ferestrei de prezicere a unui meci viitor.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PredictTheFuture(object sender, EventArgs e)
+        {
+            FutureMatchPrediction Predictor = new FutureMatchPrediction();
+            Predictor.ShowDialog(this);
         }
     }
 }

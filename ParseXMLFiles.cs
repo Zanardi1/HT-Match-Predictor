@@ -376,15 +376,21 @@ namespace HT_Match_Predictor
                                         {
                                             XmlNodeList MatchIDNodeList = j.SelectNodes("MatchID");
                                             foreach (XmlNode k in MatchIDNodeList)
+                                            {
                                                 switch (k.Name)
                                                 {
                                                     case "MatchID":
                                                         {
                                                             if (int.TryParse(k.InnerXml, out int temp))
+                                                            {
                                                                 MatchIDList.Add(temp);
+                                                            }
+
                                                             break;
                                                         }
                                                 }
+                                            }
+
                                             break;
                                         }
                                 }

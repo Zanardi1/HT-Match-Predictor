@@ -125,13 +125,16 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.DiscardButton;
             this.ClientSize = new System.Drawing.Size(372, 431);
-            this.ControlBox = false;
             this.Controls.Add(this.SubskillLevelLabel);
             this.Controls.Add(this.SkillLevelLabel);
             this.Controls.Add(this.SubskillListBox);
             this.Controls.Add(this.SkillListBox);
             this.Controls.Add(this.DiscardButton);
             this.Controls.Add(this.OKButton);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(390, 478);
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(390, 478);
             this.Name = "SkillSelectionWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SkillSelectionWindow";

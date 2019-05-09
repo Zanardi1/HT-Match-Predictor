@@ -87,7 +87,6 @@
             this.HelpStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.predictionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.singleMatchPredictionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.futureMatchPredictionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.databaseOperationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -709,25 +708,18 @@
             // predictionToolStripMenuItem
             // 
             this.predictionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.singleMatchPredictionToolStripMenuItem,
             this.futureMatchPredictionToolStripMenuItem});
             this.predictionToolStripMenuItem.Name = "predictionToolStripMenuItem";
             this.predictionToolStripMenuItem.Size = new System.Drawing.Size(88, 24);
             this.predictionToolStripMenuItem.Text = "Prediction";
             // 
-            // singleMatchPredictionToolStripMenuItem
-            // 
-            this.singleMatchPredictionToolStripMenuItem.Name = "singleMatchPredictionToolStripMenuItem";
-            this.singleMatchPredictionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.singleMatchPredictionToolStripMenuItem.Size = new System.Drawing.Size(291, 26);
-            this.singleMatchPredictionToolStripMenuItem.Text = "Single Match Prediction";
-            // 
             // futureMatchPredictionToolStripMenuItem
             // 
             this.futureMatchPredictionToolStripMenuItem.Name = "futureMatchPredictionToolStripMenuItem";
             this.futureMatchPredictionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.futureMatchPredictionToolStripMenuItem.Size = new System.Drawing.Size(291, 26);
+            this.futureMatchPredictionToolStripMenuItem.Size = new System.Drawing.Size(290, 26);
             this.futureMatchPredictionToolStripMenuItem.Text = "Future Match Prediction";
+            this.futureMatchPredictionToolStripMenuItem.Click += new System.EventHandler(this.PredictTheFuture);
             // 
             // databaseOperationsToolStripMenuItem
             // 
@@ -920,7 +912,6 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.GroupBox UserDetailsGroupBox;
-        private System.Windows.Forms.ToolStripMenuItem singleMatchPredictionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem futureMatchPredictionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addSingleMatchToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addMultipleMatchesToolStripMenuItem;
