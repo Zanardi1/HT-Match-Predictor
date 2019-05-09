@@ -46,9 +46,9 @@ namespace HT_Match_Predictor
             return ComposeFinalString();
         }
 
-        public string CreateMatchesString(int TeamID, bool IsYouth, DateTime LastMatchDate)
+        public string CreateMatchesString(int TeamID)
         {
-            string[] pieces = { "&version=2.8&TeamId=", TeamID.ToString(), "&isYouth=", IsYouth.ToString(), "&LastMatchDate=", LastMatchDate.ToString() }; //retine parametrii
+            string[] pieces = { "&version=2.8&TeamId=", TeamID.ToString() }; //retine parametrii
             DownloadedFile = "?file=matches";
             FileParameters = String.Concat(pieces);
             return ComposeFinalString();

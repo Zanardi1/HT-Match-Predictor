@@ -16,5 +16,20 @@ namespace HT_Match_Predictor
         {
             InitializeComponent();
         }
+
+        /// <summary>
+        /// Procedura se ocupa de inchiderea ferestrei, fara a salva modificarile.
+        /// </summary>
+        /// <param name="sender">Handler de eveniment</param>
+        /// <param name="e">Handler de eveniment</param>
+        private void DiscardChanges(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void SaveChanges(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

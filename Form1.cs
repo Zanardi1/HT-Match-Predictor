@@ -448,6 +448,9 @@ namespace HT_Match_Predictor
         private void PredictTheFuture(object sender, EventArgs e)
         {
             FutureMatchPrediction Predictor = new FutureMatchPrediction();
+            Predictor.FirstTeamRadioButton.Text = Parser.UserTeamNames[0]+"("+Parser.UserTeamIDs[0]+")";
+            Predictor.SecondTeamRadioButton.Text = Parser.UserTeamNames[1]+"("+Parser.UserTeamIDs[1]+")";
+            Predictor.ThirdTeamRadioButton.Text = Parser.UserTeamNames[2]+"("+Parser.UserTeamIDs[2]+")";
             Predictor.ShowDialog(this);
         }
     }
