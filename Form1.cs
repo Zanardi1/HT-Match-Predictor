@@ -372,8 +372,11 @@ namespace HT_Match_Predictor
             if (AddTeam.ShowDialog(this) == DialogResult.OK)
             {
                 Cursor = Cursors.WaitCursor;
+                ProgressWindow PW = new ProgressWindow();
+                PW.Show(this);
                 SaveResponseToFile(DownloadString.CreateMatchArchiveString(AddTeam.TeamID, AddTeam.SeasonNumber), XMLFolder + "\\Archive.xml");
                 MatchesIDList = Parser.ParseArchiveFile();
+                PW.TheProgressBar.Maximum = MatchesIDList.Count;
                 for (int i = 0; i < MatchesIDList.Count; i++)
                 {
                     SaveResponseToFile(DownloadString.CreateMatchDetailsString(MatchesIDList[i]), XMLFolder + "\\MatchDetails.xml");
@@ -387,11 +390,13 @@ namespace HT_Match_Predictor
                         }
                     }
                     MatchRatings = Parser.ResetMatchRatingsList();
+                    PW.TheProgressBar.Value++;
                 }
                 Cursor = Cursors.Default;
                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
                 MessageBoxIcon Icon = MessageBoxIcon.Information;
                 MessageBox.Show($"Specified kind of matches added successfully! {NumberOfMatchesAdded.ToString()} matches added to the database from the {MatchesIDList.Count.ToString()} matches played in the selected season", "Operation complete", Buttons, Icon);
+                PW.Close();
             }
         }
 
@@ -404,6 +409,9 @@ namespace HT_Match_Predictor
                 int.TryParse(AddID.LowerBoundIDTextBox.Text, out int MatchIDLowerBound);
                 int.TryParse(AddID.HigherBoundIDTextBox.Text, out int MatchIDHigherBound);
                 Cursor = Cursors.WaitCursor;
+                ProgressWindow PW = new ProgressWindow();
+                PW.Show(this);
+                PW.TheProgressBar.Maximum = MatchIDHigherBound - MatchIDLowerBound+1;
                 for (int i = MatchIDLowerBound; i <= MatchIDHigherBound; i++)
                 {
                     SaveResponseToFile(DownloadString.CreateMatchDetailsString(i), XMLFolder + "\\MatchDetails.xml");
@@ -418,11 +426,13 @@ namespace HT_Match_Predictor
                     }
                     MatchRatings = Parser.ResetMatchRatingsList();
                     //Dupa fiecare meci citit se aduce la 0 lista cu evaluari ale meciului. Motivul este acela ca in baza de date, evaluarile sunt trecute ca numere de la 1 la 80. Daca urmeaza sa fie adaugat in baza de date un meci care se va disputa, el nu va avea nicio evaluare, deci elementele listei vor ramane in continuare 0. Astfel se poate testa daca meciul care ar fi introdus in BD s-a jucat sau urmeaza sa se joace.
+                    PW.TheProgressBar.Value++;
                 }
                 Cursor = Cursors.Default;
                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
                 MessageBoxIcon Icon = MessageBoxIcon.Information;
                 MessageBox.Show("Specified kind of matches added successfully! " + NumberOfMatchesAdded.ToString() + " matches were added to the database, from the " + (MatchIDHigherBound - MatchIDLowerBound + 1).ToString() + " matches specified.", "Operation complete", Buttons, Icon);
+                PW.Close();
             }
         }
     }
