@@ -390,7 +390,9 @@ namespace HT_Match_Predictor
                         }
                     }
                     MatchRatings = Parser.ResetMatchRatingsList();
+                    PW.ProgressLabel.Text = "Progress... " + (i + 1).ToString() + "/" + MatchesIDList.Count.ToString();
                     PW.TheProgressBar.Value++;
+                    PW.ProgressLabel.Refresh();
                 }
                 Cursor = Cursors.Default;
                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
@@ -411,7 +413,7 @@ namespace HT_Match_Predictor
                 Cursor = Cursors.WaitCursor;
                 ProgressWindow PW = new ProgressWindow();
                 PW.Show(this);
-                PW.TheProgressBar.Maximum = MatchIDHigherBound - MatchIDLowerBound+1;
+                PW.TheProgressBar.Maximum = MatchIDHigherBound - MatchIDLowerBound + 1;
                 for (int i = MatchIDLowerBound; i <= MatchIDHigherBound; i++)
                 {
                     SaveResponseToFile(DownloadString.CreateMatchDetailsString(i), XMLFolder + "\\MatchDetails.xml");
@@ -426,7 +428,9 @@ namespace HT_Match_Predictor
                     }
                     MatchRatings = Parser.ResetMatchRatingsList();
                     //Dupa fiecare meci citit se aduce la 0 lista cu evaluari ale meciului. Motivul este acela ca in baza de date, evaluarile sunt trecute ca numere de la 1 la 80. Daca urmeaza sa fie adaugat in baza de date un meci care se va disputa, el nu va avea nicio evaluare, deci elementele listei vor ramane in continuare 0. Astfel se poate testa daca meciul care ar fi introdus in BD s-a jucat sau urmeaza sa se joace.
+                    PW.ProgressLabel.Text = "Progress... " + (i-MatchIDLowerBound + 1).ToString() + "/" + (MatchIDHigherBound-MatchIDLowerBound+1).ToString();
                     PW.TheProgressBar.Value++;
+                    PW.ProgressLabel.Refresh();
                 }
                 Cursor = Cursors.Default;
                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
