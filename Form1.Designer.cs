@@ -810,6 +810,7 @@
             this.SecondTeamRadioButton.Text = "radioButton2";
             this.SecondTeamRadioButton.UseVisualStyleBackColor = true;
             this.SecondTeamRadioButton.Visible = false;
+            this.SecondTeamRadioButton.Click += new System.EventHandler(this.DownloadSecondTeamFutureMatches);
             // 
             // ThirdTeamRadioButton
             // 
@@ -822,6 +823,7 @@
             this.ThirdTeamRadioButton.Text = "radioButton3";
             this.ThirdTeamRadioButton.UseVisualStyleBackColor = true;
             this.ThirdTeamRadioButton.Visible = false;
+            this.ThirdTeamRadioButton.Click += new System.EventHandler(this.DownloadThirdTeamFutureMatches);
             // 
             // TeamListGroupBox
             // 

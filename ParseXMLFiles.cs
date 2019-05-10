@@ -81,7 +81,8 @@ namespace HT_Match_Predictor
         /// <summary>
         /// Instanta a structurii
         /// </summary>
-        public FutureMatches F;
+        private FutureMatches F;
+        public static List<FutureMatches> FinalFutureMatches = new List<FutureMatches> { };
 
         public ParseXMLFiles()
         {
@@ -185,6 +186,7 @@ namespace HT_Match_Predictor
 
         public void ParseMatchesFile()
         {
+            int TempMatchType = 0;
             XmlReaderSettings settings = new XmlReaderSettings
             {
                 DtdProcessing = DtdProcessing.Parse,
@@ -214,16 +216,40 @@ namespace HT_Match_Predictor
                             {
                                 XmlNodeList HomeTeamNodeList = j.SelectNodes("*");
                                 foreach (XmlNode k in HomeTeamNodeList)
+                                {
                                     if (k.Name == "HomeTeamName")
+                                    {
                                         F.HomeTeam = k.InnerXml;
+                                    }
+                                }
+
                                 break;
                             }
                         case "AwayTeam":
                             {
                                 XmlNodeList AwayTeamNodeList = j.SelectNodes("*");
                                 foreach (XmlNode k in AwayTeamNodeList)
+                                {
                                     if (k.Name == "AwayTeamName")
+                                    {
                                         F.AwayTeam = k.InnerXml;
+                                    }
+                                }
+
+                                break;
+                            }
+                        case "MatchType":
+                            {
+                                int.TryParse(j.InnerXml, out TempMatchType);
+                                break;
+                            }
+                        case "Status":
+                            {
+                                if ((j.InnerXml == "UPCOMING") && ((TempMatchType == 1) || (TempMatchType == 4) || (TempMatchType == 8)))
+                                {
+                                    FinalFutureMatches.Add(F);
+                                }
+
                                 break;
                             }
                     }

@@ -462,8 +462,38 @@ namespace HT_Match_Predictor
 
         private void DownloadFirstTeamFutureMatches(object sender, EventArgs e)
         {
+            ParseXMLFiles.FinalFutureMatches.Clear();
+            FutureMatchesListBox.Items.Clear();
             SaveResponseToFile(DownloadString.CreateMatchesString(Parser.UserTeamIDs[0]), XMLFolder + "\\Matches.xml");
             Parser.ParseMatchesFile();
+            for (int i = 0; i < ParseXMLFiles.FinalFutureMatches.Count; i++) 
+            {
+                FutureMatchesListBox.Items.Add(ParseXMLFiles.FinalFutureMatches[i].HomeTeam + " - " + ParseXMLFiles.FinalFutureMatches[i].AwayTeam);
+            }
+        }
+
+        private void DownloadSecondTeamFutureMatches(object sender, EventArgs e)
+        {
+            ParseXMLFiles.FinalFutureMatches.Clear();
+            FutureMatchesListBox.Items.Clear();
+            SaveResponseToFile(DownloadString.CreateMatchesString(Parser.UserTeamIDs[1]), XMLFolder + "\\Matches.xml");
+            Parser.ParseMatchesFile();
+            for (int i = 0; i < ParseXMLFiles.FinalFutureMatches.Count; i++)
+            {
+                FutureMatchesListBox.Items.Add(ParseXMLFiles.FinalFutureMatches[i].HomeTeam + " - " + ParseXMLFiles.FinalFutureMatches[i].AwayTeam);
+            }
+        }
+
+        private void DownloadThirdTeamFutureMatches(object sender, EventArgs e)
+        {
+            ParseXMLFiles.FinalFutureMatches.Clear();
+            FutureMatchesListBox.Items.Clear();
+            SaveResponseToFile(DownloadString.CreateMatchesString(Parser.UserTeamIDs[2]), XMLFolder + "\\Matches.xml");
+            Parser.ParseMatchesFile();
+            for (int i = 0; i < ParseXMLFiles.FinalFutureMatches.Count; i++)
+            {
+                FutureMatchesListBox.Items.Add(ParseXMLFiles.FinalFutureMatches[i].HomeTeam + " - " + ParseXMLFiles.FinalFutureMatches[i].AwayTeam);
+            }
         }
     }
 }
