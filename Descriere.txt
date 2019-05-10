@@ -55,6 +55,8 @@ Fisierele care vor fi descarcate de-a lungul utilizarii programului sunt:
 		Date de iesire necesare:
 		2.1. MatchID;
 		2.2. MatchType;
+		2.3. HomeTeamName (din motive de interfata);
+		2.4. AwayTeamName (din motive de interfata);
 
 	3. matchdetails. Pentru a vedea evaluarile celor doua echipe pentru un anumit meci.
 		Date de intrare:

@@ -69,6 +69,20 @@ namespace HT_Match_Predictor
         /// </summary>
         public List<int> ReadMatchRatings = new List<int>(16) { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
+        /// <summary>
+        /// Structura retine numarul de identificare al unui meci (MatchID), precum si cele doua echipe care l-au jucat (HomeTeam si AwayTeam).
+        /// </summary>
+        public struct FutureMatches
+        {
+            public int MatchID;
+            public string HomeTeam, AwayTeam;
+        }
+
+        /// <summary>
+        /// Instanta a structurii
+        /// </summary>
+        public FutureMatches F;
+
         public ParseXMLFiles()
         {
 
@@ -171,7 +185,51 @@ namespace HT_Match_Predictor
 
         public void ParseMatchesFile()
         {
+            XmlReaderSettings settings = new XmlReaderSettings
+            {
+                DtdProcessing = DtdProcessing.Parse,
+                IgnoreComments = true,
+                CheckCharacters = true
+            };
+            XmlReader Reader = XmlReader.Create(Form1.XMLFolder + "\\Matches.xml", settings);
+            XmlDocument doc = new XmlDocument();
+            doc.Load(Reader);
 
+            XmlNode Current = doc.DocumentElement.SelectSingleNode("Team");
+            XmlNode MatchListNode = Current.SelectSingleNode("MatchList");
+            XmlNodeList MatchListNodeList = MatchListNode.SelectNodes("*");
+            foreach (XmlNode i in MatchListNodeList)
+            {
+                XmlNodeList MatchNodeList = i.SelectNodes("*");
+                foreach (XmlNode j in MatchNodeList)
+                {
+                    switch (j.Name)
+                    {
+                        case "MatchID":
+                            {
+                                int.TryParse(j.InnerXml, out F.MatchID);
+                                break;
+                            }
+                        case "HomeTeam":
+                            {
+                                XmlNodeList HomeTeamNodeList = j.SelectNodes("*");
+                                foreach (XmlNode k in HomeTeamNodeList)
+                                    if (k.Name == "HomeTeamName")
+                                        F.HomeTeam = k.InnerXml;
+                                break;
+                            }
+                        case "AwayTeam":
+                            {
+                                XmlNodeList AwayTeamNodeList = j.SelectNodes("*");
+                                foreach (XmlNode k in AwayTeamNodeList)
+                                    if (k.Name == "AwayTeamName")
+                                        F.AwayTeam = k.InnerXml;
+                                break;
+                            }
+                    }
+                }
+            }
+            Reader.Close();
         }
 
         /// <summary>

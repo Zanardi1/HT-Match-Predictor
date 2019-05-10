@@ -463,6 +463,7 @@ namespace HT_Match_Predictor
         private void DownloadFirstTeamFutureMatches(object sender, EventArgs e)
         {
             SaveResponseToFile(DownloadString.CreateMatchesString(Parser.UserTeamIDs[0]), XMLFolder + "\\Matches.xml");
+            Parser.ParseMatchesFile();
         }
     }
 }
