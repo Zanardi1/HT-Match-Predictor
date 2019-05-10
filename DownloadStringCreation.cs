@@ -64,7 +64,7 @@ namespace HT_Match_Predictor
 
         public string CreateMatchOrdersString(int MatchID)
         {
-            string[] pieces = { "&version3.0&actionType=predictratings&matchID=", MatchID.ToString() };
+            string[] pieces = { "&version=3.0&actionType=predictratings&matchID=", MatchID.ToString() };
             DownloadedFile = "?file=matchorders";
             FileParameters = String.Concat(pieces);
             return ComposeFinalString();

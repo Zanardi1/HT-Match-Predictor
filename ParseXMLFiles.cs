@@ -222,7 +222,6 @@ namespace HT_Match_Predictor
                                         F.HomeTeam = k.InnerXml;
                                     }
                                 }
-
                                 break;
                             }
                         case "AwayTeam":
@@ -235,7 +234,6 @@ namespace HT_Match_Predictor
                                         F.AwayTeam = k.InnerXml;
                                     }
                                 }
-
                                 break;
                             }
                         case "MatchType":
@@ -249,7 +247,6 @@ namespace HT_Match_Predictor
                                 {
                                     FinalFutureMatches.Add(F);
                                 }
-
                                 break;
                             }
                     }
@@ -423,7 +420,15 @@ namespace HT_Match_Predictor
 
         public void ParseOrdersFile()
         {
-
+            XmlReaderSettings settings = new XmlReaderSettings
+            {
+                DtdProcessing = DtdProcessing.Parse,
+                IgnoreComments = true,
+                CheckCharacters = true
+            };
+            XmlReader Reader = XmlReader.Create(Form1.XMLFolder + "\\MatchDetails.xml", settings);
+            XmlDocument doc = new XmlDocument();
+            doc.Load(Reader);
         }
 
         /// <summary>

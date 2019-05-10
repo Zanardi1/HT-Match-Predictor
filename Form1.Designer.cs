@@ -845,6 +845,7 @@
             this.FutureMatchesListBox.Name = "FutureMatchesListBox";
             this.FutureMatchesListBox.Size = new System.Drawing.Size(279, 260);
             this.FutureMatchesListBox.TabIndex = 20;
+            this.FutureMatchesListBox.Click += new System.EventHandler(this.LoadPredictedRatings);
             // 
             // ExplanationLabel
             // 

@@ -69,6 +69,8 @@ namespace HT_Match_Predictor
         /// </summary>
         public int MatchIDToDelete = 0;
 
+        public List<int> HomeMatchRating = new List<int>(7);
+
 
         /// <summary>
         /// Aduce cele 14 evaluari ale unui meci la 0
@@ -494,6 +496,16 @@ namespace HT_Match_Predictor
             {
                 FutureMatchesListBox.Items.Add(ParseXMLFiles.FinalFutureMatches[i].HomeTeam + " - " + ParseXMLFiles.FinalFutureMatches[i].AwayTeam);
             }
+        }
+
+        /// <summary>
+        /// Functia incarca evaluarile prezise pentru meciul selectat
+        /// </summary>
+        /// <param name="sender">Handler de eveniment</param>
+        /// <param name="e">Handler de eveniment</param>
+        private void LoadPredictedRatings(object sender, EventArgs e)
+        {
+            SaveResponseToFile(DownloadString.CreateMatchOrdersString(ParseXMLFiles.FinalFutureMatches[FutureMatchesListBox.SelectedIndex].MatchID), XMLFolder + "\\Orders.xml");
         }
     }
 }
