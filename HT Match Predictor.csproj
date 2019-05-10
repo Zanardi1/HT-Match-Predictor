@@ -87,12 +87,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="FutureMatchPrediction.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FutureMatchPrediction.Designer.cs">
-      <DependentUpon>FutureMatchPrediction.cs</DependentUpon>
-    </Compile>
     <Compile Include="InsertPIN.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,9 +135,6 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FutureMatchPrediction.resx">
-      <DependentUpon>FutureMatchPrediction.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="InsertPIN.resx">
       <DependentUpon>InsertPIN.cs</DependentUpon>
     </EmbeddedResource>
@@ -162,7 +153,6 @@
     <EmbeddedResource Include="SkillSelectionWindow.resx">
       <DependentUpon>SkillSelectionWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Common\makefile.flymake" />
     <None Include="MatchesDataSet.xsc">
       <DependentUpon>MatchesDataSet.xsd</DependentUpon>

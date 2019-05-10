@@ -123,4 +123,7 @@
   <metadata name="MainMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>137, 17</value>
   </metadata>
+  <data name="ExplanationLabel.Text" xml:space="preserve">
+    <value>In the panels below you can load the predicted ratings for the future matches of your team(s).  Ratings will be loaded for the home team. First, choose the desired team from the radio button(s), then choose the match from the list box. The predicted ratings will automatically be loaded in the home team panel</value>
+  </data>
 </root>

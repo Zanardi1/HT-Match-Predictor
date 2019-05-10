@@ -51,8 +51,6 @@ Fisierele care vor fi descarcate de-a lungul utilizarii programului sunt:
 	2. matches. Pentru a vedea care sunt meciurile viitoare ale unei echipe. 
 		Date de intrare:
 		2.1. teamID = (depinde de echipa cu care lucrez);
-		2.2. isYouth = false;
-		2.3. LastMatchDate = (data pana la care se iau meciurile din viitor in calcul);
 
 		Date de iesire necesare:
 		2.1. MatchID;

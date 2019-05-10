@@ -174,6 +174,9 @@ namespace HT_Match_Predictor
             Key.Close();
         }
 
+        /// <summary>
+        /// Incarca cele 4 jetoane ale obiectului care se ocupa cu conectarea la site.
+        /// </summary>
         private void InitializeAuthenticationObject()
         {
             o["consumer_key"] = "2BkDvCeUZL1nCIVOn5KhUb";
@@ -216,6 +219,11 @@ namespace HT_Match_Predictor
             return temp;
         }
 
+        /// <summary>
+        /// Creeaza fisierul XML cu datele necesare
+        /// </summary>
+        /// <param name="SourceURLAddress">URL-ul de unde descarca datele</param>
+        /// <param name="DestinationFileName">Numele fisierului (inclusiv calea) care va stoca datele descarcate</param>
         public void SaveResponseToFile(string SourceURLAddress, string DestinationFileName)
         {
             try
@@ -240,6 +248,18 @@ namespace HT_Match_Predictor
             SupporterTierLabel.Text = "Supporter: " + Parser.UserSupporterLevel;
             string[] TeamPieces = new string[] { "Team list: \r\n", Parser.UserTeamNames[0], " (", Parser.UserTeamIDs[0].ToString(), ")\r\n", Parser.UserTeamNames[1], " (", Parser.UserTeamIDs[1].ToString(), ")\r\n", Parser.UserTeamNames[2], " (", Parser.UserTeamIDs[2].ToString(), ")\r\n" };
             TeamListLabel.Text = String.Concat(TeamPieces);
+            FirstTeamRadioButton.Checked = true;
+            FirstTeamRadioButton.Text = Parser.UserTeamNames[0];
+            if (Parser.UserTeamNames[1] != string.Empty)
+            {
+                SecondTeamRadioButton.Visible = true;
+                SecondTeamRadioButton.Text = Parser.UserTeamNames[1];
+            }
+            if (Parser.UserTeamNames[2] != string.Empty)
+            {
+                ThirdTeamRadioButton.Visible = true;
+                ThirdTeamRadioButton.Text = Parser.UserTeamNames[2];
+            }
         }
 
         public Form1()
@@ -440,18 +460,9 @@ namespace HT_Match_Predictor
             }
         }
 
-        /// <summary>
-        /// Procedura se ocupa cu afisarea ferestrei de prezicere a unui meci viitor.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PredictTheFuture(object sender, EventArgs e)
+        private void DownloadFirstTeamFutureMatches(object sender, EventArgs e)
         {
-            FutureMatchPrediction Predictor = new FutureMatchPrediction();
-            Predictor.FirstTeamRadioButton.Text = Parser.UserTeamNames[0]+"("+Parser.UserTeamIDs[0]+")";
-            Predictor.SecondTeamRadioButton.Text = Parser.UserTeamNames[1]+"("+Parser.UserTeamIDs[1]+")";
-            Predictor.ThirdTeamRadioButton.Text = Parser.UserTeamNames[2]+"("+Parser.UserTeamIDs[2]+")";
-            Predictor.ShowDialog(this);
+            SaveResponseToFile(DownloadString.CreateMatchesString(Parser.UserTeamIDs[0]), XMLFolder + "\\Matches.xml");
         }
     }
 }

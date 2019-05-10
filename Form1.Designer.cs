@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.HomeTeamGroupBox = new System.Windows.Forms.GroupBox();
             this.HomeLeftAttackRatingLabel = new System.Windows.Forms.Label();
             this.HomeCentralAttackRatingLabel = new System.Windows.Forms.Label();
@@ -86,8 +87,6 @@
             this.StatusBar = new System.Windows.Forms.StatusStrip();
             this.HelpStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
-            this.predictionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.futureMatchPredictionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.databaseOperationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -98,12 +97,17 @@
             this.AdMatchesbyMatchIDRangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.UserDetailsGroupBox = new System.Windows.Forms.GroupBox();
+            this.FirstTeamRadioButton = new System.Windows.Forms.RadioButton();
+            this.SecondTeamRadioButton = new System.Windows.Forms.RadioButton();
+            this.ThirdTeamRadioButton = new System.Windows.Forms.RadioButton();
+            this.TeamListGroupBox = new System.Windows.Forms.GroupBox();
+            this.FutureMatchesListBox = new System.Windows.Forms.ListBox();
+            this.ExplanationLabel = new System.Windows.Forms.Label();
             this.HomeTeamGroupBox.SuspendLayout();
             this.AwayTeamGroupBox.SuspendLayout();
             this.StatusBar.SuspendLayout();
             this.MainMenu.SuspendLayout();
-            this.UserDetailsGroupBox.SuspendLayout();
+            this.TeamListGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // HomeTeamGroupBox
@@ -129,7 +133,7 @@
             this.HomeTeamGroupBox.Controls.Add(this.HomeCentralDefenceTextLabel);
             this.HomeTeamGroupBox.Controls.Add(this.HomeRightDefenceTextLabel);
             this.HomeTeamGroupBox.Controls.Add(this.HomeMidfieldTextLabel);
-            this.HomeTeamGroupBox.Location = new System.Drawing.Point(337, 87);
+            this.HomeTeamGroupBox.Location = new System.Drawing.Point(336, 189);
             this.HomeTeamGroupBox.Name = "HomeTeamGroupBox";
             this.HomeTeamGroupBox.Size = new System.Drawing.Size(486, 444);
             this.HomeTeamGroupBox.TabIndex = 0;
@@ -362,7 +366,7 @@
             this.AwayTeamGroupBox.Controls.Add(this.AwayCentralDefenceTextLabel);
             this.AwayTeamGroupBox.Controls.Add(this.AwayRightDefenceTextLabel);
             this.AwayTeamGroupBox.Controls.Add(this.AwayMidfieldTextLabel);
-            this.AwayTeamGroupBox.Location = new System.Drawing.Point(978, 87);
+            this.AwayTeamGroupBox.Location = new System.Drawing.Point(977, 189);
             this.AwayTeamGroupBox.Name = "AwayTeamGroupBox";
             this.AwayTeamGroupBox.Size = new System.Drawing.Size(486, 444);
             this.AwayTeamGroupBox.TabIndex = 1;
@@ -574,7 +578,7 @@
             // 
             // PredictButton
             // 
-            this.PredictButton.Location = new System.Drawing.Point(869, 144);
+            this.PredictButton.Location = new System.Drawing.Point(868, 246);
             this.PredictButton.Name = "PredictButton";
             this.PredictButton.Size = new System.Drawing.Size(75, 23);
             this.PredictButton.TabIndex = 2;
@@ -584,7 +588,7 @@
             // 
             // ResetButton
             // 
-            this.ResetButton.Location = new System.Drawing.Point(869, 193);
+            this.ResetButton.Location = new System.Drawing.Point(868, 295);
             this.ResetButton.Name = "ResetButton";
             this.ResetButton.Size = new System.Drawing.Size(75, 23);
             this.ResetButton.TabIndex = 3;
@@ -596,7 +600,7 @@
             // HomeWinPercentageLabel
             // 
             this.HomeWinPercentageLabel.AutoSize = true;
-            this.HomeWinPercentageLabel.Location = new System.Drawing.Point(337, 44);
+            this.HomeWinPercentageLabel.Location = new System.Drawing.Point(336, 146);
             this.HomeWinPercentageLabel.Name = "HomeWinPercentageLabel";
             this.HomeWinPercentageLabel.Size = new System.Drawing.Size(89, 17);
             this.HomeWinPercentageLabel.TabIndex = 4;
@@ -605,7 +609,7 @@
             // DrawPercentageLabel
             // 
             this.DrawPercentageLabel.AutoSize = true;
-            this.DrawPercentageLabel.Location = new System.Drawing.Point(883, 44);
+            this.DrawPercentageLabel.Location = new System.Drawing.Point(882, 146);
             this.DrawPercentageLabel.Name = "DrawPercentageLabel";
             this.DrawPercentageLabel.Size = new System.Drawing.Size(44, 17);
             this.DrawPercentageLabel.TabIndex = 5;
@@ -614,7 +618,7 @@
             // AwayWinPercentageLabel
             // 
             this.AwayWinPercentageLabel.AutoSize = true;
-            this.AwayWinPercentageLabel.Location = new System.Drawing.Point(978, 44);
+            this.AwayWinPercentageLabel.Location = new System.Drawing.Point(977, 146);
             this.AwayWinPercentageLabel.Name = "AwayWinPercentageLabel";
             this.AwayWinPercentageLabel.Size = new System.Drawing.Size(85, 17);
             this.AwayWinPercentageLabel.TabIndex = 6;
@@ -623,7 +627,7 @@
             // HGALabel
             // 
             this.HGALabel.AutoSize = true;
-            this.HGALabel.Location = new System.Drawing.Point(624, 44);
+            this.HGALabel.Location = new System.Drawing.Point(623, 146);
             this.HGALabel.Name = "HGALabel";
             this.HGALabel.Size = new System.Drawing.Size(143, 17);
             this.HGALabel.TabIndex = 7;
@@ -632,7 +636,7 @@
             // AGALabel
             // 
             this.AGALabel.AutoSize = true;
-            this.AGALabel.Location = new System.Drawing.Point(1244, 44);
+            this.AGALabel.Location = new System.Drawing.Point(1243, 146);
             this.AGALabel.Name = "AGALabel";
             this.AGALabel.Size = new System.Drawing.Size(139, 17);
             this.AGALabel.TabIndex = 8;
@@ -641,7 +645,7 @@
             // LoginNameLabel
             // 
             this.LoginNameLabel.AutoSize = true;
-            this.LoginNameLabel.Location = new System.Drawing.Point(17, 35);
+            this.LoginNameLabel.Location = new System.Drawing.Point(334, 51);
             this.LoginNameLabel.Name = "LoginNameLabel";
             this.LoginNameLabel.Size = new System.Drawing.Size(81, 17);
             this.LoginNameLabel.TabIndex = 9;
@@ -650,7 +654,7 @@
             // UserCountryLabel
             // 
             this.UserCountryLabel.AutoSize = true;
-            this.UserCountryLabel.Location = new System.Drawing.Point(17, 70);
+            this.UserCountryLabel.Location = new System.Drawing.Point(563, 51);
             this.UserCountryLabel.Name = "UserCountryLabel";
             this.UserCountryLabel.Size = new System.Drawing.Size(61, 17);
             this.UserCountryLabel.TabIndex = 10;
@@ -659,7 +663,7 @@
             // SupporterTierLabel
             // 
             this.SupporterTierLabel.AutoSize = true;
-            this.SupporterTierLabel.Location = new System.Drawing.Point(17, 106);
+            this.SupporterTierLabel.Location = new System.Drawing.Point(738, 51);
             this.SupporterTierLabel.Name = "SupporterTierLabel";
             this.SupporterTierLabel.Size = new System.Drawing.Size(75, 17);
             this.SupporterTierLabel.TabIndex = 11;
@@ -668,7 +672,7 @@
             // TeamListLabel
             // 
             this.TeamListLabel.AutoSize = true;
-            this.TeamListLabel.Location = new System.Drawing.Point(17, 149);
+            this.TeamListLabel.Location = new System.Drawing.Point(929, 51);
             this.TeamListLabel.Name = "TeamListLabel";
             this.TeamListLabel.Size = new System.Drawing.Size(69, 17);
             this.TeamListLabel.TabIndex = 12;
@@ -679,7 +683,7 @@
             this.StatusBar.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.HelpStatusLabel});
-            this.StatusBar.Location = new System.Drawing.Point(0, 545);
+            this.StatusBar.Location = new System.Drawing.Point(0, 649);
             this.StatusBar.Name = "StatusBar";
             this.StatusBar.Size = new System.Drawing.Size(1504, 25);
             this.StatusBar.TabIndex = 13;
@@ -695,7 +699,6 @@
             // 
             this.MainMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.predictionToolStripMenuItem,
             this.databaseOperationsToolStripMenuItem,
             this.optionsToolStripMenuItem,
             this.aboutToolStripMenuItem});
@@ -704,22 +707,6 @@
             this.MainMenu.Size = new System.Drawing.Size(1504, 28);
             this.MainMenu.TabIndex = 14;
             this.MainMenu.Text = "Main Menu";
-            // 
-            // predictionToolStripMenuItem
-            // 
-            this.predictionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.futureMatchPredictionToolStripMenuItem});
-            this.predictionToolStripMenuItem.Name = "predictionToolStripMenuItem";
-            this.predictionToolStripMenuItem.Size = new System.Drawing.Size(88, 24);
-            this.predictionToolStripMenuItem.Text = "Prediction";
-            // 
-            // futureMatchPredictionToolStripMenuItem
-            // 
-            this.futureMatchPredictionToolStripMenuItem.Name = "futureMatchPredictionToolStripMenuItem";
-            this.futureMatchPredictionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.futureMatchPredictionToolStripMenuItem.Size = new System.Drawing.Size(290, 26);
-            this.futureMatchPredictionToolStripMenuItem.Text = "Future Match Prediction";
-            this.futureMatchPredictionToolStripMenuItem.Click += new System.EventHandler(this.PredictTheFuture);
             // 
             // databaseOperationsToolStripMenuItem
             // 
@@ -800,25 +787,83 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.ShowAboutWindow);
             // 
-            // UserDetailsGroupBox
+            // FirstTeamRadioButton
             // 
-            this.UserDetailsGroupBox.Controls.Add(this.TeamListLabel);
-            this.UserDetailsGroupBox.Controls.Add(this.LoginNameLabel);
-            this.UserDetailsGroupBox.Controls.Add(this.UserCountryLabel);
-            this.UserDetailsGroupBox.Controls.Add(this.SupporterTierLabel);
-            this.UserDetailsGroupBox.Location = new System.Drawing.Point(11, 87);
-            this.UserDetailsGroupBox.Name = "UserDetailsGroupBox";
-            this.UserDetailsGroupBox.Size = new System.Drawing.Size(280, 235);
-            this.UserDetailsGroupBox.TabIndex = 15;
-            this.UserDetailsGroupBox.TabStop = false;
-            this.UserDetailsGroupBox.Text = "User details";
+            this.FirstTeamRadioButton.AutoSize = true;
+            this.FirstTeamRadioButton.Location = new System.Drawing.Point(19, 27);
+            this.FirstTeamRadioButton.Name = "FirstTeamRadioButton";
+            this.FirstTeamRadioButton.Size = new System.Drawing.Size(110, 21);
+            this.FirstTeamRadioButton.TabIndex = 16;
+            this.FirstTeamRadioButton.TabStop = true;
+            this.FirstTeamRadioButton.Text = "radioButton1";
+            this.FirstTeamRadioButton.UseVisualStyleBackColor = true;
+            this.FirstTeamRadioButton.Click += new System.EventHandler(this.DownloadFirstTeamFutureMatches);
+            // 
+            // SecondTeamRadioButton
+            // 
+            this.SecondTeamRadioButton.AutoSize = true;
+            this.SecondTeamRadioButton.Location = new System.Drawing.Point(19, 54);
+            this.SecondTeamRadioButton.Name = "SecondTeamRadioButton";
+            this.SecondTeamRadioButton.Size = new System.Drawing.Size(110, 21);
+            this.SecondTeamRadioButton.TabIndex = 17;
+            this.SecondTeamRadioButton.TabStop = true;
+            this.SecondTeamRadioButton.Text = "radioButton2";
+            this.SecondTeamRadioButton.UseVisualStyleBackColor = true;
+            this.SecondTeamRadioButton.Visible = false;
+            // 
+            // ThirdTeamRadioButton
+            // 
+            this.ThirdTeamRadioButton.AutoSize = true;
+            this.ThirdTeamRadioButton.Location = new System.Drawing.Point(19, 81);
+            this.ThirdTeamRadioButton.Name = "ThirdTeamRadioButton";
+            this.ThirdTeamRadioButton.Size = new System.Drawing.Size(110, 21);
+            this.ThirdTeamRadioButton.TabIndex = 18;
+            this.ThirdTeamRadioButton.TabStop = true;
+            this.ThirdTeamRadioButton.Text = "radioButton3";
+            this.ThirdTeamRadioButton.UseVisualStyleBackColor = true;
+            this.ThirdTeamRadioButton.Visible = false;
+            // 
+            // TeamListGroupBox
+            // 
+            this.TeamListGroupBox.Controls.Add(this.ThirdTeamRadioButton);
+            this.TeamListGroupBox.Controls.Add(this.SecondTeamRadioButton);
+            this.TeamListGroupBox.Controls.Add(this.FirstTeamRadioButton);
+            this.TeamListGroupBox.Location = new System.Drawing.Point(24, 246);
+            this.TeamListGroupBox.Name = "TeamListGroupBox";
+            this.TeamListGroupBox.Size = new System.Drawing.Size(278, 118);
+            this.TeamListGroupBox.TabIndex = 19;
+            this.TeamListGroupBox.TabStop = false;
+            this.TeamListGroupBox.Text = "Choose team";
+            // 
+            // FutureMatchesListBox
+            // 
+            this.FutureMatchesListBox.FormattingEnabled = true;
+            this.FutureMatchesListBox.ItemHeight = 16;
+            this.FutureMatchesListBox.Location = new System.Drawing.Point(24, 373);
+            this.FutureMatchesListBox.Name = "FutureMatchesListBox";
+            this.FutureMatchesListBox.Size = new System.Drawing.Size(279, 260);
+            this.FutureMatchesListBox.TabIndex = 20;
+            // 
+            // ExplanationLabel
+            // 
+            this.ExplanationLabel.Location = new System.Drawing.Point(21, 82);
+            this.ExplanationLabel.Name = "ExplanationLabel";
+            this.ExplanationLabel.Size = new System.Drawing.Size(280, 143);
+            this.ExplanationLabel.TabIndex = 21;
+            this.ExplanationLabel.Text = resources.GetString("ExplanationLabel.Text");
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1504, 570);
-            this.Controls.Add(this.UserDetailsGroupBox);
+            this.ClientSize = new System.Drawing.Size(1504, 674);
+            this.Controls.Add(this.ExplanationLabel);
+            this.Controls.Add(this.TeamListLabel);
+            this.Controls.Add(this.FutureMatchesListBox);
+            this.Controls.Add(this.SupporterTierLabel);
+            this.Controls.Add(this.UserCountryLabel);
+            this.Controls.Add(this.LoginNameLabel);
+            this.Controls.Add(this.TeamListGroupBox);
             this.Controls.Add(this.StatusBar);
             this.Controls.Add(this.MainMenu);
             this.Controls.Add(this.AGALabel);
@@ -841,8 +886,8 @@
             this.StatusBar.PerformLayout();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
-            this.UserDetailsGroupBox.ResumeLayout(false);
-            this.UserDetailsGroupBox.PerformLayout();
+            this.TeamListGroupBox.ResumeLayout(false);
+            this.TeamListGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -907,12 +952,9 @@
         private System.Windows.Forms.Label TeamListLabel;
         private System.Windows.Forms.StatusStrip StatusBar;
         private System.Windows.Forms.MenuStrip MainMenu;
-        private System.Windows.Forms.ToolStripMenuItem predictionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem databaseOperationsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
-        private System.Windows.Forms.GroupBox UserDetailsGroupBox;
-        private System.Windows.Forms.ToolStripMenuItem futureMatchPredictionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addSingleMatchToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addMultipleMatchesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createDatabaseToolStripMenuItem;
@@ -921,6 +963,12 @@
         private System.Windows.Forms.ToolStripStatusLabel HelpStatusLabel;
         private System.Windows.Forms.ToolStripMenuItem AdMatchesbyTeamToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AdMatchesbyMatchIDRangeToolStripMenuItem;
+        private System.Windows.Forms.RadioButton FirstTeamRadioButton;
+        private System.Windows.Forms.RadioButton SecondTeamRadioButton;
+        private System.Windows.Forms.RadioButton ThirdTeamRadioButton;
+        private System.Windows.Forms.GroupBox TeamListGroupBox;
+        private System.Windows.Forms.ListBox FutureMatchesListBox;
+        private System.Windows.Forms.Label ExplanationLabel;
     }
 }
 

@@ -48,7 +48,7 @@ namespace HT_Match_Predictor
 
         public string CreateMatchesString(int TeamID)
         {
-            string[] pieces = { "&version=2.8&TeamId=", TeamID.ToString() }; //retine parametrii
+            string[] pieces = { "&version=2.8&teamID=", TeamID.ToString() }; //retine parametrii
             DownloadedFile = "?file=matches";
             FileParameters = String.Concat(pieces);
             return ComposeFinalString();
