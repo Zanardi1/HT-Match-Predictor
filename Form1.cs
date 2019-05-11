@@ -2,10 +2,12 @@
 using OAuth;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Windows.Forms;
+using System.Data;
 
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
 //todo bug atunci cand revoc aplicatia din contul Hattrick, jetoanele raman, dar sunt inutilizabile. Din acest motiv primesc o eroare
@@ -1009,9 +1011,70 @@ namespace HT_Match_Predictor
             HomeLeftAttackRatingLabel.Text = ConvertNumberToSkill(MatchRatings[6]);
         }
 
+        /// <summary>
+        /// Functia care se ocupa cu efectuarea predictiilor.
+        /// </summary>
+        /// <param name="sender">Handler de eveniment</param>
+        /// <param name="e">Handler de eveniment</param>
         private void MakeThePrediction(object sender, EventArgs e)
         {
+            string[] CommandPieces = { "select HomeTeamGoals, AwayTeamGoals from games where HomeTeamMidfield=", MatchRatings[0].ToString(), " and HomeTeamRDefense=", MatchRatings[1].ToString(), " and HomeTeamCDefense=", MatchRatings[2].ToString(), " and HomeTeamLDefense=", MatchRatings[3].ToString(), " and HomeTeamRAttack=", MatchRatings[4].ToString(), " and HomeTeamCAttack=", MatchRatings[5].ToString(), " and HomeTeamLAttack=", MatchRatings[6].ToString(), " and AwayTeamMidfield=", MatchRatings[7].ToString(), " and AwayTeamRDefense=", MatchRatings[8].ToString(), " and AwayTeamCDefense=", MatchRatings[9].ToString(), " and AwayTeamLDefense=", MatchRatings[10].ToString(), " and AwayTeamRAttack=", MatchRatings[11].ToString(), " and AwayTeamCAttack=", MatchRatings[12].ToString(), " and AwayTeamLAttack=", MatchRatings[13].ToString(), ";" };
+            string SelectionCommand = string.Concat(CommandPieces);
+            List<int> Score = new List<int> { };
+            int HomeGoals = 0;
+            int AwayGoals = 0;
+            int HomeWins = 0;
+            int Ties = 0;
+            int AwayWins = 0;
+            int NumberOfPlayedMatches = 0;
+            int TotalNumberOfHomeGoals = 0;
+            int TotalNumberOfAwayGoals = 0;
+            float AverageNumberOfHomeGoals = 0;
+            float AverageNumberOfAwayGoals = 0;
+            float HomeWinPercentage = 0;
+            float TiePercentage = 0;
+            float AwayWinPercentage = 0;
+            SqlConnection MyConn = new SqlConnection(Operations.CreateTableConnectionString);
+            SqlCommand Command = new SqlCommand(SelectionCommand, MyConn);
+            MyConn.Open();
+            SqlDataReader reader = Command.ExecuteReader();
+            while (reader.Read())
+            {
+                Score = ReadSingleRow((IDataRecord)reader);
+                NumberOfPlayedMatches++;
+                HomeGoals = Score[0];
+                AwayGoals = Score[1];
+                if (HomeGoals > AwayGoals)
+                    HomeWins++;
+                if (HomeGoals == AwayGoals)
+                    Ties++;
+                if (HomeGoals < AwayGoals)
+                    AwayWins++;
+                TotalNumberOfHomeGoals += HomeGoals;
+                TotalNumberOfAwayGoals += AwayGoals;
+                AverageNumberOfHomeGoals = TotalNumberOfHomeGoals / NumberOfPlayedMatches;
+                AverageNumberOfAwayGoals = TotalNumberOfAwayGoals / NumberOfPlayedMatches;
+                HomeWinPercentage = (HomeWins / NumberOfPlayedMatches) * 100;
+                TiePercentage = (Ties / NumberOfPlayedMatches) * 100;
+                AwayWinPercentage = (AwayWins / NumberOfPlayedMatches) * 100;
+            }
+            MyConn.Close();
+            HomeWinPercentageLabel.Text = "Home win %: " + HomeWinPercentage.ToString();
+            HGALabel.Text = "Home goals average: " + AverageNumberOfHomeGoals.ToString();
+            DrawPercentageLabel.Text = "Draw: " + TiePercentage.ToString();
+            AwayWinPercentageLabel.Text = "Away win %: " + AwayWinPercentage.ToString();
+            AGALabel.Text = "Away goals average: " + AverageNumberOfAwayGoals.ToString();
+        }
 
+        private static List<int> ReadSingleRow(IDataRecord record)
+        {
+            int temp = 0;
+            List<int> Score = new List<int> { };
+            int.TryParse(record[0].ToString(), out temp);
+            Score.Add(temp);
+            int.TryParse(record[1].ToString(), out temp);
+            Score.Add(temp);
+            return Score;
         }
     }
 }
