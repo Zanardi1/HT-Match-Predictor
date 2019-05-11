@@ -1008,5 +1008,10 @@ namespace HT_Match_Predictor
             HomeCentralAttackRatingLabel.Text = ConvertNumberToSkill(MatchRatings[5]);
             HomeLeftAttackRatingLabel.Text = ConvertNumberToSkill(MatchRatings[6]);
         }
+
+        private void MakeThePrediction(object sender, EventArgs e)
+        {
+
+        }
     }
 }

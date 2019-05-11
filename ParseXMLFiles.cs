@@ -482,6 +482,7 @@ namespace HT_Match_Predictor
                     default: break;
                 }
             }
+            Reader.Close();
         }
 
         /// <summary>

@@ -585,6 +585,7 @@
             this.PredictButton.Tag = "15";
             this.PredictButton.Text = "Predict";
             this.PredictButton.UseVisualStyleBackColor = true;
+            this.PredictButton.Click += new System.EventHandler(this.MakeThePrediction);
             // 
             // ResetButton
             // 
