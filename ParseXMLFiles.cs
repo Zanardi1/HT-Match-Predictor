@@ -420,15 +420,68 @@ namespace HT_Match_Predictor
 
         public void ParseOrdersFile()
         {
+            int temp;
             XmlReaderSettings settings = new XmlReaderSettings
             {
                 DtdProcessing = DtdProcessing.Parse,
                 IgnoreComments = true,
                 CheckCharacters = true
             };
-            XmlReader Reader = XmlReader.Create(Form1.XMLFolder + "\\MatchDetails.xml", settings);
+            XmlReader Reader = XmlReader.Create(Form1.XMLFolder + "\\Orders.xml", settings);
             XmlDocument doc = new XmlDocument();
             doc.Load(Reader);
+
+            XmlNode Current = doc.DocumentElement.SelectSingleNode("MatchData");
+            XmlNodeList MatchDataNodeList = Current.SelectNodes("*");
+            foreach (XmlNode i in MatchDataNodeList)
+            {
+                switch (i.Name)
+                {
+                    case "RatingMidfield":
+                        {
+                            int.TryParse(i.InnerXml, out temp);
+                            ReadMatchRatings[0] = temp;
+                            break;
+                        }
+                    case "RatingRightDef":
+                        {
+                            int.TryParse(i.InnerXml, out temp);
+                            ReadMatchRatings[1] = temp;
+                            break;
+                        }
+                    case "RatingMidDef":
+                        {
+                            int.TryParse(i.InnerXml, out temp);
+                            ReadMatchRatings[2] = temp;
+                            break;
+                        }
+                    case "RatingLeftDef":
+                        {
+                            int.TryParse(i.InnerXml, out temp);
+                            ReadMatchRatings[3] = temp;
+                            break;
+                        }
+                    case "RatingRightAtt":
+                        {
+                            int.TryParse(i.InnerXml, out temp);
+                            ReadMatchRatings[4] = temp;
+                            break;
+                        }
+                    case "RatingMidAtt":
+                        {
+                            int.TryParse(i.InnerXml, out temp);
+                            ReadMatchRatings[5] = temp;
+                            break;
+                        }
+                    case "RatingLeftAtt":
+                        {
+                            int.TryParse(i.InnerXml, out temp);
+                            ReadMatchRatings[6] = temp;
+                            break;
+                        }
+                    default: break;
+                }
+            }
         }
 
         /// <summary>

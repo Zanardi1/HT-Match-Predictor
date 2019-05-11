@@ -69,9 +69,6 @@ namespace HT_Match_Predictor
         /// </summary>
         public int MatchIDToDelete = 0;
 
-        public List<int> HomeMatchRating = new List<int>(7);
-
-
         /// <summary>
         /// Aduce cele 14 evaluari ale unui meci la 0
         /// </summary>
@@ -468,7 +465,7 @@ namespace HT_Match_Predictor
             FutureMatchesListBox.Items.Clear();
             SaveResponseToFile(DownloadString.CreateMatchesString(Parser.UserTeamIDs[0]), XMLFolder + "\\Matches.xml");
             Parser.ParseMatchesFile();
-            for (int i = 0; i < ParseXMLFiles.FinalFutureMatches.Count; i++) 
+            for (int i = 0; i < ParseXMLFiles.FinalFutureMatches.Count; i++)
             {
                 FutureMatchesListBox.Items.Add(ParseXMLFiles.FinalFutureMatches[i].HomeTeam + " - " + ParseXMLFiles.FinalFutureMatches[i].AwayTeam);
             }
@@ -498,6 +495,498 @@ namespace HT_Match_Predictor
             }
         }
 
+        private string ConvertNumberToSkill(int Number)
+        {
+            List<string> Skill = new List<string> { "Disastrous (1)", "Wretched (2)", "Poor (3)", "Weak (4)", "Inadequate (5)", "Passable(6)", "Solid (7)", "Excellent (8)", "Formidable (9)", "Outstanding (10)", "Brilliant (11)", "Magnificent (12)", "World Class (13)", "Supernatural (14)", "Titanic (15)", "Extraterrestrial (16)", "Mythical (17)", "Magical (18)", "Utopian (19)", "Divine (20)" };
+            List<string> SubSkill = new List<string> { "very low", "low", "high", "very high" };
+            int SkillNumber = 0;
+            int SubSkillNumber = 0;
+            switch (Number)
+            {
+                case 1:
+                    {
+                        SkillNumber = 0;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 2:
+                    {
+                        SkillNumber = 0;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 3:
+                    {
+                        SkillNumber = 0;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 4:
+                    {
+                        SkillNumber = 0;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+                case 5:
+                    {
+                        SkillNumber = 1;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 6:
+                    {
+                        SkillNumber = 1;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 7:
+                    {
+                        SkillNumber = 1;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 8:
+                    {
+                        SkillNumber = 1;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+                case 9:
+                    {
+                        SkillNumber = 2;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 10:
+                    {
+                        SkillNumber = 2;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 11:
+                    {
+                        SkillNumber = 2;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 12:
+                    {
+                        SkillNumber = 2;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+                case 13:
+                    {
+                        SkillNumber = 3;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 14:
+                    {
+                        SkillNumber = 3;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 15:
+                    {
+                        SkillNumber = 3;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 16:
+                    {
+                        SkillNumber = 3;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+                case 17:
+                    {
+                        SkillNumber = 4;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 18:
+                    {
+                        SkillNumber = 4;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 19:
+                    {
+                        SkillNumber = 4;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 20:
+                    {
+                        SkillNumber = 4;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+                case 21:
+                    {
+                        SkillNumber = 5;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 22:
+                    {
+                        SkillNumber = 5;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 23:
+                    {
+                        SkillNumber = 5;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 24:
+                    {
+                        SkillNumber = 5;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+                case 25:
+                    {
+                        SkillNumber = 6;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 26:
+                    {
+                        SkillNumber = 6;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 27:
+                    {
+                        SkillNumber = 6;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 28:
+                    {
+                        SkillNumber = 6;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+                case 29:
+                    {
+                        SkillNumber = 7;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 30:
+                    {
+                        SkillNumber = 7;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 31:
+                    {
+                        SkillNumber = 7;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 32:
+                    {
+                        SkillNumber = 7;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+                case 33:
+                    {
+                        SkillNumber = 8;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 34:
+                    {
+                        SkillNumber = 8;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 35:
+                    {
+                        SkillNumber = 8;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 36:
+                    {
+                        SkillNumber = 8;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+                case 37:
+                    {
+                        SkillNumber = 9;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 38:
+                    {
+                        SkillNumber = 9;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 39:
+                    {
+                        SkillNumber = 9;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 40:
+                    {
+                        SkillNumber = 9;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+                case 41:
+                    {
+                        SkillNumber = 10;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 42:
+                    {
+                        SkillNumber = 10;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 43:
+                    {
+                        SkillNumber = 10;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 44:
+                    {
+                        SkillNumber = 10;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+                case 45:
+                    {
+                        SkillNumber = 11;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 46:
+                    {
+                        SkillNumber = 11;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 47:
+                    {
+                        SkillNumber = 11;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 48:
+                    {
+                        SkillNumber = 11;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+                case 49:
+                    {
+                        SkillNumber = 12;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 50:
+                    {
+                        SkillNumber = 12;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 51:
+                    {
+                        SkillNumber = 12;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 52:
+                    {
+                        SkillNumber = 12;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+                case 53:
+                    {
+                        SkillNumber = 13;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 54:
+                    {
+                        SkillNumber = 13;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 55:
+                    {
+                        SkillNumber = 13;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 56:
+                    {
+                        SkillNumber = 13;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+                case 57:
+                    {
+                        SkillNumber = 14;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 58:
+                    {
+                        SkillNumber = 14;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 59:
+                    {
+                        SkillNumber = 14;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 60:
+                    {
+                        SkillNumber = 14;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+                case 61:
+                    {
+                        SkillNumber = 15;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 62:
+                    {
+                        SkillNumber = 15;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 63:
+                    {
+                        SkillNumber = 15;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 64:
+                    {
+                        SkillNumber = 15;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+                case 65:
+                    {
+                        SkillNumber = 16;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 66:
+                    {
+                        SkillNumber = 16;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 67:
+                    {
+                        SkillNumber = 16;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 68:
+                    {
+                        SkillNumber = 16;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+                case 69:
+                    {
+                        SkillNumber = 17;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 70:
+                    {
+                        SkillNumber = 17;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 71:
+                    {
+                        SkillNumber = 17;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 72:
+                    {
+                        SkillNumber = 17;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+                case 73:
+                    {
+                        SkillNumber = 18;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 74:
+                    {
+                        SkillNumber = 18;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 75:
+                    {
+                        SkillNumber = 18;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 76:
+                    {
+                        SkillNumber = 18;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+                case 77:
+                    {
+                        SkillNumber = 19;
+                        SubSkillNumber = 0;
+                        break;
+                    }
+                case 78:
+                    {
+                        SkillNumber = 19;
+                        SubSkillNumber = 1;
+                        break;
+                    }
+                case 79:
+                    {
+                        SkillNumber = 19;
+                        SubSkillNumber = 2;
+                        break;
+                    }
+                case 80:
+                    {
+                        SkillNumber = 19;
+                        SubSkillNumber = 3;
+                        break;
+                    }
+            }
+            return Skill[SkillNumber] + " (" + SubSkill[SubSkillNumber] + ")";
+        }
+
         /// <summary>
         /// Functia incarca evaluarile prezise pentru meciul selectat
         /// </summary>
@@ -506,6 +995,18 @@ namespace HT_Match_Predictor
         private void LoadPredictedRatings(object sender, EventArgs e)
         {
             SaveResponseToFile(DownloadString.CreateMatchOrdersString(ParseXMLFiles.FinalFutureMatches[FutureMatchesListBox.SelectedIndex].MatchID), XMLFolder + "\\Orders.xml");
+            Parser.ParseOrdersFile();
+            for (int i = 0; i <= 6; i++)
+            {
+                MatchRatings[i] = Parser.ReadMatchRatings[i];
+            }
+            HomeMidfieldRatingLabel.Text = ConvertNumberToSkill(MatchRatings[0]);
+            HomeRightDefenceRatingLabel.Text = ConvertNumberToSkill(MatchRatings[1]);
+            HomeCentralDefenceRatingLabel.Text = ConvertNumberToSkill(MatchRatings[2]);
+            HomeLeftDefenceRatingLabel.Text = ConvertNumberToSkill(MatchRatings[3]);
+            HomeRightAttackRatingLabel.Text = ConvertNumberToSkill(MatchRatings[4]);
+            HomeCentralAttackRatingLabel.Text = ConvertNumberToSkill(MatchRatings[5]);
+            HomeLeftAttackRatingLabel.Text = ConvertNumberToSkill(MatchRatings[6]);
         }
     }
 }
