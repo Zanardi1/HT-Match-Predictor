@@ -2,12 +2,13 @@
 using OAuth;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Windows.Forms;
-using System.Data;
 
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
 //todo bug atunci cand revoc aplicatia din contul Hattrick, jetoanele raman, dar sunt inutilizabile. Din acest motiv primesc o eroare
@@ -1012,17 +1013,160 @@ namespace HT_Match_Predictor
         }
 
         /// <summary>
-        /// Functia care se ocupa cu efectuarea predictiilor.
+        /// functia verifica daca toate datele de intrare sunt introduse corect (fiecare compartiment a primit o evaluare)
         /// </summary>
-        /// <param name="sender">Handler de eveniment</param>
-        /// <param name="e">Handler de eveniment</param>
-        private void MakeThePrediction(object sender, EventArgs e)
+        /// <returns>true, daca fiecare compartiment a primit o evaluare, false altfel</returns>
+        private bool InputsAreValid()
+        {
+            bool Result = true;
+            if (MatchRatings[0] == 0)
+            {
+                HomeMidfieldRatingLabel.ForeColor = Color.Red;
+            }
+            else
+            {
+                HomeMidfieldRatingLabel.ForeColor = SystemColors.ControlText;
+            }
+
+            if (MatchRatings[1] == 0)
+            {
+                HomeRightDefenceRatingLabel.ForeColor = Color.Red;
+            }
+            else
+            {
+                HomeRightDefenceRatingLabel.ForeColor = SystemColors.ControlText;
+            }
+
+            if (MatchRatings[2] == 0)
+            {
+                HomeCentralDefenceRatingLabel.ForeColor = Color.Red;
+            }
+            else
+            {
+                HomeCentralDefenceRatingLabel.ForeColor = SystemColors.ControlText;
+            }
+
+            if (MatchRatings[3] == 0)
+            {
+                HomeLeftDefenceRatingLabel.ForeColor = Color.Red;
+            }
+            else
+            {
+                HomeLeftDefenceRatingLabel.ForeColor = SystemColors.ControlText;
+            }
+
+            if (MatchRatings[4] == 0)
+            {
+                HomeRightAttackRatingLabel.ForeColor = Color.Red;
+            }
+            else
+            {
+                HomeRightAttackRatingLabel.ForeColor = SystemColors.ControlText;
+            }
+
+            if (MatchRatings[5] == 0)
+            {
+                HomeCentralAttackRatingLabel.ForeColor = Color.Red;
+            }
+            else
+            {
+                HomeCentralAttackRatingLabel.ForeColor = SystemColors.ControlText;
+            }
+
+            if (MatchRatings[6] == 0)
+            {
+                HomeLeftAttackRatingLabel.ForeColor = Color.Red;
+            }
+            else
+            {
+                HomeLeftAttackRatingLabel.ForeColor = SystemColors.ControlText;
+            }
+
+            if (MatchRatings[7] == 0)
+            {
+                AwayMidfieldRatingLabel.ForeColor = Color.Red;
+            }
+            else
+            {
+                AwayMidfieldRatingLabel.ForeColor = SystemColors.ControlText;
+            }
+
+            if (MatchRatings[8] == 0)
+            {
+                AwayRightDefenceRatingLabel.ForeColor = Color.Red;
+            }
+            else
+            {
+                AwayRightDefenceRatingLabel.ForeColor = SystemColors.ControlText;
+            }
+
+            if (MatchRatings[9] == 0)
+            {
+                AwayCentralDefenceRatingLabel.ForeColor = Color.Red;
+            }
+            else
+            {
+                AwayCentralDefenceRatingLabel.ForeColor = SystemColors.ControlText;
+            }
+
+            if (MatchRatings[10] == 0)
+            {
+                AwayLeftDefenceRatingLabel.ForeColor = Color.Red;
+            }
+            else
+            {
+                AwayLeftDefenceRatingLabel.ForeColor = SystemColors.ControlText;
+            }
+
+            if (MatchRatings[11] == 0)
+            {
+                AwayRightAttackRatingLabel.ForeColor = Color.Red;
+            }
+            else
+            {
+                AwayRightAttackRatingLabel.ForeColor = SystemColors.ControlText;
+            }
+
+            if (MatchRatings[12] == 0)
+            {
+                AwayCentralAttackRatingLabel.ForeColor = Color.Red;
+            }
+            else
+            {
+                AwayCentralAttackRatingLabel.ForeColor = SystemColors.ControlText;
+            }
+
+            if (MatchRatings[13] == 0)
+            {
+                AwayLeftAttackRatingLabel.ForeColor = Color.Red;
+            }
+            else
+            {
+                AwayLeftAttackRatingLabel.ForeColor = SystemColors.ControlText;
+            }
+
+            foreach (Label i in HomeTeamGroupBox.Controls)
+                if (i.ForeColor == Color.Red)
+                {
+                    Result = false;
+                    break;
+                }
+            if (Result)
+                foreach(Label i in AwayTeamGroupBox.Controls)
+                    if (i.ForeColor==Color.Red)
+                    {
+                        Result = false;
+                        break;
+                    }
+
+            return Result;
+        }
+
+        private void PredictingEngine()
         {
             string[] CommandPieces = { "select HomeTeamGoals, AwayTeamGoals from games where HomeTeamMidfield=", MatchRatings[0].ToString(), " and HomeTeamRDefense=", MatchRatings[1].ToString(), " and HomeTeamCDefense=", MatchRatings[2].ToString(), " and HomeTeamLDefense=", MatchRatings[3].ToString(), " and HomeTeamRAttack=", MatchRatings[4].ToString(), " and HomeTeamCAttack=", MatchRatings[5].ToString(), " and HomeTeamLAttack=", MatchRatings[6].ToString(), " and AwayTeamMidfield=", MatchRatings[7].ToString(), " and AwayTeamRDefense=", MatchRatings[8].ToString(), " and AwayTeamCDefense=", MatchRatings[9].ToString(), " and AwayTeamLDefense=", MatchRatings[10].ToString(), " and AwayTeamRAttack=", MatchRatings[11].ToString(), " and AwayTeamCAttack=", MatchRatings[12].ToString(), " and AwayTeamLAttack=", MatchRatings[13].ToString(), ";" };
             string SelectionCommand = string.Concat(CommandPieces);
             List<int> Score = new List<int> { };
-            int HomeGoals = 0;
-            int AwayGoals = 0;
             int HomeWins = 0;
             int Ties = 0;
             int AwayWins = 0;
@@ -1042,14 +1186,23 @@ namespace HT_Match_Predictor
             {
                 Score = ReadSingleRow((IDataRecord)reader);
                 NumberOfPlayedMatches++;
-                HomeGoals = Score[0];
-                AwayGoals = Score[1];
+                int HomeGoals = Score[0];
+                int AwayGoals = Score[1];
                 if (HomeGoals > AwayGoals)
+                {
                     HomeWins++;
+                }
+
                 if (HomeGoals == AwayGoals)
+                {
                     Ties++;
+                }
+
                 if (HomeGoals < AwayGoals)
+                {
                     AwayWins++;
+                }
+
                 TotalNumberOfHomeGoals += HomeGoals;
                 TotalNumberOfAwayGoals += AwayGoals;
                 AverageNumberOfHomeGoals = TotalNumberOfHomeGoals / NumberOfPlayedMatches;
@@ -1066,11 +1219,23 @@ namespace HT_Match_Predictor
             AGALabel.Text = "Away goals average: " + AverageNumberOfAwayGoals.ToString();
         }
 
+        /// <summary>
+        /// Functia care se ocupa cu efectuarea predictiilor.
+        /// </summary>
+        /// <param name="sender">Handler de eveniment</param>
+        /// <param name="e">Handler de eveniment</param>
+        private void MakeThePrediction(object sender, EventArgs e)
+        {
+            if (InputsAreValid())
+            {
+                PredictingEngine();
+            }
+        }
+
         private static List<int> ReadSingleRow(IDataRecord record)
         {
-            int temp = 0;
             List<int> Score = new List<int> { };
-            int.TryParse(record[0].ToString(), out temp);
+            int.TryParse(record[0].ToString(), out int temp);
             Score.Add(temp);
             int.TryParse(record[1].ToString(), out temp);
             Score.Add(temp);
