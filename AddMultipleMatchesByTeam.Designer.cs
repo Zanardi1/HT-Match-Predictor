@@ -44,7 +44,7 @@
             // 
             this.ExplanationLabel.Location = new System.Drawing.Point(12, 22);
             this.ExplanationLabel.Name = "ExplanationLabel";
-            this.ExplanationLabel.Size = new System.Drawing.Size(387, 94);
+            this.ExplanationLabel.Size = new System.Drawing.Size(387, 142);
             this.ExplanationLabel.TabIndex = 0;
             this.ExplanationLabel.Text = resources.GetString("ExplanationLabel.Text");
             // 
@@ -54,7 +54,7 @@
             this.SelectionCriteriaGroupBox.Controls.Add(this.SeasonLabel);
             this.SelectionCriteriaGroupBox.Controls.Add(this.SeniorTeamIDTextBox);
             this.SelectionCriteriaGroupBox.Controls.Add(this.SeniorTeamIDLabel);
-            this.SelectionCriteriaGroupBox.Location = new System.Drawing.Point(15, 119);
+            this.SelectionCriteriaGroupBox.Location = new System.Drawing.Point(15, 168);
             this.SelectionCriteriaGroupBox.Name = "SelectionCriteriaGroupBox";
             this.SelectionCriteriaGroupBox.Size = new System.Drawing.Size(384, 124);
             this.SelectionCriteriaGroupBox.TabIndex = 1;
@@ -97,7 +97,7 @@
             // 
             // OKButton
             // 
-            this.OKButton.Location = new System.Drawing.Point(15, 262);
+            this.OKButton.Location = new System.Drawing.Point(15, 311);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(142, 23);
             this.OKButton.TabIndex = 2;
@@ -108,7 +108,7 @@
             // DiscardButton
             // 
             this.DiscardButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.DiscardButton.Location = new System.Drawing.Point(257, 262);
+            this.DiscardButton.Location = new System.Drawing.Point(257, 311);
             this.DiscardButton.Name = "DiscardButton";
             this.DiscardButton.Size = new System.Drawing.Size(142, 23);
             this.DiscardButton.TabIndex = 3;
@@ -122,15 +122,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.DiscardButton;
-            this.ClientSize = new System.Drawing.Size(434, 313);
+            this.ClientSize = new System.Drawing.Size(431, 359);
             this.Controls.Add(this.DiscardButton);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.SelectionCriteriaGroupBox);
             this.Controls.Add(this.ExplanationLabel);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(452, 360);
+            this.MaximumSize = new System.Drawing.Size(449, 406);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(452, 360);
+            this.MinimumSize = new System.Drawing.Size(449, 406);
             this.Name = "AddMultipleMatchesByTeam";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add multiple matches played by a team";

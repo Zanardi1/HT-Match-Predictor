@@ -74,7 +74,6 @@ namespace HT_Match_Predictor
                         LowerBoundIDTextBox.BackColor = SystemColors.Window;
                         HigherBoundIDTextBox.BackColor = SystemColors.Window;
                         DialogResult = DialogResult.OK;
-                        Close();
                         break;
                     }
                 case 1:

@@ -12,6 +12,7 @@ using System.Windows.Forms;
 
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
 //todo bug atunci cand revoc aplicatia din contul Hattrick, jetoanele raman, dar sunt inutilizabile. Din acest motiv primesc o eroare
+//todo sa adaug un buton de anulare a importului meciurilor in baza de date
 
 namespace HT_Match_Predictor
 {
