@@ -137,7 +137,7 @@
             this.MinimumSize = new System.Drawing.Size(390, 478);
             this.Name = "SkillSelectionWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SkillSelectionWindow";
+            this.Text = "Skill Selection";
             this.ResumeLayout(false);
             this.PerformLayout();
 

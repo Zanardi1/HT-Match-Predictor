@@ -232,9 +232,13 @@ namespace HT_Match_Predictor
             {
                 File.WriteAllText(DestinationFileName, GetFileContent(SourceURLAddress));
             }
-            catch (DirectoryNotFoundException)
+            catch (DirectoryNotFoundException) //In cazul in care nu exista folderul XML, il creaza si mai incearca o data
             {
                 Directory.CreateDirectory(XMLFolder);
+                File.WriteAllText(DestinationFileName, GetFileContent(SourceURLAddress));
+            }
+            catch (IOException) //in cazul in care fisierul XML este in uz, mai incearca o data. Nu stiu daca e calea cea mai potrivita, totusi
+            {
                 File.WriteAllText(DestinationFileName, GetFileContent(SourceURLAddress));
             }
         }
@@ -355,6 +359,7 @@ namespace HT_Match_Predictor
             {
                 if ((C.GetType() == typeof(Label)) && (C.TabIndex >= 14) && (C.TabIndex <= 20))
                 {
+                    C.ForeColor = SystemColors.ControlText;
                     C.Text = "(No rating selected!)";
                 }
             }
@@ -363,11 +368,17 @@ namespace HT_Match_Predictor
             {
                 if ((C.GetType() == typeof(Label)) && (C.TabIndex >= 21) && (C.TabIndex <= 27))
                 {
+                    C.ForeColor = SystemColors.ControlText;
                     C.Text = "(No rating selected!)";
                 }
             }
         }
 
+        /// <summary>
+        /// Functia adauga un singur meci la baza de date
+        /// </summary>
+        /// <param name="sender">Handler de eveniment</param>
+        /// <param name="e">Handler de eveniment</param>
         private void AddSingleMatchToDatabase(object sender, EventArgs e)
         {
             AddSingleMatchForm A = new AddSingleMatchForm();
@@ -386,6 +397,11 @@ namespace HT_Match_Predictor
             }
         }
 
+        /// <summary>
+        /// Functia de adaugare in baza de date a meciurilor unei echipe dintr-un anumit sezon.
+        /// </summary>
+        /// <param name="sender">Handler de eveniment</param>
+        /// <param name="e">Handler de eveniment</param>
         private void AddMultipleMatchesByTeam(object sender, EventArgs e)
         {
             int NumberOfMatchesAdded = 0;
@@ -424,6 +440,11 @@ namespace HT_Match_Predictor
             }
         }
 
+        /// <summary>
+        /// Functia de adaugare a in baza de date a meciurilor ce au numarul de identificare cuprins intre doua limite
+        /// </summary>
+        /// <param name="sender">Hander de eveniment</param>
+        /// <param name="e">Handler de eveniment</param>
         private void AddMultipleMatchesByID(object sender, EventArgs e)
         {
             int NumberOfMatchesAdded = 0; //retine cate meciuri au fost adaugate in baza de date
@@ -462,6 +483,11 @@ namespace HT_Match_Predictor
             }
         }
 
+        /// <summary>
+        /// Functia descarca meciurile viitoare ale primei echipe 
+        /// </summary>
+        /// <param name="sender">Handler de eveniment</param>
+        /// <param name="e">Handler de eveniment</param>
         private void DownloadFirstTeamFutureMatches(object sender, EventArgs e)
         {
             ParseXMLFiles.FinalFutureMatches.Clear();
@@ -474,6 +500,11 @@ namespace HT_Match_Predictor
             }
         }
 
+        /// <summary>
+        /// Functia descarca meciurile viitoare ale celei de-a doua echipe 
+        /// </summary>
+        /// <param name="sender">Handler de eveniment</param>
+        /// <param name="e">Handler de eveniment</param>
         private void DownloadSecondTeamFutureMatches(object sender, EventArgs e)
         {
             ParseXMLFiles.FinalFutureMatches.Clear();
@@ -486,6 +517,11 @@ namespace HT_Match_Predictor
             }
         }
 
+        /// <summary>
+        /// Functia descarca meciurile viitoare ale celei de-a treia echipe 
+        /// </summary>
+        /// <param name="sender">Handler de eveniment</param>
+        /// <param name="e">Handler de eveniment</param>
         private void DownloadThirdTeamFutureMatches(object sender, EventArgs e)
         {
             ParseXMLFiles.FinalFutureMatches.Clear();
@@ -498,6 +534,11 @@ namespace HT_Match_Predictor
             }
         }
 
+        /// <summary>
+        /// Functia coverteste abilitatea exprimata printr-un numar (de la 1 la 80) in cea exprimata sb format text
+        /// </summary>
+        /// <param name="Number">numarul care va fi convertit</param>
+        /// <returns>abilitatea in format text</returns>
         private string ConvertNumberToSkill(int Number)
         {
             List<string> Skill = new List<string> { "Disastrous (1)", "Wretched (2)", "Poor (3)", "Weak (4)", "Inadequate (5)", "Passable(6)", "Solid (7)", "Excellent (8)", "Formidable (9)", "Outstanding (10)", "Brilliant (11)", "Magnificent (12)", "World Class (13)", "Supernatural (14)", "Titanic (15)", "Extraterrestrial (16)", "Mythical (17)", "Magical (18)", "Utopian (19)", "Divine (20)" };
@@ -1145,23 +1186,39 @@ namespace HT_Match_Predictor
                 AwayLeftAttackRatingLabel.ForeColor = SystemColors.ControlText;
             }
 
-            foreach (Label i in HomeTeamGroupBox.Controls)
-                if (i.ForeColor == Color.Red)
+            foreach (Control i in HomeTeamGroupBox.Controls)
+            {
+                if ((i.GetType() == typeof(System.Windows.Forms.Label)) && (i.ForeColor == Color.Red))
                 {
                     Result = false;
                     break;
                 }
+            }
+
             if (Result)
-                foreach(Label i in AwayTeamGroupBox.Controls)
-                    if (i.ForeColor==Color.Red)
+            {
+                foreach (Control i in AwayTeamGroupBox.Controls)
+                {
+                    if ((i.GetType() == typeof(System.Windows.Forms.Label)) && (i.ForeColor == Color.Red))
                     {
                         Result = false;
                         break;
                     }
+                }
+            }
 
+            if (!Result)
+            {
+                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                MessageBox.Show("Not all the sector evaluations added. Please check the texts written in red.", "Error", Buttons, Icon);
+            }
             return Result;
         }
 
+        /// <summary>
+        /// Functia implementeaza algoritmul de predictie
+        /// </summary>
         private void PredictingEngine()
         {
             string[] CommandPieces = { "select HomeTeamGoals, AwayTeamGoals from games where HomeTeamMidfield=", MatchRatings[0].ToString(), " and HomeTeamRDefense=", MatchRatings[1].ToString(), " and HomeTeamCDefense=", MatchRatings[2].ToString(), " and HomeTeamLDefense=", MatchRatings[3].ToString(), " and HomeTeamRAttack=", MatchRatings[4].ToString(), " and HomeTeamCAttack=", MatchRatings[5].ToString(), " and HomeTeamLAttack=", MatchRatings[6].ToString(), " and AwayTeamMidfield=", MatchRatings[7].ToString(), " and AwayTeamRDefense=", MatchRatings[8].ToString(), " and AwayTeamCDefense=", MatchRatings[9].ToString(), " and AwayTeamLDefense=", MatchRatings[10].ToString(), " and AwayTeamRAttack=", MatchRatings[11].ToString(), " and AwayTeamCAttack=", MatchRatings[12].ToString(), " and AwayTeamLAttack=", MatchRatings[13].ToString(), ";" };

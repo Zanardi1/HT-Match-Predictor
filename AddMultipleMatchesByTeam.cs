@@ -76,7 +76,6 @@ namespace HT_Match_Predictor
                         SeniorTeamIDTextBox.BackColor = SystemColors.Window;
                         SeasonTextBox.BackColor = SystemColors.Window;
                         DialogResult = DialogResult.OK;
-                        Close();
                         break;
                     }
                 case 1:

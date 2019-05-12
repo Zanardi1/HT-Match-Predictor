@@ -45,7 +45,7 @@
             // 
             this.ExplanationLabel.Location = new System.Drawing.Point(12, 9);
             this.ExplanationLabel.Name = "ExplanationLabel";
-            this.ExplanationLabel.Size = new System.Drawing.Size(383, 127);
+            this.ExplanationLabel.Size = new System.Drawing.Size(383, 122);
             this.ExplanationLabel.TabIndex = 0;
             this.ExplanationLabel.Text = resources.GetString("ExplanationLabel.Text");
             // 

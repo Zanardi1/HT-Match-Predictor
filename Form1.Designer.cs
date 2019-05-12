@@ -798,7 +798,7 @@
             this.FirstTeamRadioButton.TabStop = true;
             this.FirstTeamRadioButton.Text = "radioButton1";
             this.FirstTeamRadioButton.UseVisualStyleBackColor = true;
-            this.FirstTeamRadioButton.Click += new System.EventHandler(this.DownloadFirstTeamFutureMatches);
+            this.FirstTeamRadioButton.CheckedChanged += new System.EventHandler(this.DownloadFirstTeamFutureMatches);
             // 
             // SecondTeamRadioButton
             // 
@@ -811,7 +811,7 @@
             this.SecondTeamRadioButton.Text = "radioButton2";
             this.SecondTeamRadioButton.UseVisualStyleBackColor = true;
             this.SecondTeamRadioButton.Visible = false;
-            this.SecondTeamRadioButton.Click += new System.EventHandler(this.DownloadSecondTeamFutureMatches);
+            this.SecondTeamRadioButton.CheckedChanged += new System.EventHandler(this.DownloadSecondTeamFutureMatches);
             // 
             // ThirdTeamRadioButton
             // 
@@ -824,7 +824,7 @@
             this.ThirdTeamRadioButton.Text = "radioButton3";
             this.ThirdTeamRadioButton.UseVisualStyleBackColor = true;
             this.ThirdTeamRadioButton.Visible = false;
-            this.ThirdTeamRadioButton.Click += new System.EventHandler(this.DownloadThirdTeamFutureMatches);
+            this.ThirdTeamRadioButton.CheckedChanged += new System.EventHandler(this.DownloadThirdTeamFutureMatches);
             // 
             // TeamListGroupBox
             // 
@@ -879,6 +879,8 @@
             this.Controls.Add(this.PredictButton);
             this.Controls.Add(this.AwayTeamGroupBox);
             this.Controls.Add(this.HomeTeamGroupBox);
+            this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(1522, 721);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "The best match predictor";
