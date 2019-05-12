@@ -6,6 +6,7 @@ namespace HT_Match_Predictor
 {
     public partial class AddMultipleMatchesByMatchIDRange : Form
     {
+        public int LowLimit, HighLimit;
         public AddMultipleMatchesByMatchIDRange()
         {
             InitializeComponent();
@@ -33,11 +34,11 @@ namespace HT_Match_Predictor
             {
                 Result = 2;
             }
-            if (!int.TryParse(LowerBoundIDTextBox.Text, out int LowLimit))
+            if (!int.TryParse(LowerBoundIDTextBox.Text, out LowLimit))
             {
                 Result = 3;
             }
-            if (!int.TryParse(HigherBoundIDTextBox.Text, out int HighLimit))
+            if (!int.TryParse(HigherBoundIDTextBox.Text, out HighLimit))
             {
                 Result = 4;
             }

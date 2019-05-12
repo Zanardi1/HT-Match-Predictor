@@ -104,7 +104,7 @@ namespace HT_Match_Predictor
                 default:
                     break;
             }
-            ((Form1)this.Owner).RatingReturned = ConvertSkillToNumber(SkillListBox.SelectedIndex, SubskillListBox.SelectedIndex);
+            Form1.RatingReturned = ConvertSkillToNumber(SkillListBox.SelectedIndex, SubskillListBox.SelectedIndex);
             Close();
         }
     }

@@ -17,7 +17,7 @@ namespace HT_Match_Predictor
         /// <param name="e">Handler de eveniment</param>
         private void IgnoreChanges(object sender, EventArgs e)
         {
-            ((Form1)this.Owner).MatchIDToAdd = -1;
+            Form1.MatchIDToAdd = -1;
             Close();
         }
 
@@ -29,7 +29,7 @@ namespace HT_Match_Predictor
         private void SaveChanges(object sender, EventArgs e)
         {
             int.TryParse(MatchIDTextBox.Text, out int MatchID);
-            ((Form1)this.Owner).MatchIDToAdd = MatchID;
+            Form1.MatchIDToAdd = MatchID;
             Close();
         }
     }

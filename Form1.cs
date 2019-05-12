@@ -37,7 +37,23 @@ namespace HT_Match_Predictor
         /// <summary>
         /// retine reprezentarea numerica a evaluarii selectate de catre utilizator in fereastra de selectare a abilitatilor. E un numar intre 1 si 80
         /// </summary>
-        public int RatingReturned = 0;
+        private static int ratingreturned = 0;
+        public static int RatingReturned
+        {
+            get
+            {
+                return ratingreturned;
+            }
+            set
+            {
+                if (ratingreturned < 1)
+                    ratingreturned = 1;
+                if (ratingreturned > 80)
+                    ratingreturned = 80;
+                else
+                    ratingreturned = value;
+            }
+        }
         /// <summary>
         /// MatchRatings este o lista de 14 numere intregi, ce retine evaluarile celor doua echipe dintr-un meci. Semnificatia numerelor de ordine din lista este urmatoarea:
         /// 0. Evaluarea la mijloc (echipa de acasa);
@@ -67,11 +83,19 @@ namespace HT_Match_Predictor
         /// <summary>
         /// Retine numarul de identificare al meciului care va fi adaugat in baza de date, ca urmare a optiunii de adaugare a unui singur meci.
         /// </summary>
-        public int MatchIDToAdd = 0;
-        /// <summary>
-        /// Retine numarul de identificare al meciului care va fi eliminat din baza de date, ca urmare a optiunii de stergere a unui singur meci.
-        /// </summary>
-        public int MatchIDToDelete = 0;
+
+        private static int matchidtoadd = 0;
+        public static int MatchIDToAdd
+        {
+            get
+            {
+                return matchidtoadd;
+            }
+            set
+            {
+                matchidtoadd = value;
+            }
+        }
 
         /// <summary>
         /// Aduce cele 14 evaluari ale unui meci la 0
@@ -101,7 +125,7 @@ namespace HT_Match_Predictor
         private void LoginToHattrickServers()
         {
             InitializeAuthenticationObject();
-            if (o["token"] == string.Empty)
+            if (string.IsNullOrEmpty(o["token"]))
             {
                 GetRequestToken();
                 GetAccessToken();
@@ -113,7 +137,7 @@ namespace HT_Match_Predictor
         /// Functia intoarce valoarea lui token, citita din registri.
         /// </summary>
         /// <returns>Sirul de caractere ce reprezinta jetonul (token)</returns>
-        private string ReadTokenFromRegistry()
+        private static string ReadTokenFromRegistry()
         {
             string Value = string.Empty;
             try
@@ -141,7 +165,7 @@ namespace HT_Match_Predictor
         /// Functia intoarce valoarea lui token_secret, citita din registri
         /// </summary>
         /// <returns>Sirul de caractere ce reprezinta jetonul secret (token_secret)</returns>
-        private string ReadTokenSecretFromRegistry()
+        private static string ReadTokenSecretFromRegistry()
         {
             string Value = string.Empty; ;
             try
@@ -206,8 +230,8 @@ namespace HT_Match_Predictor
 
         private string GetFileContent(string URLAddress)
         {
-            string search = URLAddress;
-            string authzHeader = o.GenerateAuthzHeader(search, "GET");
+            Uri search = new Uri(URLAddress);
+            string authzHeader = o.GenerateAuthzHeader(search.ToString(), "GET");
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(search); //Creeaza requestul
             request.Method = "GET";
             request.PreAuthenticate = true;
@@ -257,12 +281,12 @@ namespace HT_Match_Predictor
             TeamListLabel.Text = String.Concat(TeamPieces);
             FirstTeamRadioButton.Checked = true;
             FirstTeamRadioButton.Text = Parser.UserTeamNames[0];
-            if (Parser.UserTeamNames[1] != string.Empty)
+            if (!String.IsNullOrEmpty(Parser.UserTeamNames[1]))
             {
                 SecondTeamRadioButton.Visible = true;
                 SecondTeamRadioButton.Text = Parser.UserTeamNames[1];
             }
-            if (Parser.UserTeamNames[2] != string.Empty)
+            if (!String.IsNullOrEmpty(Parser.UserTeamNames[1]))
             {
                 ThirdTeamRadioButton.Visible = true;
                 ThirdTeamRadioButton.Text = Parser.UserTeamNames[2];
@@ -452,13 +476,11 @@ namespace HT_Match_Predictor
             AddMultipleMatchesByMatchIDRange AddID = new AddMultipleMatchesByMatchIDRange();
             if (AddID.ShowDialog(this) == DialogResult.OK)
             {
-                int.TryParse(AddID.LowerBoundIDTextBox.Text, out int MatchIDLowerBound);
-                int.TryParse(AddID.HigherBoundIDTextBox.Text, out int MatchIDHigherBound);
                 Cursor = Cursors.WaitCursor;
                 ProgressWindow PW = new ProgressWindow();
                 PW.Show(this);
-                PW.TheProgressBar.Maximum = MatchIDHigherBound - MatchIDLowerBound + 1;
-                for (int i = MatchIDLowerBound; i <= MatchIDHigherBound; i++)
+                PW.TheProgressBar.Maximum = AddID.HighLimit - AddID.LowLimit + 1;
+                for (int i = AddID.LowLimit; i <= AddID.HighLimit; i++)
                 {
                     SaveResponseToFile(DownloadString.CreateMatchDetailsString(i), XMLFolder + "\\MatchDetails.xml");
                     if (Parser.ParseMatchDetailsFile(false) != -1) //Daca face parte din categoria meciurilor ce pot intra in BD
@@ -472,14 +494,14 @@ namespace HT_Match_Predictor
                     }
                     MatchRatings = Parser.ResetMatchRatingsList();
                     //Dupa fiecare meci citit se aduce la 0 lista cu evaluari ale meciului. Motivul este acela ca in baza de date, evaluarile sunt trecute ca numere de la 1 la 80. Daca urmeaza sa fie adaugat in baza de date un meci care se va disputa, el nu va avea nicio evaluare, deci elementele listei vor ramane in continuare 0. Astfel se poate testa daca meciul care ar fi introdus in BD s-a jucat sau urmeaza sa se joace.
-                    PW.ProgressLabel.Text = "Progress... " + (i - MatchIDLowerBound + 1).ToString() + "/" + (MatchIDHigherBound - MatchIDLowerBound + 1).ToString();
+                    PW.ProgressLabel.Text = "Progress... " + (i - AddID.LowLimit + 1).ToString() + "/" + (AddID.HighLimit - AddID.LowLimit + 1).ToString();
                     PW.TheProgressBar.Value++;
                     PW.ProgressLabel.Refresh();
                 }
                 Cursor = Cursors.Default;
                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
                 MessageBoxIcon Icon = MessageBoxIcon.Information;
-                MessageBox.Show("Specified kind of matches added successfully! " + NumberOfMatchesAdded.ToString() + " matches were added to the database, from the " + (MatchIDHigherBound - MatchIDLowerBound + 1).ToString() + " matches specified.", "Operation complete", Buttons, Icon);
+                MessageBox.Show("Specified kind of matches added successfully! " + NumberOfMatchesAdded.ToString() + " matches were added to the database, from the " + (AddID.HighLimit - AddID.LowLimit + 1).ToString() + " matches specified.", "Operation complete", Buttons, Icon);
                 PW.Close();
             }
         }
@@ -1293,10 +1315,10 @@ namespace HT_Match_Predictor
         private static List<int> ReadSingleRow(IDataRecord record)
         {
             List<int> Score = new List<int> { };
-            int.TryParse(record[0].ToString(), out int temp);
-            Score.Add(temp);
-            int.TryParse(record[1].ToString(), out temp);
-            Score.Add(temp);
+            if (int.TryParse(record[0].ToString(), out int temp))
+                Score.Add(temp);
+            if (int.TryParse(record[1].ToString(), out temp))
+                Score.Add(temp);
             return Score;
         }
     }
