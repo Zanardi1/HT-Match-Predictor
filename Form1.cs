@@ -125,13 +125,14 @@ namespace HT_Match_Predictor
         /// </summary>
         private void LoginToHattrickServers()
         {
+            Uri Compendium = new Uri(DownloadString.CreateManagerCompendiumString());
             InitializeAuthenticationObject();
             if (string.IsNullOrEmpty(o["token"]))
             {
                 GetRequestToken();
                 GetAccessToken();
             }
-            SaveResponseToFile(DownloadString.CreateManagerCompendiumString(), XMLFolder + "\\User.xml");
+            SaveResponseToFile(Compendium, XMLFolder + "\\User.xml");
         }
 
         /// <summary>
@@ -252,20 +253,20 @@ namespace HT_Match_Predictor
         /// </summary>
         /// <param name="SourceURLAddress">URL-ul de unde descarca datele</param>
         /// <param name="DestinationFileName">Numele fisierului (inclusiv calea) care va stoca datele descarcate</param>
-        public void SaveResponseToFile(string SourceURLAddress, string DestinationFileName)
+        public void SaveResponseToFile(Uri SourceURLAddress, string DestinationFileName)
         {
             try
             {
-                File.WriteAllText(DestinationFileName, GetFileContent(SourceURLAddress));
+                File.WriteAllText(DestinationFileName, GetFileContent(SourceURLAddress.ToString()));
             }
             catch (DirectoryNotFoundException) //In cazul in care nu exista folderul XML, il creaza si mai incearca o data
             {
                 Directory.CreateDirectory(XMLFolder);
-                File.WriteAllText(DestinationFileName, GetFileContent(SourceURLAddress));
+                File.WriteAllText(DestinationFileName, GetFileContent(SourceURLAddress.ToString()));
             }
             catch (IOException) //in cazul in care fisierul XML este in uz, mai incearca o data. Nu stiu daca e calea cea mai potrivita, totusi
             {
-                File.WriteAllText(DestinationFileName, GetFileContent(SourceURLAddress));
+                File.WriteAllText(DestinationFileName, GetFileContent(SourceURLAddress.ToString()));
             }
         }
 
@@ -409,9 +410,10 @@ namespace HT_Match_Predictor
         {
             AddSingleMatchForm A = new AddSingleMatchForm();
             A.ShowDialog(this);
+            Uri DownloadURL = new Uri(DownloadString.CreateMatchDetailsString(MatchIDToAdd));
             if (MatchIDToAdd != -1)
             {
-                SaveResponseToFile(DownloadString.CreateMatchDetailsString(MatchIDToAdd), XMLFolder + "\\MatchDetails.xml");
+                SaveResponseToFile(DownloadURL, XMLFolder + "\\MatchDetails.xml");
                 if (Parser.ParseMatchDetailsFile(true) != -1) //Daca face parte din categoria meciurilor ce pot intra in BD
                 {
                     MatchRatings = Parser.ReadMatchRatings;
@@ -433,17 +435,20 @@ namespace HT_Match_Predictor
             int NumberOfMatchesAdded = 0;
             List<int> MatchesIDList = new List<int> { }; //retine numerele de identificare ale meciurilor citite din fisier
             AddMultipleMatchesByTeam AddTeam = new AddMultipleMatchesByTeam();
+            Uri MatchArchiveURL = new Uri(DownloadString.CreateMatchArchiveString(AddTeam.TeamID, AddTeam.SeasonNumber));
+            
             if (AddTeam.ShowDialog(this) == DialogResult.OK)
             {
                 Cursor = Cursors.WaitCursor;
                 ProgressWindow PW = new ProgressWindow();
                 PW.Show(this);
-                SaveResponseToFile(DownloadString.CreateMatchArchiveString(AddTeam.TeamID, AddTeam.SeasonNumber), XMLFolder + "\\Archive.xml");
+                SaveResponseToFile(MatchArchiveURL, XMLFolder + "\\Archive.xml");
                 MatchesIDList = Parser.ParseArchiveFile();
                 PW.TheProgressBar.Maximum = MatchesIDList.Count;
                 for (int i = 0; i < MatchesIDList.Count; i++)
                 {
-                    SaveResponseToFile(DownloadString.CreateMatchDetailsString(MatchesIDList[i]), XMLFolder + "\\MatchDetails.xml");
+                    Uri MatchDetailsURL = new Uri(DownloadString.CreateMatchDetailsString(MatchesIDList[i]));
+                    SaveResponseToFile(MatchDetailsURL, XMLFolder + "\\MatchDetails.xml");
                     if (Parser.ParseMatchDetailsFile(false) != -1)
                     {
                         if (Parser.ReadMatchRatings[0] != 0)
@@ -483,7 +488,8 @@ namespace HT_Match_Predictor
                 PW.TheProgressBar.Maximum = AddID.HighLimit - AddID.LowLimit + 1;
                 for (int i = AddID.LowLimit; i <= AddID.HighLimit; i++)
                 {
-                    SaveResponseToFile(DownloadString.CreateMatchDetailsString(i), XMLFolder + "\\MatchDetails.xml");
+                    Uri MatchDetailsURL = new Uri(DownloadString.CreateMatchDetailsString(i));
+                    SaveResponseToFile(MatchDetailsURL, XMLFolder + "\\MatchDetails.xml");
                     if (Parser.ParseMatchDetailsFile(false) != -1) //Daca face parte din categoria meciurilor ce pot intra in BD
                     {
                         if (Parser.ReadMatchRatings[0] != 0)
@@ -515,8 +521,9 @@ namespace HT_Match_Predictor
         private void DownloadFirstTeamFutureMatches(object sender, EventArgs e)
         {
             ParseXMLFiles.FinalFutureMatches.Clear();
+            Uri DownloadURL = new Uri(DownloadString.CreateMatchesString(Parser.UserTeamIDs[0]));
             FutureMatchesListBox.Items.Clear();
-            SaveResponseToFile(DownloadString.CreateMatchesString(Parser.UserTeamIDs[0]), XMLFolder + "\\Matches.xml");
+            SaveResponseToFile(DownloadURL, XMLFolder + "\\Matches.xml");
             Parser.ParseMatchesFile();
             for (int i = 0; i < ParseXMLFiles.FinalFutureMatches.Count; i++)
             {
@@ -532,8 +539,9 @@ namespace HT_Match_Predictor
         private void DownloadSecondTeamFutureMatches(object sender, EventArgs e)
         {
             ParseXMLFiles.FinalFutureMatches.Clear();
+            Uri DownloadURL = new Uri(DownloadString.CreateMatchesString(Parser.UserTeamIDs[1]));
             FutureMatchesListBox.Items.Clear();
-            SaveResponseToFile(DownloadString.CreateMatchesString(Parser.UserTeamIDs[1]), XMLFolder + "\\Matches.xml");
+            SaveResponseToFile(DownloadURL, XMLFolder + "\\Matches.xml");
             Parser.ParseMatchesFile();
             for (int i = 0; i < ParseXMLFiles.FinalFutureMatches.Count; i++)
             {
@@ -549,8 +557,9 @@ namespace HT_Match_Predictor
         private void DownloadThirdTeamFutureMatches(object sender, EventArgs e)
         {
             ParseXMLFiles.FinalFutureMatches.Clear();
+            Uri DownloadURL = new Uri(DownloadString.CreateMatchesString(Parser.UserTeamIDs[2]));
             FutureMatchesListBox.Items.Clear();
-            SaveResponseToFile(DownloadString.CreateMatchesString(Parser.UserTeamIDs[2]), XMLFolder + "\\Matches.xml");
+            SaveResponseToFile(DownloadURL, XMLFolder + "\\Matches.xml");
             Parser.ParseMatchesFile();
             for (int i = 0; i < ParseXMLFiles.FinalFutureMatches.Count; i++)
             {
@@ -1062,7 +1071,8 @@ namespace HT_Match_Predictor
         /// <param name="e">Handler de eveniment</param>
         private void LoadPredictedRatings(object sender, EventArgs e)
         {
-            SaveResponseToFile(DownloadString.CreateMatchOrdersString(ParseXMLFiles.FinalFutureMatches[FutureMatchesListBox.SelectedIndex].MatchID), XMLFolder + "\\Orders.xml");
+            Uri MatchOrdersURL = new Uri(DownloadString.CreateMatchOrdersString(ParseXMLFiles.FinalFutureMatches[FutureMatchesListBox.SelectedIndex].MatchID));
+            SaveResponseToFile(MatchOrdersURL, XMLFolder + "\\Orders.xml");
             Parser.ParseOrdersFile();
             for (int i = 0; i <= 6; i++)
             {
@@ -1246,7 +1256,8 @@ namespace HT_Match_Predictor
         private void PredictingEngine()
         {
             string[] CommandPieces = { "select HomeTeamGoals, AwayTeamGoals from games where HomeTeamMidfield=", MatchRatings[0].ToString(CultureInfo.InvariantCulture), " and HomeTeamRDefense=", MatchRatings[1].ToString(CultureInfo.InvariantCulture), " and HomeTeamCDefense=", MatchRatings[2].ToString(CultureInfo.InvariantCulture), " and HomeTeamLDefense=", MatchRatings[3].ToString(CultureInfo.InvariantCulture), " and HomeTeamRAttack=", MatchRatings[4].ToString(CultureInfo.InvariantCulture), " and HomeTeamCAttack=", MatchRatings[5].ToString(CultureInfo.InvariantCulture), " and HomeTeamLAttack=", MatchRatings[6].ToString(CultureInfo.InvariantCulture), " and AwayTeamMidfield=", MatchRatings[7].ToString(CultureInfo.InvariantCulture), " and AwayTeamRDefense=", MatchRatings[8].ToString(CultureInfo.InvariantCulture), " and AwayTeamCDefense=", MatchRatings[9].ToString(CultureInfo.InvariantCulture), " and AwayTeamLDefense=", MatchRatings[10].ToString(CultureInfo.InvariantCulture), " and AwayTeamRAttack=", MatchRatings[11].ToString(CultureInfo.InvariantCulture), " and AwayTeamCAttack=", MatchRatings[12].ToString(CultureInfo.InvariantCulture), " and AwayTeamLAttack=", MatchRatings[13].ToString(CultureInfo.InvariantCulture), ";" };
-            string SelectionCommand = string.Concat(CommandPieces);
+            //string SelectionCommand = string.Concat(CommandPieces);
+            string SelectionCommand = "Select HomeTeamGoals, AwayTeamGoals from Games where HomeTeamMidfield=@HTM and HomeTeamRDefense=@HTRD and HomeTeamCDefense=@HTCD and HomeTeamLDefense=@HTRD and HomeTeamRAttack=@HTRA and HomeTeamCAttack=@HTCA and HomeTeamLAttach=@HTLA and AwayTeamMidfield=@ATM and AwayTeamRDefense=@ATRD and AwayTeamCDefense=@ATCD and AwayTeamLDefense=@ATLD and AwayTeamRAttack=@ATRA and AwayTeamCAttack=@ATCA and AwayTeamLAttack=@ATLA";
             List<int> Score = new List<int> { };
             int HomeWins = 0;
             int Ties = 0;
@@ -1261,6 +1272,9 @@ namespace HT_Match_Predictor
             float AwayWinPercentage = 0;
             SqlConnection MyConn = new SqlConnection(Operations.CreateTableConnectionString);
             SqlCommand Command = new SqlCommand(SelectionCommand, MyConn);
+            Command.Parameters.AddWithValue("@HTM", MatchRatings[0].ToString(CultureInfo.InvariantCulture));
+            Command.Parameters.AddWithValue("@HTRD", MatchRatings[1].ToString(CultureInfo.InvariantCulture));
+            Command.Parameters.AddWithValue("@HTCD", MatchRatings[2].ToString(CultureInfo.InvariantCulture));
             MyConn.Open();
             SqlDataReader reader = Command.ExecuteReader();
             while (reader.Read())
