@@ -9,6 +9,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Windows.Forms;
+using System.Globalization;
 
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
 //todo bug atunci cand revoc aplicatia din contul Hattrick, jetoanele raman, dar sunt inutilizabile. Din acest motiv primesc o eroare
@@ -277,7 +278,7 @@ namespace HT_Match_Predictor
             LoginNameLabel.Text = "User name: " + Parser.UserName + " (" + Parser.UserID + ")";
             UserCountryLabel.Text = "Country: " + Parser.UserCountry + " (" + Parser.UserCountryID + ")";
             SupporterTierLabel.Text = "Supporter: " + Parser.UserSupporterLevel;
-            string[] TeamPieces = new string[] { "Team list: \r\n", Parser.UserTeamNames[0], " (", Parser.UserTeamIDs[0].ToString(), ")\r\n", Parser.UserTeamNames[1], " (", Parser.UserTeamIDs[1].ToString(), ")\r\n", Parser.UserTeamNames[2], " (", Parser.UserTeamIDs[2].ToString(), ")\r\n" };
+            string[] TeamPieces = new string[] { "Team list: \r\n", Parser.UserTeamNames[0], " (", Parser.UserTeamIDs[0].ToString(CultureInfo.InvariantCulture), ")\r\n", Parser.UserTeamNames[1], " (", Parser.UserTeamIDs[1].ToString(CultureInfo.InvariantCulture), ")\r\n", Parser.UserTeamNames[2], " (", Parser.UserTeamIDs[2].ToString(CultureInfo.InvariantCulture), ")\r\n" };
             TeamListLabel.Text = String.Concat(TeamPieces);
             FirstTeamRadioButton.Checked = true;
             FirstTeamRadioButton.Text = Parser.UserTeamNames[0];
@@ -309,7 +310,7 @@ namespace HT_Match_Predictor
             };
             S.ShowDialog(this);
 
-            MatchRatings[Convert.ToInt16(S.Tag) - 1] = RatingReturned; //atribuie evaluarea numerica primita sectorului corespunzator, in functie de eticheta butonului a carui apasare a deschis fereastra
+            MatchRatings[Convert.ToInt16(S.Tag, CultureInfo.InvariantCulture) - 1] = RatingReturned; //atribuie evaluarea numerica primita sectorului corespunzator, in functie de eticheta butonului a carui apasare a deschis fereastra
         }
 
         /// <summary>
@@ -453,14 +454,14 @@ namespace HT_Match_Predictor
                         }
                     }
                     MatchRatings = Parser.ResetMatchRatingsList();
-                    PW.ProgressLabel.Text = "Progress... " + (i + 1).ToString() + "/" + MatchesIDList.Count.ToString();
+                    PW.ProgressLabel.Text = "Progress... " + (i + 1).ToString(CultureInfo.InvariantCulture) + "/" + MatchesIDList.Count.ToString(CultureInfo.InvariantCulture);
                     PW.TheProgressBar.Value++;
                     PW.ProgressLabel.Refresh();
                 }
                 Cursor = Cursors.Default;
                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
                 MessageBoxIcon Icon = MessageBoxIcon.Information;
-                MessageBox.Show($"Specified kind of matches added successfully! {NumberOfMatchesAdded.ToString()} matches added to the database from the {MatchesIDList.Count.ToString()} matches played in the selected season", "Operation complete", Buttons, Icon);
+                MessageBox.Show($"Specified kind of matches added successfully! {NumberOfMatchesAdded.ToString(CultureInfo.InvariantCulture)} matches added to the database from the {MatchesIDList.Count.ToString(CultureInfo.InvariantCulture)} matches played in the selected season", "Operation complete", Buttons, Icon);
                 PW.Close();
             }
         }
@@ -494,14 +495,14 @@ namespace HT_Match_Predictor
                     }
                     MatchRatings = Parser.ResetMatchRatingsList();
                     //Dupa fiecare meci citit se aduce la 0 lista cu evaluari ale meciului. Motivul este acela ca in baza de date, evaluarile sunt trecute ca numere de la 1 la 80. Daca urmeaza sa fie adaugat in baza de date un meci care se va disputa, el nu va avea nicio evaluare, deci elementele listei vor ramane in continuare 0. Astfel se poate testa daca meciul care ar fi introdus in BD s-a jucat sau urmeaza sa se joace.
-                    PW.ProgressLabel.Text = "Progress... " + (i - AddID.LowLimit + 1).ToString() + "/" + (AddID.HighLimit - AddID.LowLimit + 1).ToString();
+                    PW.ProgressLabel.Text = "Progress... " + (i - AddID.LowLimit + 1).ToString(CultureInfo.InvariantCulture) + "/" + (AddID.HighLimit - AddID.LowLimit + 1).ToString(CultureInfo.InvariantCulture);
                     PW.TheProgressBar.Value++;
                     PW.ProgressLabel.Refresh();
                 }
                 Cursor = Cursors.Default;
                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
                 MessageBoxIcon Icon = MessageBoxIcon.Information;
-                MessageBox.Show("Specified kind of matches added successfully! " + NumberOfMatchesAdded.ToString() + " matches were added to the database, from the " + (AddID.HighLimit - AddID.LowLimit + 1).ToString() + " matches specified.", "Operation complete", Buttons, Icon);
+                MessageBox.Show("Specified kind of matches added successfully! " + NumberOfMatchesAdded.ToString(CultureInfo.InvariantCulture) + " matches were added to the database, from the " + (AddID.HighLimit - AddID.LowLimit + 1).ToString(CultureInfo.InvariantCulture) + " matches specified.", "Operation complete", Buttons, Icon);
                 PW.Close();
             }
         }
@@ -1244,7 +1245,7 @@ namespace HT_Match_Predictor
         /// </summary>
         private void PredictingEngine()
         {
-            string[] CommandPieces = { "select HomeTeamGoals, AwayTeamGoals from games where HomeTeamMidfield=", MatchRatings[0].ToString(), " and HomeTeamRDefense=", MatchRatings[1].ToString(), " and HomeTeamCDefense=", MatchRatings[2].ToString(), " and HomeTeamLDefense=", MatchRatings[3].ToString(), " and HomeTeamRAttack=", MatchRatings[4].ToString(), " and HomeTeamCAttack=", MatchRatings[5].ToString(), " and HomeTeamLAttack=", MatchRatings[6].ToString(), " and AwayTeamMidfield=", MatchRatings[7].ToString(), " and AwayTeamRDefense=", MatchRatings[8].ToString(), " and AwayTeamCDefense=", MatchRatings[9].ToString(), " and AwayTeamLDefense=", MatchRatings[10].ToString(), " and AwayTeamRAttack=", MatchRatings[11].ToString(), " and AwayTeamCAttack=", MatchRatings[12].ToString(), " and AwayTeamLAttack=", MatchRatings[13].ToString(), ";" };
+            string[] CommandPieces = { "select HomeTeamGoals, AwayTeamGoals from games where HomeTeamMidfield=", MatchRatings[0].ToString(CultureInfo.InvariantCulture), " and HomeTeamRDefense=", MatchRatings[1].ToString(CultureInfo.InvariantCulture), " and HomeTeamCDefense=", MatchRatings[2].ToString(CultureInfo.InvariantCulture), " and HomeTeamLDefense=", MatchRatings[3].ToString(CultureInfo.InvariantCulture), " and HomeTeamRAttack=", MatchRatings[4].ToString(CultureInfo.InvariantCulture), " and HomeTeamCAttack=", MatchRatings[5].ToString(CultureInfo.InvariantCulture), " and HomeTeamLAttack=", MatchRatings[6].ToString(CultureInfo.InvariantCulture), " and AwayTeamMidfield=", MatchRatings[7].ToString(CultureInfo.InvariantCulture), " and AwayTeamRDefense=", MatchRatings[8].ToString(CultureInfo.InvariantCulture), " and AwayTeamCDefense=", MatchRatings[9].ToString(CultureInfo.InvariantCulture), " and AwayTeamLDefense=", MatchRatings[10].ToString(CultureInfo.InvariantCulture), " and AwayTeamRAttack=", MatchRatings[11].ToString(CultureInfo.InvariantCulture), " and AwayTeamCAttack=", MatchRatings[12].ToString(CultureInfo.InvariantCulture), " and AwayTeamLAttack=", MatchRatings[13].ToString(CultureInfo.InvariantCulture), ";" };
             string SelectionCommand = string.Concat(CommandPieces);
             List<int> Score = new List<int> { };
             int HomeWins = 0;
@@ -1292,11 +1293,11 @@ namespace HT_Match_Predictor
                 AwayWinPercentage = (AwayWins / NumberOfPlayedMatches) * 100;
             }
             MyConn.Close();
-            HomeWinPercentageLabel.Text = "Home win %: " + HomeWinPercentage.ToString();
-            HGALabel.Text = "Home goals average: " + AverageNumberOfHomeGoals.ToString();
-            DrawPercentageLabel.Text = "Draw: " + TiePercentage.ToString();
-            AwayWinPercentageLabel.Text = "Away win %: " + AwayWinPercentage.ToString();
-            AGALabel.Text = "Away goals average: " + AverageNumberOfAwayGoals.ToString();
+            HomeWinPercentageLabel.Text = "Home win %: " + HomeWinPercentage.ToString(CultureInfo.InvariantCulture);
+            HGALabel.Text = "Home goals average: " + AverageNumberOfHomeGoals.ToString(CultureInfo.InvariantCulture);
+            DrawPercentageLabel.Text = "Draw: " + TiePercentage.ToString(CultureInfo.InvariantCulture);
+            AwayWinPercentageLabel.Text = "Away win %: " + AwayWinPercentage.ToString(CultureInfo.InvariantCulture);
+            AGALabel.Text = "Away goals average: " + AverageNumberOfAwayGoals.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
