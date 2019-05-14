@@ -12,7 +12,43 @@ namespace HTMatchPredictor
             InitializeComponent();
         }
 
-        public int TeamID, SeasonNumber;
+        private int teamid, seasonnumber;
+        public int TeamID
+        {
+            get
+            {
+                return teamid;
+            }
+            set
+            {
+                if (value <= 0)
+                {
+                    teamid = 1;
+                }
+                else
+                {
+                    teamid = value;
+                }
+            }
+        }
+        public int SeasonNumber
+        {
+            get
+            {
+                return seasonnumber;
+            }
+            set
+            {
+                if (value <= 0)
+                {
+                    seasonnumber = 1;
+                }
+                else
+                {
+                    seasonnumber = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Testeaza daca datele de intrare sunt valide (adica sa contina numai cifre)
@@ -25,25 +61,28 @@ namespace HTMatchPredictor
         private int TestDataValidity()
         {
             int Result = 0; //retine rezultatul functiei
+            int TempTeamID, TempSeasonNumber;
             SeniorTeamIDTextBox.Text = SeniorTeamIDTextBox.Text.Trim();
             SeasonTextBox.Text = SeasonTextBox.Text.Trim();
-            if (SeniorTeamIDTextBox.Text == string.Empty)
+            if (string.IsNullOrEmpty(SeniorTeamIDTextBox.Text))
             {
                 Result = 1;
             }
 
-            if (SeasonTextBox.Text == string.Empty)
+            if (string.IsNullOrEmpty(SeasonTextBox.Text))
             {
                 Result = 2;
             }
 
-            if (!int.TryParse(SeniorTeamIDTextBox.Text, out TeamID))
+            if (!int.TryParse(SeniorTeamIDTextBox.Text, out TempTeamID))
             {
+                TeamID = TempTeamID;
                 Result = 3;
             }
 
-            if (!int.TryParse(SeasonTextBox.Text, out SeasonNumber))
+            if (!int.TryParse(SeasonTextBox.Text, out TempSeasonNumber))
             {
+                SeasonNumber = TempSeasonNumber;
                 Result = 4;
             }
 

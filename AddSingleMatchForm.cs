@@ -28,9 +28,11 @@ namespace HTMatchPredictor
         /// <param name="e"></param>
         private void SaveChanges(object sender, EventArgs e)
         {
-            int.TryParse(MatchIDTextBox.Text, out int MatchID);
-            Form1.MatchIDToAdd = MatchID;
-            Close();
+            if (int.TryParse(MatchIDTextBox.Text, out int MatchID))
+            {
+                Form1.MatchIDToAdd = MatchID;
+                Close();
+            }
         }
     }
 }

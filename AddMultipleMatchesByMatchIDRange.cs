@@ -6,7 +6,34 @@ namespace HTMatchPredictor
 {
     public partial class AddMultipleMatchesByMatchIDRange : Form
     {
-        public int LowLimit, HighLimit;
+        private int lowlimit, highlimit;
+        public int LowLimit
+        {
+            get
+            {
+                return lowlimit;
+            }
+
+            set
+            {
+                if (value <= 0)
+                    lowlimit = 1;
+                else
+                    lowlimit = value;
+            }
+        }
+        public int HighLimit
+        {
+            get
+            {
+                return highlimit;
+            }
+
+            set
+            {
+                highlimit = value;
+            }
+        }
         public AddMultipleMatchesByMatchIDRange()
         {
             InitializeComponent();
@@ -26,20 +53,23 @@ namespace HTMatchPredictor
         private int TestForDataValidity()
         {
             int Result = 0;
-            if (LowerBoundIDTextBox.Text == string.Empty)
+            int TempLowLimit, TempHighLimit;
+            if (string.IsNullOrEmpty(LowerBoundIDTextBox.Text))
             {
                 Result = 1;
             }
-            if (HigherBoundIDTextBox.Text == string.Empty)
+            if (string.IsNullOrEmpty(HigherBoundIDTextBox.Text))
             {
                 Result = 2;
             }
-            if (!int.TryParse(LowerBoundIDTextBox.Text, out LowLimit))
+            if (!int.TryParse(LowerBoundIDTextBox.Text, out TempLowLimit))
             {
+                LowLimit = TempLowLimit;
                 Result = 3;
             }
-            if (!int.TryParse(HigherBoundIDTextBox.Text, out HighLimit))
+            if (!int.TryParse(HigherBoundIDTextBox.Text, out TempHighLimit))
             {
+                HighLimit = TempHighLimit;
                 Result = 4;
             }
             if (LowLimit >= HighLimit)

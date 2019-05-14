@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 
@@ -56,8 +57,11 @@ namespace HTMatchPredictor
         private void CreateDatabaseFile()
         {
             SqlConnection MyConn = new SqlConnection(CreateDatabaseConnectionString);
-            string Str = "Create Database Matches on Primary (Name=Matches, Filename='" + DatabaseFile + "') log on (Name=MatchesLog, Filename='" + DatabaseLog + "')"; //retine comanda SQL care creeaza BD
+            //string Str = "Create Database Matches on Primary (Name=Matches, Filename='" + DatabaseFile + "') log on (Name=MatchesLog, Filename='" + DatabaseLog + "')"; //retine comanda SQL care creeaza BD
+            string Str = "Create Database Matches on Primary (Name=Matches, Filename='@DatabaseFile') log on (Name=MatchesLog, Filename='@DatabaseLog')"; //retine comanda SQL care creeaza BD
             SqlCommand command = new SqlCommand(Str, MyConn);
+            command.Parameters.AddWithValue("@DatabaseFile", DatabaseFile);
+            command.Parameters.AddWithValue("@DatabaseLog", DatabaseLog);
             MyConn.Open();
             command.ExecuteNonQuery();
             MyConn.Close();
@@ -123,10 +127,26 @@ namespace HTMatchPredictor
 
         public void AddAMatch(int MatchIDToInsert, List<int> RatingsToInsert)
         {
-            string[] CommandPieces = new string[] { "insert into Games values (", MatchIDToInsert.ToString(), ",", RatingsToInsert[0].ToString(), ",", RatingsToInsert[1].ToString(), ",", RatingsToInsert[2].ToString(), ",", RatingsToInsert[3].ToString(), ",", RatingsToInsert[4].ToString(), ",", RatingsToInsert[5].ToString(), ",", RatingsToInsert[6].ToString(), ",", RatingsToInsert[7].ToString(), ",", RatingsToInsert[8].ToString(), ",", RatingsToInsert[9].ToString(), ",", RatingsToInsert[10].ToString(), ",", RatingsToInsert[11].ToString(), ",", RatingsToInsert[12].ToString(), ",", RatingsToInsert[13].ToString(), ",", RatingsToInsert[14].ToString(), ",", RatingsToInsert[15].ToString(), ");" };
-            string AddMatchCommand = string.Concat(CommandPieces);
+            string AddMatchCommand = "Insert into Games values @Match, @Ratings1, @Ratings2, @Ratings3, @Ratings4, @Ratings5, @Ratings6, @Ratings7, @Ratings8, @Ratings9, @Ratings10, @Ratings11, @Ratings12, @Ratings13, @Ratings14, @Ratings15, @Ratings16";
             SqlConnection MyConn = new SqlConnection(CreateTableConnectionString);
             SqlCommand command = new SqlCommand(AddMatchCommand, MyConn);
+            command.Parameters.AddWithValue("@Match", MatchIDToInsert.ToString(CultureInfo.InvariantCulture));
+            command.Parameters.AddWithValue("@Ratings1", RatingsToInsert[0].ToString(CultureInfo.InvariantCulture));
+            command.Parameters.AddWithValue("@Ratings2", RatingsToInsert[1].ToString(CultureInfo.InvariantCulture));
+            command.Parameters.AddWithValue("@Ratings3", RatingsToInsert[2].ToString(CultureInfo.InvariantCulture));
+            command.Parameters.AddWithValue("@Ratings4", RatingsToInsert[3].ToString(CultureInfo.InvariantCulture));
+            command.Parameters.AddWithValue("@Ratings5", RatingsToInsert[4].ToString(CultureInfo.InvariantCulture));
+            command.Parameters.AddWithValue("@Ratings6", RatingsToInsert[5].ToString(CultureInfo.InvariantCulture));
+            command.Parameters.AddWithValue("@Ratings7", RatingsToInsert[6].ToString(CultureInfo.InvariantCulture));
+            command.Parameters.AddWithValue("@Ratings8", RatingsToInsert[7].ToString(CultureInfo.InvariantCulture));
+            command.Parameters.AddWithValue("@Ratings9", RatingsToInsert[8].ToString(CultureInfo.InvariantCulture));
+            command.Parameters.AddWithValue("@Ratings10", RatingsToInsert[9].ToString(CultureInfo.InvariantCulture));
+            command.Parameters.AddWithValue("@Ratings11", RatingsToInsert[10].ToString(CultureInfo.InvariantCulture));
+            command.Parameters.AddWithValue("@Ratings12", RatingsToInsert[11].ToString(CultureInfo.InvariantCulture));
+            command.Parameters.AddWithValue("@Ratings13", RatingsToInsert[12].ToString(CultureInfo.InvariantCulture));
+            command.Parameters.AddWithValue("@Ratings14", RatingsToInsert[13].ToString(CultureInfo.InvariantCulture));
+            command.Parameters.AddWithValue("@Ratings15", RatingsToInsert[14].ToString(CultureInfo.InvariantCulture));
+            command.Parameters.AddWithValue("@Ratings16", RatingsToInsert[15].ToString(CultureInfo.InvariantCulture));
             MyConn.Open();
             try
             {

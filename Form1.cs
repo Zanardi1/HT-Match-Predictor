@@ -47,9 +47,9 @@ namespace HTMatchPredictor
             }
             set
             {
-                if (ratingreturned < 1)
+                if (value < 1)
                     ratingreturned = 1;
-                if (ratingreturned > 80)
+                if (value > 80)
                     ratingreturned = 80;
                 else
                     ratingreturned = value;
