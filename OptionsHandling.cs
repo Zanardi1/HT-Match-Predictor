@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace HT_Match_Predictor
+namespace HTMatchPredictor
 {
     class OptionsHandling
     {

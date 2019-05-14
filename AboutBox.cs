@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Reflection;
 using System.Windows.Forms;
+using System.Globalization;
 
-namespace HT_Match_Predictor
+namespace HTMatchPredictor
 {
     partial class AboutBox : Form
     {
         public AboutBox()
         {
             InitializeComponent();
-            this.Text = String.Format("About {0}", AssemblyTitle);
+            this.Text = String.Format(CultureInfo.InvariantCulture,"About {0}", AssemblyTitle);
             this.labelProductName.Text = AssemblyProduct;
-            this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
+            this.labelVersion.Text = String.Format(CultureInfo.InvariantCulture,"Version {0}", AssemblyVersion);
             this.labelCopyright.Text = AssemblyCopyright;
             this.labelCompanyName.Text = AssemblyCompany;
             this.textBoxDescription.Text = AssemblyDescription;
@@ -19,7 +20,7 @@ namespace HT_Match_Predictor
 
         #region Assembly Attribute Accessors
 
-        public string AssemblyTitle
+        public static string AssemblyTitle
         {
             get
             {
@@ -27,7 +28,7 @@ namespace HT_Match_Predictor
                 if (attributes.Length > 0)
                 {
                     AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)attributes[0];
-                    if (titleAttribute.Title != "")
+                    if (!string.IsNullOrEmpty(titleAttribute.Title))
                     {
                         return titleAttribute.Title;
                     }
@@ -36,7 +37,7 @@ namespace HT_Match_Predictor
             }
         }
 
-        public string AssemblyVersion
+        public static string AssemblyVersion
         {
             get
             {
@@ -44,7 +45,7 @@ namespace HT_Match_Predictor
             }
         }
 
-        public string AssemblyDescription
+        public static string AssemblyDescription
         {
             get
             {
@@ -57,7 +58,7 @@ namespace HT_Match_Predictor
             }
         }
 
-        public string AssemblyProduct
+        public static string AssemblyProduct
         {
             get
             {
@@ -70,7 +71,7 @@ namespace HT_Match_Predictor
             }
         }
 
-        public string AssemblyCopyright
+        public static string AssemblyCopyright
         {
             get
             {
@@ -83,7 +84,7 @@ namespace HT_Match_Predictor
             }
         }
 
-        public string AssemblyCompany
+        public static string AssemblyCompany
         {
             get
             {

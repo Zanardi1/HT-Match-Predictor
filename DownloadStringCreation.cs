@@ -8,7 +8,7 @@
 /// URL-ul este separat de fisier prin "?". Parametrii au forma "nume=valoare" si sunt separati intre ei prin "&";
 /// </summary>
 
-namespace HT_Match_Predictor
+namespace HTMatchPredictor
 {
     class DownloadStringCreation
     {

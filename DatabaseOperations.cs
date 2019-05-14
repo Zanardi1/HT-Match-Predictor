@@ -11,7 +11,7 @@ using System.Windows.Forms;
 //5. Editarea unui meci din baza de date;
 //6. Stergerea unui meci din baza de date;
 
-namespace HT_Match_Predictor
+namespace HTMatchPredictor
 {
     class DatabaseOperations
     {

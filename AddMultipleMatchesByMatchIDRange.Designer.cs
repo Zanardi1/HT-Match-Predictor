@@ -1,4 +1,4 @@
-﻿namespace HT_Match_Predictor
+﻿namespace HTMatchPredictor
 {
     partial class AddMultipleMatchesByMatchIDRange
     {

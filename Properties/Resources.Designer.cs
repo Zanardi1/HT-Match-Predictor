@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HT_Match_Predictor.Properties
+namespace HTMatchPredictor.Properties
 {
 
 

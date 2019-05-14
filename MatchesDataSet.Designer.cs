@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace HT_Match_Predictor {
+namespace HTMatchPredictor {
     
     
     /// <summary>
@@ -591,7 +591,7 @@ namespace HT_Match_Predictor {
         }
     }
 }
-namespace HT_Match_Predictor.MatchesDataSetTableAdapters {
+namespace HTMatchPredictor.MatchesDataSetTableAdapters {
     
     
     /// <summary>

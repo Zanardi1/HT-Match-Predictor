@@ -15,7 +15,7 @@ using System.Globalization;
 //todo bug atunci cand revoc aplicatia din contul Hattrick, jetoanele raman, dar sunt inutilizabile. Din acest motiv primesc o eroare
 //todo sa adaug un buton de anulare a importului meciurilor in baza de date
 
-namespace HT_Match_Predictor
+namespace HTMatchPredictor
 {
     public partial class Form1 : Form
     {
@@ -1255,9 +1255,7 @@ namespace HT_Match_Predictor
         /// </summary>
         private void PredictingEngine()
         {
-            string[] CommandPieces = { "select HomeTeamGoals, AwayTeamGoals from games where HomeTeamMidfield=", MatchRatings[0].ToString(CultureInfo.InvariantCulture), " and HomeTeamRDefense=", MatchRatings[1].ToString(CultureInfo.InvariantCulture), " and HomeTeamCDefense=", MatchRatings[2].ToString(CultureInfo.InvariantCulture), " and HomeTeamLDefense=", MatchRatings[3].ToString(CultureInfo.InvariantCulture), " and HomeTeamRAttack=", MatchRatings[4].ToString(CultureInfo.InvariantCulture), " and HomeTeamCAttack=", MatchRatings[5].ToString(CultureInfo.InvariantCulture), " and HomeTeamLAttack=", MatchRatings[6].ToString(CultureInfo.InvariantCulture), " and AwayTeamMidfield=", MatchRatings[7].ToString(CultureInfo.InvariantCulture), " and AwayTeamRDefense=", MatchRatings[8].ToString(CultureInfo.InvariantCulture), " and AwayTeamCDefense=", MatchRatings[9].ToString(CultureInfo.InvariantCulture), " and AwayTeamLDefense=", MatchRatings[10].ToString(CultureInfo.InvariantCulture), " and AwayTeamRAttack=", MatchRatings[11].ToString(CultureInfo.InvariantCulture), " and AwayTeamCAttack=", MatchRatings[12].ToString(CultureInfo.InvariantCulture), " and AwayTeamLAttack=", MatchRatings[13].ToString(CultureInfo.InvariantCulture), ";" };
-            //string SelectionCommand = string.Concat(CommandPieces);
-            string SelectionCommand = "Select HomeTeamGoals, AwayTeamGoals from Games where HomeTeamMidfield=@HTM and HomeTeamRDefense=@HTRD and HomeTeamCDefense=@HTCD and HomeTeamLDefense=@HTRD and HomeTeamRAttack=@HTRA and HomeTeamCAttack=@HTCA and HomeTeamLAttach=@HTLA and AwayTeamMidfield=@ATM and AwayTeamRDefense=@ATRD and AwayTeamCDefense=@ATCD and AwayTeamLDefense=@ATLD and AwayTeamRAttack=@ATRA and AwayTeamCAttack=@ATCA and AwayTeamLAttack=@ATLA";
+            string SelectionCommand = "Select HomeTeamGoals, AwayTeamGoals from Games where HomeTeamMidfield=@HTM and HomeTeamRDefense=@HTRD and HomeTeamCDefense=@HTCD and HomeTeamLDefense=@HTRD and HomeTeamRAttack=@HTRA and HomeTeamCAttack=@HTCA and HomeTeamLAttack=@HTLA and AwayTeamMidfield=@ATM and AwayTeamRDefense=@ATRD and AwayTeamCDefense=@ATCD and AwayTeamLDefense=@ATLD and AwayTeamRAttack=@ATRA and AwayTeamCAttack=@ATCA and AwayTeamLAttack=@ATLA";
             List<int> Score = new List<int> { };
             int HomeWins = 0;
             int Ties = 0;
@@ -1275,6 +1273,17 @@ namespace HT_Match_Predictor
             Command.Parameters.AddWithValue("@HTM", MatchRatings[0].ToString(CultureInfo.InvariantCulture));
             Command.Parameters.AddWithValue("@HTRD", MatchRatings[1].ToString(CultureInfo.InvariantCulture));
             Command.Parameters.AddWithValue("@HTCD", MatchRatings[2].ToString(CultureInfo.InvariantCulture));
+            Command.Parameters.AddWithValue("@HTLD", MatchRatings[3].ToString(CultureInfo.InvariantCulture));
+            Command.Parameters.AddWithValue("@HTRA", MatchRatings[4].ToString(CultureInfo.InvariantCulture));
+            Command.Parameters.AddWithValue("@HTCA", MatchRatings[5].ToString(CultureInfo.InvariantCulture));
+            Command.Parameters.AddWithValue("@HTLA", MatchRatings[6].ToString(CultureInfo.InvariantCulture));
+            Command.Parameters.AddWithValue("@ATM", MatchRatings[7].ToString(CultureInfo.InvariantCulture));
+            Command.Parameters.AddWithValue("@ATRD", MatchRatings[8].ToString(CultureInfo.InvariantCulture));
+            Command.Parameters.AddWithValue("@ATCD", MatchRatings[9].ToString(CultureInfo.InvariantCulture));
+            Command.Parameters.AddWithValue("@ATLD", MatchRatings[10].ToString(CultureInfo.InvariantCulture));
+            Command.Parameters.AddWithValue("@ATRA", MatchRatings[11].ToString(CultureInfo.InvariantCulture));
+            Command.Parameters.AddWithValue("@ATCA", MatchRatings[12].ToString(CultureInfo.InvariantCulture));
+            Command.Parameters.AddWithValue("@ATLA", MatchRatings[13].ToString(CultureInfo.InvariantCulture));
             MyConn.Open();
             SqlDataReader reader = Command.ExecuteReader();
             while (reader.Read())

@@ -12,7 +12,7 @@ using System.Xml;
 /// Deoarece fisierele XML au continuturi diferite, in functie de informatiile necesare, deci se stocheaza si informatii diferite, fiecare tip de fisier XML va primi metoda proprie.
 /// </summary>
 
-namespace HT_Match_Predictor
+namespace HTMatchPredictor
 {
     class ParseXMLFiles
     {

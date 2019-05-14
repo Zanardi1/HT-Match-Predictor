@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace HT_Match_Predictor
+namespace HTMatchPredictor
 {
     public partial class InsertPIN : Form
     {

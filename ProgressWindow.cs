@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace HT_Match_Predictor
+namespace HTMatchPredictor
 {
     public partial class ProgressWindow : Form
     {
