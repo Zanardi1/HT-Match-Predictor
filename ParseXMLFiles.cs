@@ -100,14 +100,22 @@ namespace HTMatchPredictor
 
         public void ParseUserFile()
         {
+            XmlUrlResolver Resolver = new XmlUrlResolver
+            {
+                Credentials = System.Net.CredentialCache.DefaultCredentials
+            };
             XmlReaderSettings settings = new XmlReaderSettings
             {
-                DtdProcessing = DtdProcessing.Parse,
+                DtdProcessing = DtdProcessing.Prohibit,
                 IgnoreComments = true,
-                CheckCharacters = true
+                CheckCharacters = true,
+                XmlResolver = Resolver
             };
             XmlReader Reader = XmlReader.Create(Form1.XMLFolder + "\\User.xml", settings);
-            XmlDocument doc = new XmlDocument();
+            XmlDocument doc = new XmlDocument
+            {
+                XmlResolver = Resolver
+            };
             doc.Load(Reader);
 
             XmlNode Current = doc.DocumentElement.SelectSingleNode("Manager"); //Trec la nodul "Manager
@@ -170,7 +178,12 @@ namespace HTMatchPredictor
                                             }
                                         case "TeamId":
                                             {
-                                                int.TryParse(k.InnerXml, out UserTeamIDs[counter]);
+                                                if (!int.TryParse(k.InnerXml, out UserTeamIDs[counter]))
+                                                {
+                                                    MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                                    MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                                    MessageBox.Show("Parsing TeamID from XML file failed!", "Error!", Buttons, Icon);
+                                                }
                                                 break;
                                             }
                                     }
@@ -209,7 +222,12 @@ namespace HTMatchPredictor
                     {
                         case "MatchID":
                             {
-                                int.TryParse(j.InnerXml, out F.MatchID);
+                                if (!int.TryParse(j.InnerXml, out F.MatchID))
+                                {
+                                    MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                    MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                    MessageBox.Show("Parsing the Matc ID from the XML file failed!", "Error!", Buttons, Icon);
+                                }
                                 break;
                             }
                         case "HomeTeam":
@@ -238,7 +256,12 @@ namespace HTMatchPredictor
                             }
                         case "MatchType":
                             {
-                                int.TryParse(j.InnerXml, out TempMatchType);
+                                if (!int.TryParse(j.InnerXml, out TempMatchType))
+                                {
+                                    MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                    MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                    MessageBox.Show("Parsing Match Type from XML file failed!", "Error!", Buttons, Icon);
+                                }
                                 break;
                             }
                         case "Status":
@@ -280,18 +303,21 @@ namespace HTMatchPredictor
                 {
                     case "MatchType":
                         {
-                            int.TryParse(i.InnerXml, out ReadMatchType); //citeste tipul meciului
-                            if ((ReadMatchType != 1) && (ReadMatchType != 4) && (ReadMatchType != 8))
+                            if (int.TryParse(i.InnerXml, out ReadMatchType)) //citeste tipul meciului
                             {
-                                if (ShowErrorMessage)
+                                if ((ReadMatchType != 1) && (ReadMatchType != 4) && (ReadMatchType != 8))
                                 {
-                                    MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                    MessageBoxButtons Button = MessageBoxButtons.OK;
-                                    MessageBox.Show("Only league, friendly (normal rules) and international friendly (normal rules) matches can be added into the database. The match with the chosen ID was not added.", "Match type error!", Button, Icon);
+                                    if (ShowErrorMessage)
+                                    {
+                                        MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                        MessageBoxButtons Button = MessageBoxButtons.OK;
+                                        MessageBox.Show("Only league, friendly (normal rules) and international friendly (normal rules) matches can be added into the database. The match with the chosen ID was not added.", "Match type error!", Button, Icon);
+                                    }
+                                    Reader.Close();
+                                    return -1;
                                 }
-                                Reader.Close();
-                                return -1;
                             }
+
                             break;
                         }
                     case "HomeTeam":
@@ -303,50 +329,114 @@ namespace HTMatchPredictor
                                 {
                                     case "RatingMidfield":
                                         {
-                                            int.TryParse(j.InnerXml, out temp);
-                                            ReadMatchRatings[0] = temp;
+                                            if (int.TryParse(j.InnerXml, out temp))
+                                            {
+                                                ReadMatchRatings[0] = temp;
+                                            }
+                                            else
+                                            {
+                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                                MessageBox.Show("Parsing the home midfield rating from the XML file failed!", "Error!", Buttons, Icon);
+                                            }
                                             break;
                                         }
                                     case "RatingRightDef":
                                         {
-                                            int.TryParse(j.InnerXml, out temp);
-                                            ReadMatchRatings[1] = temp;
+                                            if (int.TryParse(j.InnerXml, out temp))
+                                            {
+                                                ReadMatchRatings[1] = temp;
+                                            }
+                                            else
+                                            {
+                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                                MessageBox.Show("Parsing the home right defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                                            }
                                             break;
                                         }
                                     case "RatingMidDef":
                                         {
-                                            int.TryParse(j.InnerXml, out temp);
-                                            ReadMatchRatings[2] = temp;
+                                            if (int.TryParse(j.InnerXml, out temp))
+                                            {
+                                                ReadMatchRatings[2] = temp;
+                                            }
+                                            else
+                                            {
+                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                                MessageBox.Show("Parsing the home central defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                                            }
                                             break;
                                         }
                                     case "RatingLeftDef":
                                         {
-                                            int.TryParse(j.InnerXml, out temp);
-                                            ReadMatchRatings[3] = temp;
+                                            if (int.TryParse(j.InnerXml, out temp))
+                                            {
+                                                ReadMatchRatings[3] = temp;
+                                            }
+                                            else
+                                            {
+                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                                MessageBox.Show("Parsing the home left defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                                            }
                                             break;
                                         }
                                     case "RatingRightAtt":
                                         {
-                                            int.TryParse(j.InnerXml, out temp);
-                                            ReadMatchRatings[4] = temp;
+                                            if (int.TryParse(j.InnerXml, out temp))
+                                            {
+                                                ReadMatchRatings[4] = temp;
+                                            }
+                                            else
+                                            {
+                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                                MessageBox.Show("Parsing the home right attack rating from the XML file failed!", "Error!", Buttons, Icon);
+                                            }
                                             break;
                                         }
                                     case "RatingMidAtt":
                                         {
-                                            int.TryParse(j.InnerXml, out temp);
-                                            ReadMatchRatings[5] = temp;
+                                            if (int.TryParse(j.InnerXml, out temp))
+                                            {
+                                                ReadMatchRatings[5] = temp;
+                                            }
+                                            else
+                                            {
+                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                                MessageBox.Show("Parsing the home central attack rating from the XML file failed!", "Error!", Buttons, Icon);
+                                            }
                                             break;
                                         }
                                     case "RatingLeftAtt":
                                         {
-                                            int.TryParse(j.InnerXml, out temp);
-                                            ReadMatchRatings[6] = temp;
+                                            if (int.TryParse(j.InnerXml, out temp))
+                                            {
+                                                ReadMatchRatings[6] = temp;
+                                            }
+                                            else
+                                            {
+                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                                MessageBox.Show("Parsing the home left defense attack from the XML file failed!", "Error!", Buttons, Icon);
+                                            }
                                             break;
                                         }
                                     case "HomeGoals":
                                         {
-                                            int.TryParse(j.InnerXml, out temp);
-                                            ReadMatchRatings[14] = temp;
+                                            if (int.TryParse(j.InnerXml, out temp))
+                                            {
+                                                ReadMatchRatings[14] = temp;
+                                            }
+                                            else
+                                            {
+                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                                MessageBox.Show("Parsing the home goals field from the XML file failed!", "Error!", Buttons, Icon);
+                                            }
                                             break;
                                         }
                                 }
@@ -362,50 +452,100 @@ namespace HTMatchPredictor
                                 {
                                     case "RatingMidfield":
                                         {
-                                            int.TryParse(j.InnerXml, out temp);
-                                            ReadMatchRatings[7] = temp;
+                                            if (int.TryParse(j.InnerXml, out temp))
+                                            {
+                                                ReadMatchRatings[7] = temp;
+                                            }
+                                            else
+                                            {
+                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                                MessageBox.Show("Parsing the away midfield rating from the XML file failed!", "Error!", Buttons, Icon);
+                                            }
                                             break;
                                         }
                                     case "RatingRightDef":
                                         {
-                                            int.TryParse(j.InnerXml, out temp);
-                                            ReadMatchRatings[8] = temp;
+                                            if (int.TryParse(j.InnerXml, out temp))
+                                                ReadMatchRatings[8] = temp;
+                                            else
+                                            {
+                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                                MessageBox.Show("Parsing the away right defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                                            }
                                             break;
                                         }
                                     case "RatingMidDef":
                                         {
-                                            int.TryParse(j.InnerXml, out temp);
-                                            ReadMatchRatings[9] = temp;
+                                            if (int.TryParse(j.InnerXml, out temp))
+                                                ReadMatchRatings[9] = temp;
+                                            else
+                                            {
+                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                                MessageBox.Show("Parsing the away central defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                                            }
                                             break;
                                         }
                                     case "RatingLeftDef":
                                         {
-                                            int.TryParse(j.InnerXml, out temp);
-                                            ReadMatchRatings[10] = temp;
+                                            if (int.TryParse(j.InnerXml, out temp))
+                                                ReadMatchRatings[10] = temp;
+                                            else
+                                            {
+                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                                MessageBox.Show("Parsing the away left defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                                            }
                                             break;
                                         }
                                     case "RatingRightAtt":
                                         {
-                                            int.TryParse(j.InnerXml, out temp);
-                                            ReadMatchRatings[11] = temp;
+                                            if (int.TryParse(j.InnerXml, out temp))
+                                                ReadMatchRatings[11] = temp;
+                                            else
+                                            {
+                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                                MessageBox.Show("Parsing the away right defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                                            }
                                             break;
                                         }
                                     case "RatingMidAtt":
                                         {
-                                            int.TryParse(j.InnerXml, out temp);
-                                            ReadMatchRatings[12] = temp;
+                                            if (int.TryParse(j.InnerXml, out temp))
+                                                ReadMatchRatings[12] = temp;
+                                            else
+                                            {
+                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                                MessageBox.Show("Parsing the away right attack rating from the XML file failed!", "Error!", Buttons, Icon);
+                                            }
                                             break;
                                         }
                                     case "RatingLeftAtt":
                                         {
-                                            int.TryParse(j.InnerXml, out temp);
-                                            ReadMatchRatings[13] = temp;
+                                            if (int.TryParse(j.InnerXml, out temp))
+                                                ReadMatchRatings[13] = temp;
+                                            else
+                                            {
+                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                                MessageBox.Show("Parsing the away left attack rating from the XML file failed!", "Error!", Buttons, Icon);
+                                            }
                                             break;
                                         }
                                     case "AwayGoals":
                                         {
-                                            int.TryParse(j.InnerXml, out temp);
-                                            ReadMatchRatings[15] = temp;
+                                            if (int.TryParse(j.InnerXml, out temp))
+                                                ReadMatchRatings[15] = temp;
+                                            else
+                                            {
+                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                                MessageBox.Show("Parsing the away goals field rating from the XML file failed!", "Error!", Buttons, Icon);
+                                            }
                                             break;
                                         }
                                 }
@@ -439,44 +579,86 @@ namespace HTMatchPredictor
                 {
                     case "RatingMidfield":
                         {
-                            int.TryParse(i.InnerXml, out temp);
-                            ReadMatchRatings[0] = temp;
+                            if (int.TryParse(i.InnerXml, out temp))
+                                ReadMatchRatings[0] = temp;
+                            else
+                            {
+                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                MessageBox.Show("Parsing the predicted midfield rating from the XML file failed!", "Error!", Buttons, Icon);
+                            }
                             break;
                         }
                     case "RatingRightDef":
                         {
-                            int.TryParse(i.InnerXml, out temp);
-                            ReadMatchRatings[1] = temp;
+                            if (int.TryParse(i.InnerXml, out temp))
+                                ReadMatchRatings[1] = temp;
+                            else
+                            {
+                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                MessageBox.Show("Parsing the predicted right defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                            }
                             break;
                         }
                     case "RatingMidDef":
                         {
-                            int.TryParse(i.InnerXml, out temp);
-                            ReadMatchRatings[2] = temp;
+                            if (int.TryParse(i.InnerXml, out temp))
+                                ReadMatchRatings[2] = temp;
+                            else
+                            {
+                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                MessageBox.Show("Parsing the predicted central defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                            }
                             break;
                         }
                     case "RatingLeftDef":
                         {
-                            int.TryParse(i.InnerXml, out temp);
-                            ReadMatchRatings[3] = temp;
+                            if (int.TryParse(i.InnerXml, out temp))
+                                ReadMatchRatings[3] = temp;
+                            else
+                            {
+                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                MessageBox.Show("Parsing the predicted left defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                            }
                             break;
                         }
                     case "RatingRightAtt":
                         {
-                            int.TryParse(i.InnerXml, out temp);
-                            ReadMatchRatings[4] = temp;
+                            if (int.TryParse(i.InnerXml, out temp))
+                                ReadMatchRatings[4] = temp;
+                            else
+                            {
+                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                MessageBox.Show("Parsing the predicted right attack rating from the XML file failed!", "Error!", Buttons, Icon);
+                            }
                             break;
                         }
                     case "RatingMidAtt":
                         {
-                            int.TryParse(i.InnerXml, out temp);
-                            ReadMatchRatings[5] = temp;
+                            if (int.TryParse(i.InnerXml, out temp))
+                                ReadMatchRatings[5] = temp;
+                            else
+                            {
+                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                MessageBox.Show("Parsing the predicted central attack rating from the XML file failed!", "Error!", Buttons, Icon);
+                            }
                             break;
                         }
                     case "RatingLeftAtt":
                         {
-                            int.TryParse(i.InnerXml, out temp);
-                            ReadMatchRatings[6] = temp;
+                            if (int.TryParse(i.InnerXml, out temp))
+                                ReadMatchRatings[6] = temp;
+                            else
+                            {
+                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                                MessageBox.Show("Parsing the predicted left attack rating from the XML file failed!", "Error!", Buttons, Icon);
+                            }
                             break;
                         }
                     default: break;

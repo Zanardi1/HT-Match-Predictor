@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 /// <summary>
 /// Aceasta clasa se ocupa de generarea sirului care va fi trimis serverului Hattrick pentru descarcarea datelor si salvarea acestora in format XML. Sirul este compus din trei parti:
@@ -15,7 +16,7 @@ namespace HTMatchPredictor
         /// <summary>
         /// Retine adresa URL de unde vor fi obtinute datele
         /// </summary>
-        static private readonly string BaseURL = "http://chpp.hattrick.org/chppxml.ashx";
+        private const string BaseURL = "http://chpp.hattrick.org/chppxml.ashx";
         /// <summary>
         /// Retine fisierul ce va fi descarcat
         /// </summary>
@@ -48,7 +49,7 @@ namespace HTMatchPredictor
 
         public string CreateMatchesString(int TeamID)
         {
-            string[] pieces = { "&version=2.8&teamID=", TeamID.ToString() }; //retine parametrii
+            string[] pieces = { "&version=2.8&teamID=", TeamID.ToString(CultureInfo.InvariantCulture) }; //retine parametrii
             DownloadedFile = "?file=matches";
             FileParameters = String.Concat(pieces);
             return ComposeFinalString();
@@ -56,7 +57,7 @@ namespace HTMatchPredictor
 
         public string CreateMatchDetailsString(int MatchID)
         {
-            string[] pieces = { "&version=3.0&matchEvents=false&matchID=", MatchID.ToString(), "&sourceSystem=hattrick" };
+            string[] pieces = { "&version=3.0&matchEvents=false&matchID=", MatchID.ToString(CultureInfo.InvariantCulture), "&sourceSystem=hattrick" };
             DownloadedFile = "?file=matchdetails";
             FileParameters = String.Concat(pieces);
             return ComposeFinalString();
@@ -64,7 +65,7 @@ namespace HTMatchPredictor
 
         public string CreateMatchOrdersString(int MatchID)
         {
-            string[] pieces = { "&version=3.0&actionType=predictratings&matchID=", MatchID.ToString() };
+            string[] pieces = { "&version=3.0&actionType=predictratings&matchID=", MatchID.ToString(CultureInfo.InvariantCulture) };
             DownloadedFile = "?file=matchorders";
             FileParameters = String.Concat(pieces);
             return ComposeFinalString();
@@ -72,7 +73,7 @@ namespace HTMatchPredictor
 
         public string CreateMatchArchiveString(int TeamID, int Season)
         {
-            string[] pieces = { "&version=1.4&teamID=", TeamID.ToString(), "&isYouth=false&season=", Season.ToString() };
+            string[] pieces = { "&version=1.4&teamID=", TeamID.ToString(CultureInfo.InvariantCulture), "&isYouth=false&season=", Season.ToString(CultureInfo.InvariantCulture) };
             DownloadedFile = "?file=matchesarchive";
             FileParameters = string.Concat(pieces);
             return ComposeFinalString();

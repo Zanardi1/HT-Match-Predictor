@@ -518,18 +518,18 @@
             this.AwayLeftAttackTextLabel.AutoSize = true;
             this.AwayLeftAttackTextLabel.Location = new System.Drawing.Point(11, 403);
             this.AwayLeftAttackTextLabel.Name = "AwayLeftAttackTextLabel";
-            this.AwayLeftAttackTextLabel.Size = new System.Drawing.Size(83, 17);
+            this.AwayLeftAttackTextLabel.Size = new System.Drawing.Size(74, 17);
             this.AwayLeftAttackTextLabel.TabIndex = 13;
-            this.AwayLeftAttackTextLabel.Text = "Left offence";
+            this.AwayLeftAttackTextLabel.Text = "Left attack";
             // 
             // AwayCentralAttackTextLabel
             // 
             this.AwayCentralAttackTextLabel.AutoSize = true;
             this.AwayCentralAttackTextLabel.Location = new System.Drawing.Point(11, 338);
             this.AwayCentralAttackTextLabel.Name = "AwayCentralAttackTextLabel";
-            this.AwayCentralAttackTextLabel.Size = new System.Drawing.Size(104, 17);
+            this.AwayCentralAttackTextLabel.Size = new System.Drawing.Size(95, 17);
             this.AwayCentralAttackTextLabel.TabIndex = 12;
-            this.AwayCentralAttackTextLabel.Text = "Central offence";
+            this.AwayCentralAttackTextLabel.Text = "Central attack";
             // 
             // AwayRightAttackTextLabel
             // 
