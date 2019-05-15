@@ -100,17 +100,8 @@
     <Compile Include="InsertPIN.Designer.cs">
       <DependentUpon>InsertPIN.cs</DependentUpon>
     </Compile>
-    <Compile Include="MatchesDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MatchesDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="OAuth1.0\IOAuthSettings.cs" />
     <Compile Include="OAuth1.0\OAuth.cs" />
-    <Compile Include="OAuth1.0\OAuthConstants.cs" />
-    <Compile Include="OAuth1.0\OAuthForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="OptionsHandling.cs" />
     <Compile Include="ParseXMLFiles.cs" />
     <Compile Include="Program.cs" />
@@ -161,18 +152,6 @@
       <DependentUpon>SkillSelectionWindow.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Common\makefile.flymake" />
-    <None Include="MatchesDataSet.xsc">
-      <DependentUpon>MatchesDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="MatchesDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>MatchesDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="MatchesDataSet.xss">
-      <DependentUpon>MatchesDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="OAuth1.0\OAuth.shfbproj" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
