@@ -100,7 +100,7 @@ namespace HTMatchPredictor
 
         public void ParseUserFile()
         {
-            XmlUrlResolver Resolver = new XmlUrlResolver
+            XmlUrlResolver URLResolver = new XmlUrlResolver
             {
                 Credentials = System.Net.CredentialCache.DefaultCredentials
             };
@@ -109,12 +109,12 @@ namespace HTMatchPredictor
                 DtdProcessing = DtdProcessing.Prohibit,
                 IgnoreComments = true,
                 CheckCharacters = true,
-                XmlResolver = Resolver
+                XmlResolver = URLResolver
             };
             XmlReader Reader = XmlReader.Create(Form1.XMLFolder + "\\User.xml", settings);
             XmlDocument doc = new XmlDocument
             {
-                XmlResolver = Resolver
+                XmlResolver = null
             };
             doc.Load(Reader);
 
@@ -200,14 +200,22 @@ namespace HTMatchPredictor
         public void ParseMatchesFile()
         {
             int TempMatchType = 0;
+            XmlUrlResolver Resolver = new XmlUrlResolver()
+            {
+                Credentials = System.Net.CredentialCache.DefaultCredentials
+            };
             XmlReaderSettings settings = new XmlReaderSettings
             {
-                DtdProcessing = DtdProcessing.Parse,
+                DtdProcessing = DtdProcessing.Prohibit,
                 IgnoreComments = true,
-                CheckCharacters = true
+                CheckCharacters = true,
+                XmlResolver = Resolver
             };
             XmlReader Reader = XmlReader.Create(Form1.XMLFolder + "\\Matches.xml", settings);
-            XmlDocument doc = new XmlDocument();
+            XmlDocument doc = new XmlDocument()
+            {
+                XmlResolver = null
+            };
             doc.Load(Reader);
 
             XmlNode Current = doc.DocumentElement.SelectSingleNode("Team");
@@ -285,14 +293,22 @@ namespace HTMatchPredictor
         public int ParseMatchDetailsFile(bool ShowErrorMessage)
         {
             int temp; //utilizata deoarece TryParse nu accepta ca variabila de iesire un element dintr-o lista, ci o variabila simpla
+            XmlUrlResolver Resolver = new XmlUrlResolver()
+            {
+                Credentials = System.Net.CredentialCache.DefaultCredentials
+            };
             XmlReaderSettings settings = new XmlReaderSettings
             {
-                DtdProcessing = DtdProcessing.Parse,
+                DtdProcessing = DtdProcessing.Prohibit,
                 IgnoreComments = true,
-                CheckCharacters = true
+                CheckCharacters = true,
+                XmlResolver = Resolver
             };
             XmlReader Reader = XmlReader.Create(Form1.XMLFolder + "\\MatchDetails.xml", settings);
-            XmlDocument doc = new XmlDocument();
+            XmlDocument doc = new XmlDocument()
+            {
+                XmlResolver = null
+            };
             doc.Load(Reader);
 
             XmlNode Current = doc.DocumentElement.SelectSingleNode("Match");
@@ -467,7 +483,9 @@ namespace HTMatchPredictor
                                     case "RatingRightDef":
                                         {
                                             if (int.TryParse(j.InnerXml, out temp))
+                                            {
                                                 ReadMatchRatings[8] = temp;
+                                            }
                                             else
                                             {
                                                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
@@ -479,7 +497,9 @@ namespace HTMatchPredictor
                                     case "RatingMidDef":
                                         {
                                             if (int.TryParse(j.InnerXml, out temp))
+                                            {
                                                 ReadMatchRatings[9] = temp;
+                                            }
                                             else
                                             {
                                                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
@@ -491,7 +511,9 @@ namespace HTMatchPredictor
                                     case "RatingLeftDef":
                                         {
                                             if (int.TryParse(j.InnerXml, out temp))
+                                            {
                                                 ReadMatchRatings[10] = temp;
+                                            }
                                             else
                                             {
                                                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
@@ -503,7 +525,9 @@ namespace HTMatchPredictor
                                     case "RatingRightAtt":
                                         {
                                             if (int.TryParse(j.InnerXml, out temp))
+                                            {
                                                 ReadMatchRatings[11] = temp;
+                                            }
                                             else
                                             {
                                                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
@@ -515,7 +539,9 @@ namespace HTMatchPredictor
                                     case "RatingMidAtt":
                                         {
                                             if (int.TryParse(j.InnerXml, out temp))
+                                            {
                                                 ReadMatchRatings[12] = temp;
+                                            }
                                             else
                                             {
                                                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
@@ -527,7 +553,9 @@ namespace HTMatchPredictor
                                     case "RatingLeftAtt":
                                         {
                                             if (int.TryParse(j.InnerXml, out temp))
+                                            {
                                                 ReadMatchRatings[13] = temp;
+                                            }
                                             else
                                             {
                                                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
@@ -539,7 +567,9 @@ namespace HTMatchPredictor
                                     case "AwayGoals":
                                         {
                                             if (int.TryParse(j.InnerXml, out temp))
+                                            {
                                                 ReadMatchRatings[15] = temp;
+                                            }
                                             else
                                             {
                                                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
@@ -561,14 +591,22 @@ namespace HTMatchPredictor
         public void ParseOrdersFile()
         {
             int temp;
+            XmlUrlResolver Resolver = new XmlUrlResolver()
+            {
+                Credentials = System.Net.CredentialCache.DefaultCredentials
+            };
             XmlReaderSettings settings = new XmlReaderSettings
             {
                 DtdProcessing = DtdProcessing.Parse,
                 IgnoreComments = true,
-                CheckCharacters = true
+                CheckCharacters = true,
+                XmlResolver = Resolver
             };
             XmlReader Reader = XmlReader.Create(Form1.XMLFolder + "\\Orders.xml", settings);
-            XmlDocument doc = new XmlDocument();
+            XmlDocument doc = new XmlDocument()
+            {
+                XmlResolver = null
+            };
             doc.Load(Reader);
 
             XmlNode Current = doc.DocumentElement.SelectSingleNode("MatchData");
@@ -580,7 +618,9 @@ namespace HTMatchPredictor
                     case "RatingMidfield":
                         {
                             if (int.TryParse(i.InnerXml, out temp))
+                            {
                                 ReadMatchRatings[0] = temp;
+                            }
                             else
                             {
                                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
@@ -592,7 +632,9 @@ namespace HTMatchPredictor
                     case "RatingRightDef":
                         {
                             if (int.TryParse(i.InnerXml, out temp))
+                            {
                                 ReadMatchRatings[1] = temp;
+                            }
                             else
                             {
                                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
@@ -604,7 +646,9 @@ namespace HTMatchPredictor
                     case "RatingMidDef":
                         {
                             if (int.TryParse(i.InnerXml, out temp))
+                            {
                                 ReadMatchRatings[2] = temp;
+                            }
                             else
                             {
                                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
@@ -616,7 +660,9 @@ namespace HTMatchPredictor
                     case "RatingLeftDef":
                         {
                             if (int.TryParse(i.InnerXml, out temp))
+                            {
                                 ReadMatchRatings[3] = temp;
+                            }
                             else
                             {
                                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
@@ -628,7 +674,9 @@ namespace HTMatchPredictor
                     case "RatingRightAtt":
                         {
                             if (int.TryParse(i.InnerXml, out temp))
+                            {
                                 ReadMatchRatings[4] = temp;
+                            }
                             else
                             {
                                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
@@ -640,7 +688,9 @@ namespace HTMatchPredictor
                     case "RatingMidAtt":
                         {
                             if (int.TryParse(i.InnerXml, out temp))
+                            {
                                 ReadMatchRatings[5] = temp;
+                            }
                             else
                             {
                                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
@@ -652,7 +702,9 @@ namespace HTMatchPredictor
                     case "RatingLeftAtt":
                         {
                             if (int.TryParse(i.InnerXml, out temp))
+                            {
                                 ReadMatchRatings[6] = temp;
+                            }
                             else
                             {
                                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
@@ -674,14 +726,22 @@ namespace HTMatchPredictor
         public List<int> ParseArchiveFile()
         {
             List<int> MatchIDList = new List<int> { };
+            XmlUrlResolver Resolver = new XmlUrlResolver()
+            {
+                Credentials = System.Net.CredentialCache.DefaultCredentials
+            };
             XmlReaderSettings settings = new XmlReaderSettings
             {
                 DtdProcessing = DtdProcessing.Parse,
                 IgnoreComments = true,
-                CheckCharacters = true
+                CheckCharacters = true,
+                XmlResolver = Resolver
             };
             XmlReader Reader = XmlReader.Create(Form1.XMLFolder + "\\Archive.xml", settings);
-            XmlDocument doc = new XmlDocument();
+            XmlDocument doc = new XmlDocument()
+            {
+                XmlResolver = null
+            };
             doc.Load(Reader);
 
             XmlNode Current = doc.DocumentElement.SelectSingleNode("Team");

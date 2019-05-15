@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using CropperPlugins.Common;
+using System.Globalization;
 
 #if STANDALONE
 using System.Reflection;
@@ -260,10 +261,10 @@ namespace OAuth
         /// </summary>
         ///
         /// <returns>The timestamp, in string form.</returns>
-        private string GenerateTimeStamp()
+        static private string GenerateTimeStamp()
         {
             TimeSpan ts = DateTime.UtcNow - _epoch;
-            return Convert.ToInt64(ts.TotalSeconds).ToString();
+            return Convert.ToInt64(ts.TotalSeconds).ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -352,9 +353,9 @@ namespace OAuth
         ///
         /// <returns>A Dictionary containing the set of
         /// parameter names and associated values</returns>
-        private Dictionary<String,String> ExtractQueryParameters(string queryString)
+        private static Dictionary<String,String> ExtractQueryParameters(string queryString)
         {
-            if (queryString.StartsWith("?"))
+            if (queryString.StartsWith("?",StringComparison.InvariantCulture))
                 queryString = queryString.Remove(0, 1);
 
             var result = new Dictionary<String,String>();
@@ -364,7 +365,7 @@ namespace OAuth
 
             foreach (string s in queryString.Split('&'))
             {
-                if (!string.IsNullOrEmpty(s) && !s.StartsWith("oauth_"))
+                if (!string.IsNullOrEmpty(s) && !s.StartsWith("oauth_",StringComparison.InvariantCulture))
                 {
                     if (s.IndexOf('=') > -1)
                     {
@@ -442,9 +443,9 @@ namespace OAuth
                     result.Append(symbol);
                 else
                 {
-                    foreach (byte b in Encoding.UTF8.GetBytes(symbol.ToString()))
+                    foreach (byte b in Encoding.UTF8.GetBytes(symbol.ToString(CultureInfo.InvariantCulture)))
                     {
-                        result.Append('%' + String.Format("{0:X2}", b));
+                        result.Append('%' + String.Format(CultureInfo.InvariantCulture,"{0:X2}", b));
                     }
                 }
             }
@@ -486,8 +487,8 @@ namespace OAuth
             foreach (KeyValuePair<String,String> item in p.OrderBy(x => x.Key))
             {
                 if (!String.IsNullOrEmpty(item.Value) &&
-                    !item.Key.EndsWith("secret"))
-                    sb.AppendFormat("oauth_{0}=\"{1}\", ",
+                    !item.Key.EndsWith("secret",StringComparison.InvariantCulture))
+                    sb.AppendFormat(CultureInfo.InvariantCulture,"oauth_{0}=\"{1}\", ",
                                     item.Key,
                                     UrlEncode(item.Value));
             }
@@ -1035,7 +1036,7 @@ namespace OAuth
             var erp = EncodeRequestParameters(this._params);
             return (String.IsNullOrEmpty(realm))
                 ? "OAuth " + erp
-                : String.Format("OAuth realm=\"{0}\", ", realm) + erp;
+                : String.Format(CultureInfo.InvariantCulture,"OAuth realm=\"{0}\", ", realm) + erp;
         }
 
 
@@ -1060,7 +1061,7 @@ namespace OAuth
         {
             // normalize the URI
             var uri = new Uri(url);
-            var normUrl = string.Format("{0}://{1}", uri.Scheme, uri.Host);
+            var normUrl = string.Format(CultureInfo.InvariantCulture,"{0}://{1}", uri.Scheme, uri.Host);
             if (!((uri.Scheme == "http" && uri.Port == 80) ||
                   (uri.Scheme == "https" && uri.Port == 443)))
                 normUrl += ":" + uri.Port;
@@ -1091,8 +1092,8 @@ namespace OAuth
                 // and any existing signature will be invalid.
 
                 if (!String.IsNullOrEmpty(this._params[p1.Key]) &&
-                    !p1.Key.EndsWith("_secret") &&
-                    !p1.Key.EndsWith("signature"))
+                    !p1.Key.EndsWith("_secret",StringComparison.InvariantCulture) &&
+                    !p1.Key.EndsWith("signature",StringComparison.InvariantCulture))
                 {
                     // workitem 15756 - handle non-oob scenarios
                     p.Add("oauth_" + p1.Key,
@@ -1105,7 +1106,7 @@ namespace OAuth
             foreach (KeyValuePair<String,String> item in p.OrderBy(x => x.Key))
             {
                 // even "empty" params need to be encoded this way.
-                sb1.AppendFormat("{0}={1}&", item.Key, item.Value);
+                sb1.AppendFormat(CultureInfo.InvariantCulture,"{0}={1}&", item.Key, item.Value);
             }
 
             Tracing.Trace("oauth piece: {0}", sb1.ToString());
@@ -1124,7 +1125,7 @@ namespace OAuth
             if (this["signature_method"] != "HMAC-SHA1")
                 throw new NotImplementedException();
 
-            var keystring = string.Format("{0}&{1}",
+            var keystring = string.Format(CultureInfo.InvariantCulture,"{0}&{1}",
                                    UrlEncode(this["consumer_secret"]),
                                           UrlEncode(this["token_secret"]));
             Tracing.Trace("signing keystring: {0}", keystring);

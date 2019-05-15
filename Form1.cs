@@ -436,7 +436,7 @@ namespace HTMatchPredictor
             List<int> MatchesIDList = new List<int> { }; //retine numerele de identificare ale meciurilor citite din fisier
             AddMultipleMatchesByTeam AddTeam = new AddMultipleMatchesByTeam();
             Uri MatchArchiveURL = new Uri(DownloadString.CreateMatchArchiveString(AddTeam.TeamID, AddTeam.SeasonNumber));
-            
+
             if (AddTeam.ShowDialog(this) == DialogResult.OK)
             {
                 Cursor = Cursors.WaitCursor;
@@ -1071,7 +1071,14 @@ namespace HTMatchPredictor
         /// <param name="e">Handler de eveniment</param>
         private void LoadPredictedRatings(object sender, EventArgs e)
         {
-            Uri MatchOrdersURL = new Uri(DownloadString.CreateMatchOrdersString(ParseXMLFiles.FinalFutureMatches[FutureMatchesListBox.SelectedIndex].MatchID));
+            int UserTeamID = 0;
+            if (FirstTeamRadioButton.Checked)
+                UserTeamID = Parser.UserTeamIDs[0];
+            if (SecondTeamRadioButton.Checked)
+                UserTeamID = Parser.UserTeamIDs[1];
+            if (ThirdTeamRadioButton.Checked)
+                UserTeamID = Parser.UserTeamIDs[2];
+            Uri MatchOrdersURL = new Uri(DownloadString.CreateMatchOrdersString(ParseXMLFiles.FinalFutureMatches[FutureMatchesListBox.SelectedIndex].MatchID, UserTeamID));
             SaveResponseToFile(MatchOrdersURL, XMLFolder + "\\Orders.xml");
             Parser.ParseOrdersFile();
             for (int i = 0; i <= 6; i++)

@@ -63,9 +63,9 @@ namespace HTMatchPredictor
             return ComposeFinalString();
         }
 
-        public string CreateMatchOrdersString(int MatchID)
+        public string CreateMatchOrdersString(int MatchID, int TeamID)
         {
-            string[] pieces = { "&version=3.0&actionType=predictratings&matchID=", MatchID.ToString(CultureInfo.InvariantCulture) };
+            string[] pieces = { "&version=3.0&actionType=predictratings&matchID=", MatchID.ToString(CultureInfo.InvariantCulture),"&teamId=",TeamID.ToString(CultureInfo.InvariantCulture) };
             DownloadedFile = "?file=matchorders";
             FileParameters = String.Concat(pieces);
             return ComposeFinalString();
