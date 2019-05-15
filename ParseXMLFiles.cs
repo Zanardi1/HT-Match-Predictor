@@ -293,6 +293,7 @@ namespace HTMatchPredictor
         public int ParseMatchDetailsFile(bool ShowErrorMessage)
         {
             int temp; //utilizata deoarece TryParse nu accepta ca variabila de iesire un element dintr-o lista, ci o variabila simpla
+            int Result = 0;
             XmlUrlResolver Resolver = new XmlUrlResolver()
             {
                 Credentials = System.Net.CredentialCache.DefaultCredentials
@@ -329,8 +330,7 @@ namespace HTMatchPredictor
                                         MessageBoxButtons Button = MessageBoxButtons.OK;
                                         MessageBox.Show("Only league, friendly (normal rules) and international friendly (normal rules) matches can be added into the database. The match with the chosen ID was not added.", "Match type error!", Button, Icon);
                                     }
-                                    Reader.Close();
-                                    return -1;
+                                    Result = -1;
                                 }
                             }
 
@@ -585,7 +585,8 @@ namespace HTMatchPredictor
                 }
             }
             Reader.Close();
-            return 0;
+            Result = 0;
+            return Result;
         }
 
         public void ParseOrdersFile()

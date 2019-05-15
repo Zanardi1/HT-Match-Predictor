@@ -62,14 +62,20 @@ namespace HTMatchPredictor
             {
                 Result = 2;
             }
-            if (!int.TryParse(LowerBoundIDTextBox.Text, out TempLowLimit))
+            if (int.TryParse(LowerBoundIDTextBox.Text, out TempLowLimit))
             {
                 LowLimit = TempLowLimit;
+            }
+            else
+            {
                 Result = 3;
             }
-            if (!int.TryParse(HigherBoundIDTextBox.Text, out TempHighLimit))
+            if (int.TryParse(HigherBoundIDTextBox.Text, out TempHighLimit))
             {
                 HighLimit = TempHighLimit;
+            }
+            else
+            {
                 Result = 4;
             }
             if (LowLimit >= HighLimit)

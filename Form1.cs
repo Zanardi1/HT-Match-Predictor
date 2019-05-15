@@ -264,7 +264,7 @@ namespace HTMatchPredictor
                 Directory.CreateDirectory(XMLFolder);
                 File.WriteAllText(DestinationFileName, GetFileContent(SourceURLAddress.ToString()));
             }
-            catch (IOException) //in cazul in care fisierul XML este in uz, mai incearca o data. Nu stiu daca e calea cea mai potrivita, totusi
+            catch (IOException) //todo bug din cand in cand mai primesc un mesaj de eroare cum ca fisierul Matches.xml e folosit de un alt proces.
             {
                 File.WriteAllText(DestinationFileName, GetFileContent(SourceURLAddress.ToString()));
             }
