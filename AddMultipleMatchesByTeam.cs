@@ -74,15 +74,21 @@ namespace HTMatchPredictor
                 Result = 2;
             }
 
-            if (!int.TryParse(SeniorTeamIDTextBox.Text, out TempTeamID))
+            if (int.TryParse(SeniorTeamIDTextBox.Text, out TempTeamID))
             {
                 TeamID = TempTeamID;
+            }
+            else
+            {
                 Result = 3;
             }
 
-            if (!int.TryParse(SeasonTextBox.Text, out TempSeasonNumber))
+            if (int.TryParse(SeasonTextBox.Text, out TempSeasonNumber))
             {
                 SeasonNumber = TempSeasonNumber;
+            }
+            else
+            {
                 Result = 4;
             }
 

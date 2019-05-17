@@ -127,7 +127,7 @@ namespace HTMatchPredictor
 
         public void AddAMatch(int MatchIDToInsert, List<int> RatingsToInsert)
         {
-            string AddMatchCommand = "Insert into Games values @Match, @Ratings1, @Ratings2, @Ratings3, @Ratings4, @Ratings5, @Ratings6, @Ratings7, @Ratings8, @Ratings9, @Ratings10, @Ratings11, @Ratings12, @Ratings13, @Ratings14, @Ratings15, @Ratings16";
+            string AddMatchCommand = "Insert into Games values (@Match, @Ratings1, @Ratings2, @Ratings3, @Ratings4, @Ratings5, @Ratings6, @Ratings7, @Ratings8, @Ratings9, @Ratings10, @Ratings11, @Ratings12, @Ratings13, @Ratings14, @Ratings15, @Ratings16)";
             SqlConnection MyConn = new SqlConnection(CreateTableConnectionString);
             SqlCommand command = new SqlCommand(AddMatchCommand, MyConn);
             command.Parameters.AddWithValue("@Match", MatchIDToInsert.ToString(CultureInfo.InvariantCulture));
@@ -150,10 +150,11 @@ namespace HTMatchPredictor
             MyConn.Open();
             try
             {
-                command.ExecuteNonQuery();
+                int xxx=command.ExecuteNonQuery();
             }
-            catch (SqlException)
+            catch (SqlException S)
             {
+                MessageBox.Show(S.Message);
                 //Daca exista deja inregistrarea cu un anumit numar de identificare pentru un meci, atunci nu face nimic. Nu stiu daca asta e cea mai buna modalitate de a trata exceptia
             }
             MyConn.Close();

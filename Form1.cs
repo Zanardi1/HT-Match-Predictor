@@ -10,6 +10,7 @@ using System.Net;
 using System.Text;
 using System.Windows.Forms;
 using System.Globalization;
+using System.Threading;
 
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
 //todo bug atunci cand revoc aplicatia din contul Hattrick, jetoanele raman, dar sunt inutilizabile. Din acest motiv primesc o eroare
@@ -435,10 +436,9 @@ namespace HTMatchPredictor
             int NumberOfMatchesAdded = 0;
             List<int> MatchesIDList = new List<int> { }; //retine numerele de identificare ale meciurilor citite din fisier
             AddMultipleMatchesByTeam AddTeam = new AddMultipleMatchesByTeam();
-            Uri MatchArchiveURL = new Uri(DownloadString.CreateMatchArchiveString(AddTeam.TeamID, AddTeam.SeasonNumber));
-
             if (AddTeam.ShowDialog(this) == DialogResult.OK)
             {
+                Uri MatchArchiveURL = new Uri(DownloadString.CreateMatchArchiveString(AddTeam.TeamID, AddTeam.SeasonNumber));
                 Cursor = Cursors.WaitCursor;
                 ProgressWindow PW = new ProgressWindow();
                 PW.Show(this);
@@ -490,6 +490,7 @@ namespace HTMatchPredictor
                 {
                     Uri MatchDetailsURL = new Uri(DownloadString.CreateMatchDetailsString(i));
                     SaveResponseToFile(MatchDetailsURL, XMLFolder + "\\MatchDetails.xml");
+                    Thread.Sleep(2);
                     if (Parser.ParseMatchDetailsFile(false) != -1) //Daca face parte din categoria meciurilor ce pot intra in BD
                     {
                         if (Parser.ReadMatchRatings[0] != 0)
