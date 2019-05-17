@@ -780,6 +780,7 @@
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
             this.optionsToolStripMenuItem.Text = "Options";
+            this.optionsToolStripMenuItem.Visible = false;
             // 
             // aboutToolStripMenuItem
             // 

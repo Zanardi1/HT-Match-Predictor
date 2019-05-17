@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace HTMatchPredictor
@@ -16,10 +17,7 @@ namespace HTMatchPredictor
 
             set
             {
-                if (value <= 0)
-                    lowlimit = 1;
-                else
-                    lowlimit = value;
+                lowlimit = value;
             }
         }
         public int HighLimit
@@ -52,47 +50,51 @@ namespace HTMatchPredictor
         /// 7 - daca limita superioara e <=0</returns>
         private int TestForDataValidity()
         {
-            int Result = 0;
             int TempLowLimit, TempHighLimit;
-            if (string.IsNullOrEmpty(LowerBoundIDTextBox.Text))
-            {
-                Result = 1;
-            }
-            if (string.IsNullOrEmpty(HigherBoundIDTextBox.Text))
-            {
-                Result = 2;
-            }
-            if (int.TryParse(LowerBoundIDTextBox.Text, out TempLowLimit))
+
+            if (int.TryParse(LowerBoundIDTextBox.Text, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out TempLowLimit))
             {
                 LowLimit = TempLowLimit;
+                if (LowLimit < 0)
+                {
+                    return 6;
+                }
             }
             else
             {
-                Result = 3;
+                if (string.IsNullOrEmpty(LowerBoundIDTextBox.Text))
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 3;
+                }
             }
-            if (int.TryParse(HigherBoundIDTextBox.Text, out TempHighLimit))
+            if (int.TryParse(HigherBoundIDTextBox.Text, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out TempHighLimit))
             {
                 HighLimit = TempHighLimit;
+                if (HighLimit < 0)
+                {
+                    return 7;
+                }
             }
             else
             {
-                Result = 4;
+                if (string.IsNullOrEmpty(HigherBoundIDTextBox.Text))
+                {
+                    return 2;
+                }
+                else
+                {
+                    return 4;
+                }
             }
             if (LowLimit >= HighLimit)
             {
-                Result = 5;
+                return 5;
             }
-            if (LowLimit < 0)
-            {
-                Result = 6;
-            }
-
-            if (HighLimit < 0)
-            {
-                Result = 7;
-            }
-
-            return Result;
+            return 0;
         }
 
         private void DiscardChanges(object sender, EventArgs e)
@@ -116,6 +118,7 @@ namespace HTMatchPredictor
                 case 1:
                     {
                         LowerBoundIDTextBox.BackColor = SystemColors.MenuHighlight;
+                        HigherBoundIDTextBox.BackColor = SystemColors.Window;
                         MessageBoxButtons Buttons = MessageBoxButtons.OK;
                         MessageBoxIcon Icon = MessageBoxIcon.Error;
                         MessageBox.Show("The field for the lower end of the matches ID scope is empty. Please insert a match ID.", "Error saving your data", Buttons, Icon);
@@ -123,6 +126,7 @@ namespace HTMatchPredictor
                     }
                 case 2:
                     {
+                        LowerBoundIDTextBox.BackColor = SystemColors.Window;
                         HigherBoundIDTextBox.BackColor = SystemColors.MenuHighlight;
                         MessageBoxButtons Buttons = MessageBoxButtons.OK;
                         MessageBoxIcon Icon = MessageBoxIcon.Error;
@@ -132,6 +136,7 @@ namespace HTMatchPredictor
                 case 3:
                     {
                         LowerBoundIDTextBox.BackColor = SystemColors.MenuHighlight;
+                        HigherBoundIDTextBox.BackColor = SystemColors.Window;
                         MessageBoxButtons Buttons = MessageBoxButtons.OK;
                         MessageBoxIcon Icon = MessageBoxIcon.Error;
                         MessageBox.Show("The field for the lower end of the matches must contain only numbers.", "Error saving your data", Buttons, Icon);
@@ -139,6 +144,7 @@ namespace HTMatchPredictor
                     }
                 case 4:
                     {
+                        LowerBoundIDTextBox.BackColor = SystemColors.Window;
                         HigherBoundIDTextBox.BackColor = SystemColors.MenuHighlight;
                         MessageBoxButtons Buttons = MessageBoxButtons.OK;
                         MessageBoxIcon Icon = MessageBoxIcon.Error;
@@ -157,6 +163,7 @@ namespace HTMatchPredictor
                 case 6:
                     {
                         LowerBoundIDTextBox.BackColor = SystemColors.MenuHighlight;
+                        HigherBoundIDTextBox.BackColor = SystemColors.Window;
                         MessageBoxButtons Buttons = MessageBoxButtons.OK;
                         MessageBoxIcon Icon = MessageBoxIcon.Error;
                         MessageBox.Show("The lower bound match ID must be higher than 0.", "Error saving your data", Buttons, Icon);
@@ -164,6 +171,7 @@ namespace HTMatchPredictor
                     }
                 case 7:
                     {
+                        LowerBoundIDTextBox.BackColor = SystemColors.Window;
                         HigherBoundIDTextBox.BackColor = SystemColors.MenuHighlight;
                         MessageBoxButtons Buttons = MessageBoxButtons.OK;
                         MessageBoxIcon Icon = MessageBoxIcon.Error;

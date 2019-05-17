@@ -5,11 +5,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Security;
 using System.Text;
 using System.Windows.Forms;
-using System.Globalization;
 using System.Threading;
 
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
@@ -49,11 +50,18 @@ namespace HTMatchPredictor
             set
             {
                 if (value < 1)
+                {
                     ratingreturned = 1;
+                }
+
                 if (value > 80)
+                {
                     ratingreturned = 80;
+                }
                 else
+                {
                     ratingreturned = value;
+                }
             }
         }
         /// <summary>
@@ -157,9 +165,17 @@ namespace HTMatchPredictor
                     }
                 }
             }
-            catch (Exception ex)
+            catch (ArgumentNullException A)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(A.Message);
+            }
+            catch (ObjectDisposedException O)
+            {
+                MessageBox.Show(O.Message);
+            }
+            catch (SecurityException S)
+            {
+                MessageBox.Show(S.Message);
             }
             return Value;
         }
@@ -170,7 +186,7 @@ namespace HTMatchPredictor
         /// <returns>Sirul de caractere ce reprezinta jetonul secret (token_secret)</returns>
         private static string ReadTokenSecretFromRegistry()
         {
-            string Value = string.Empty; ;
+            string Value = string.Empty;
             try
             {
                 using (RegistryKey key = Registry.CurrentUser.OpenSubKey("HTMPTK"))
@@ -185,9 +201,21 @@ namespace HTMatchPredictor
                     }
                 }
             }
-            catch (Exception ex)
+            catch (ArgumentNullException A)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(A.Message);
+            }
+            catch (ObjectDisposedException O)
+            {
+                MessageBox.Show(O.Message);
+            }
+            catch (SecurityException S)
+            {
+                MessageBox.Show(S.Message);
+            }
+            catch (IOException I)
+            {
+                MessageBox.Show(I.Message);
             }
             return Value;
         }
@@ -199,8 +227,31 @@ namespace HTMatchPredictor
         {
             RegistryKey Key;
             Key = Registry.CurrentUser.CreateSubKey("HTMPTK"); //HTMP = HatTrick Match Predictor
-            Key.SetValue("Token", o["token"]);
-            Key.SetValue("Secret Token", o["token_secret"]);
+            try
+            {
+                Key.SetValue("Token", o["token"]);
+                Key.SetValue("Secret Token", o["token_secret"]);
+            }
+            catch (ArgumentNullException A)
+            {
+                MessageBox.Show(A.Message);
+            }
+            catch (ObjectDisposedException O)
+            {
+                MessageBox.Show(O.Message);
+            }
+            catch (UnauthorizedAccessException U)
+            {
+                MessageBox.Show(U.Message);
+            }
+            catch (SecurityException S)
+            {
+                MessageBox.Show(S.Message);
+            }
+            catch (IOException I)
+            {
+                MessageBox.Show(I.Message);
+            }
             Key.Close();
         }
 
@@ -265,9 +316,9 @@ namespace HTMatchPredictor
                 Directory.CreateDirectory(XMLFolder);
                 File.WriteAllText(DestinationFileName, GetFileContent(SourceURLAddress.ToString()));
             }
-            catch (IOException) //todo bug din cand in cand mai primesc un mesaj de eroare cum ca fisierul Matches.xml e folosit de un alt proces.
+            catch (IOException I) //todo bug din cand in cand mai primesc un mesaj de eroare cum ca fisierul Matches.xml e folosit de un alt proces.
             {
-                File.WriteAllText(DestinationFileName, GetFileContent(SourceURLAddress.ToString()));
+                MessageBox.Show(I.Message);
             }
         }
 
@@ -490,7 +541,7 @@ namespace HTMatchPredictor
                 {
                     Uri MatchDetailsURL = new Uri(DownloadString.CreateMatchDetailsString(i));
                     SaveResponseToFile(MatchDetailsURL, XMLFolder + "\\MatchDetails.xml");
-                    Thread.Sleep(2);
+                    Thread.Sleep(10);
                     if (Parser.ParseMatchDetailsFile(false) != -1) //Daca face parte din categoria meciurilor ce pot intra in BD
                     {
                         if (Parser.ReadMatchRatings[0] != 0)
@@ -1074,11 +1125,20 @@ namespace HTMatchPredictor
         {
             int UserTeamID = 0;
             if (FirstTeamRadioButton.Checked)
+            {
                 UserTeamID = Parser.UserTeamIDs[0];
+            }
+
             if (SecondTeamRadioButton.Checked)
+            {
                 UserTeamID = Parser.UserTeamIDs[1];
+            }
+
             if (ThirdTeamRadioButton.Checked)
+            {
                 UserTeamID = Parser.UserTeamIDs[2];
+            }
+
             Uri MatchOrdersURL = new Uri(DownloadString.CreateMatchOrdersString(ParseXMLFiles.FinalFutureMatches[FutureMatchesListBox.SelectedIndex].MatchID, UserTeamID));
             SaveResponseToFile(MatchOrdersURL, XMLFolder + "\\Orders.xml");
             Parser.ParseOrdersFile();
@@ -1348,9 +1408,15 @@ namespace HTMatchPredictor
         {
             List<int> Score = new List<int> { };
             if (int.TryParse(record[0].ToString(), out int temp))
+            {
                 Score.Add(temp);
+            }
+
             if (int.TryParse(record[1].ToString(), out temp))
+            {
                 Score.Add(temp);
+            }
+
             return Score;
         }
     }

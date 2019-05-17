@@ -150,7 +150,7 @@ namespace HTMatchPredictor
             MyConn.Open();
             try
             {
-                int xxx=command.ExecuteNonQuery();
+                command.ExecuteNonQuery();
             }
             catch (SqlException S)
             {
