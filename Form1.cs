@@ -11,11 +11,11 @@ using System.Net;
 using System.Security;
 using System.Text;
 using System.Windows.Forms;
-using System.Threading;
 
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
 //todo bug atunci cand revoc aplicatia din contul Hattrick, jetoanele raman, dar sunt inutilizabile. Din acest motiv primesc o eroare
 //todo sa adaug un buton de anulare a importului meciurilor in baza de date
+//todo de creat o clasa care se ocupa de scrierea diferitelor erori intr-un fisier text
 
 namespace HTMatchPredictor
 {
@@ -557,11 +557,6 @@ namespace HTMatchPredictor
                     PW.ProgressLabel.Text = "Progress... " + (i - AddID.LowLimit + 1).ToString(CultureInfo.InvariantCulture) + "/" + (AddID.HighLimit - AddID.LowLimit + 1).ToString(CultureInfo.InvariantCulture);
                     PW.TheProgressBar.Value++;
                     PW.ProgressLabel.Refresh();
-                    if (PW.StopAddingMatches)
-                    {
-                        PW.Close();
-                        break;
-                    }
                 }
                 Cursor = Cursors.Default;
                 MessageBoxButtons Buttons = MessageBoxButtons.OK;
