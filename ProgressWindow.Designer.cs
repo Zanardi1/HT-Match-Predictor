@@ -30,6 +30,7 @@
         {
             this.TheProgressBar = new System.Windows.Forms.ProgressBar();
             this.ProgressLabel = new System.Windows.Forms.Label();
+            this.CancelButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // TheProgressBar
@@ -48,16 +49,27 @@
             this.ProgressLabel.TabIndex = 1;
             this.ProgressLabel.Text = "Progress...";
             // 
+            // CancelButton
+            // 
+            this.CancelButton.Location = new System.Drawing.Point(135, 123);
+            this.CancelButton.Name = "CancelButton";
+            this.CancelButton.Size = new System.Drawing.Size(75, 23);
+            this.CancelButton.TabIndex = 2;
+            this.CancelButton.Text = "Cancel";
+            this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelButton.Click += new System.EventHandler(this.CancelImport);
+            // 
             // ProgressWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(360, 127);
+            this.ClientSize = new System.Drawing.Size(360, 186);
             this.ControlBox = false;
+            this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.ProgressLabel);
             this.Controls.Add(this.TheProgressBar);
-            this.MaximumSize = new System.Drawing.Size(378, 174);
-            this.MinimumSize = new System.Drawing.Size(378, 174);
+            this.MaximumSize = new System.Drawing.Size(378, 233);
+            this.MinimumSize = new System.Drawing.Size(378, 233);
             this.Name = "ProgressWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Matches Adding Progress";
@@ -69,5 +81,6 @@
         #endregion
         public System.Windows.Forms.ProgressBar TheProgressBar;
         public System.Windows.Forms.Label ProgressLabel;
+        private System.Windows.Forms.Button CancelButton;
     }
 }

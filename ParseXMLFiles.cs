@@ -329,6 +329,7 @@ namespace HTMatchPredictor
                                         MessageBoxButtons Button = MessageBoxButtons.OK;
                                         MessageBox.Show("Only league, friendly (normal rules) and international friendly (normal rules) matches can be added into the database. The match with the chosen ID was not added.", "Match type error!", Button, Icon);
                                     }
+                                    Reader.Close();
                                     return -1;
                                 }
                             }

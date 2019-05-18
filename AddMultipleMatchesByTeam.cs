@@ -23,7 +23,7 @@ namespace HTMatchPredictor
             {
                 if (value <= 0)
                 {
-                    teamid = 1;
+                    teamid = 87;
                 }
                 else
                 {
@@ -60,39 +60,34 @@ namespace HTMatchPredictor
         /// 4 in cazul in care casuta cu numarul sezonului contine si litere</returns>
         private int TestDataValidity()
         {
-            int Result = 0; //retine rezultatul functiei
-            int TempTeamID, TempSeasonNumber;
             SeniorTeamIDTextBox.Text = SeniorTeamIDTextBox.Text.Trim();
             SeasonTextBox.Text = SeasonTextBox.Text.Trim();
-            if (string.IsNullOrEmpty(SeniorTeamIDTextBox.Text))
-            {
-                Result = 1;
-            }
-
-            if (string.IsNullOrEmpty(SeasonTextBox.Text))
-            {
-                Result = 2;
-            }
-
-            if (int.TryParse(SeniorTeamIDTextBox.Text, out TempTeamID))
+            if (int.TryParse(SeniorTeamIDTextBox.Text, out int TempTeamID))
             {
                 TeamID = TempTeamID;
             }
             else
             {
-                Result = 3;
+                if (string.IsNullOrEmpty(SeniorTeamIDTextBox.Text))
+                {
+                    return 1;
+                }
+                return 3;
             }
 
-            if (int.TryParse(SeasonTextBox.Text, out TempSeasonNumber))
+            if (int.TryParse(SeasonTextBox.Text, out int TempSeasonNumber))
             {
                 SeasonNumber = TempSeasonNumber;
             }
             else
             {
-                Result = 4;
+                if (string.IsNullOrEmpty(SeasonTextBox.Text))
+                {
+                    return 2;
+                }
+                return 4;
             }
-
-            return Result;
+            return 0;
         }
 
         /// <summary>
@@ -126,6 +121,7 @@ namespace HTMatchPredictor
                 case 1:
                     {
                         SeniorTeamIDTextBox.BackColor = SystemColors.MenuHighlight;
+                        SeasonTextBox.BackColor = SystemColors.Window;
                         MessageBoxButtons Buttons = MessageBoxButtons.OK;
                         MessageBoxIcon Icon = MessageBoxIcon.Error;
                         MessageBox.Show("The field of the team ID is empty. Please insert the team ID and try again", "Error saving your data", Buttons, Icon);
@@ -133,6 +129,7 @@ namespace HTMatchPredictor
                     }
                 case 2:
                     {
+                        SeniorTeamIDTextBox.BackColor = SystemColors.Window;
                         SeasonTextBox.BackColor = SystemColors.MenuHighlight;
                         MessageBoxButtons Buttons = MessageBoxButtons.OK;
                         MessageBoxIcon Icon = MessageBoxIcon.Error;
@@ -141,6 +138,7 @@ namespace HTMatchPredictor
                     }
                 case 3:
                     {
+                        SeasonTextBox.BackColor = SystemColors.Window;
                         SeniorTeamIDTextBox.BackColor = SystemColors.MenuHighlight;
                         MessageBoxButtons Buttons = MessageBoxButtons.OK;
                         MessageBoxIcon Icon = MessageBoxIcon.Error;
@@ -150,6 +148,7 @@ namespace HTMatchPredictor
                 case 4:
                     {
                         SeasonTextBox.BackColor = SystemColors.MenuHighlight;
+                        SeniorTeamIDTextBox.BackColor = SystemColors.Window;
                         MessageBoxButtons Buttons = MessageBoxButtons.OK;
                         MessageBoxIcon Icon = MessageBoxIcon.Error;
                         MessageBox.Show("The season field must have only numbers. Please insert the team ID and try again", "Error saving your data", Buttons, Icon);
