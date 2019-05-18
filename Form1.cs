@@ -319,6 +319,7 @@ namespace HTMatchPredictor
             catch (IOException I) //todo bug din cand in cand mai primesc un mesaj de eroare cum ca fisierul Matches.xml e folosit de un alt proces.
             {
                 MessageBox.Show(I.Message);
+                MessageBox.Show(I.StackTrace);
             }
         }
 
@@ -541,7 +542,6 @@ namespace HTMatchPredictor
                 {
                     Uri MatchDetailsURL = new Uri(DownloadString.CreateMatchDetailsString(i));
                     SaveResponseToFile(MatchDetailsURL, XMLFolder + "\\MatchDetails.xml");
-                    Thread.Sleep(10);
                     if (Parser.ParseMatchDetailsFile(false) != -1) //Daca face parte din categoria meciurilor ce pot intra in BD
                     {
                         if (Parser.ReadMatchRatings[0] != 0)
