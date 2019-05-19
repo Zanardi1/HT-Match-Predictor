@@ -493,6 +493,41 @@ namespace HTMatchPredictor
             }
         }
 
+        private void MatchesAddingByTeamEngine(int MatchID, List<int> MatchesIDList)
+        {
+            Uri MatchDetailsURL = new Uri(DownloadString.CreateMatchDetailsString(MatchesIDList[MatchID]));
+            SaveResponseToFile(MatchDetailsURL, XMLFolder + "\\MatchDetails.xml");
+            if (Parser.ParseMatchDetailsFile(false) != -1)
+            {
+                if (Parser.ReadMatchRatings[0] != 0)
+                {
+                    MatchRatings = Parser.ReadMatchRatings;
+                    Operations.AddAMatch(MatchesIDList[MatchID], MatchRatings);
+                }
+            }
+            MatchRatings = Parser.ResetMatchRatingsList();
+        }
+
+        private void UpdateProgressWindowInterface(StringBuilder ProgressString, ProgressWindow TheWindow, List<int> MatchesIDList, int MatchID)
+        {
+            ProgressString.Append("Progress... ");
+            ProgressString.Append((MatchID + 1).ToString(CultureInfo.InvariantCulture));
+            ProgressString.Append("/");
+            ProgressString.Append(MatchesIDList.Count.ToString(CultureInfo.InvariantCulture));
+            TheWindow.ProgressLabel.Text = ProgressString.ToString();
+            TheWindow.TheProgressBar.Value++;
+            ProgressString.Clear();
+            TheWindow.ProgressLabel.Refresh();
+        }
+
+        private void ShowFinalMessage(int TheNumberOfMatchesAdded, List<int> MatchesIDList)
+        {
+            Cursor = Cursors.Default;
+            MessageBoxButtons Buttons = MessageBoxButtons.OK;
+            MessageBoxIcon Icon = MessageBoxIcon.Information;
+            MessageBox.Show($"Specified kind of matches added successfully! {TheNumberOfMatchesAdded.ToString(CultureInfo.InvariantCulture)} matches added to the database from the {MatchesIDList.Count.ToString(CultureInfo.InvariantCulture)} matches played in the selected season", "Operation complete", Buttons, Icon);
+        }
+
         /// <summary>
         /// Functia de adaugare in baza de date a meciurilor unei echipe dintr-un anumit sezon.
         /// </summary>
@@ -506,40 +541,20 @@ namespace HTMatchPredictor
             if (AddTeam.ShowDialog(this) == DialogResult.OK)
             {
                 Uri MatchArchiveURL = new Uri(DownloadString.CreateMatchArchiveString(AddTeam.TeamID, AddTeam.SeasonNumber));
-                StringBuilder ProgressString = new StringBuilder();
                 Cursor = Cursors.WaitCursor;
-                ProgressWindow PW = new ProgressWindow();
-                PW.Show(this);
                 SaveResponseToFile(MatchArchiveURL, XMLFolder + "\\Archive.xml");
                 MatchesIDList = Parser.ParseArchiveFile();
+                ProgressWindow PW = new ProgressWindow();
                 PW.TheProgressBar.Maximum = MatchesIDList.Count;
+                PW.Show(this);
                 for (int i = 0; i < MatchesIDList.Count; i++)
                 {
-                    Uri MatchDetailsURL = new Uri(DownloadString.CreateMatchDetailsString(MatchesIDList[i]));
-                    SaveResponseToFile(MatchDetailsURL, XMLFolder + "\\MatchDetails.xml");
-                    if (Parser.ParseMatchDetailsFile(false) != -1)
-                    {
-                        if (Parser.ReadMatchRatings[0] != 0)
-                        {
-                            MatchRatings = Parser.ReadMatchRatings;
-                            Operations.AddAMatch(MatchesIDList[i], MatchRatings);
-                            NumberOfMatchesAdded++;
-                        }
-                    }
-                    MatchRatings = Parser.ResetMatchRatingsList();
-                    ProgressString.Append("Progress... ");
-                    ProgressString.Append((i + 1).ToString(CultureInfo.InvariantCulture));
-                    ProgressString.Append("/");
-                    ProgressString.Append(MatchesIDList.Count.ToString(CultureInfo.InvariantCulture));
-                    PW.ProgressLabel.Text = ProgressString.ToString();
-                    PW.TheProgressBar.Value++;
-                    ProgressString.Clear();
-                    PW.ProgressLabel.Refresh();
+                    StringBuilder ProgressString = new StringBuilder();
+                    MatchesAddingByTeamEngine(i, MatchesIDList);
+                    NumberOfMatchesAdded++;
+                    UpdateProgressWindowInterface(ProgressString, PW, MatchesIDList, i);
                 }
-                Cursor = Cursors.Default;
-                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                MessageBoxIcon Icon = MessageBoxIcon.Information;
-                MessageBox.Show($"Specified kind of matches added successfully! {NumberOfMatchesAdded.ToString(CultureInfo.InvariantCulture)} matches added to the database from the {MatchesIDList.Count.ToString(CultureInfo.InvariantCulture)} matches played in the selected season", "Operation complete", Buttons, Icon);
+                ShowFinalMessage(NumberOfMatchesAdded,MatchesIDList);
                 PW.Close();
             }
         }
@@ -696,7 +711,9 @@ namespace HTMatchPredictor
             foreach (Control C in TeamListGroupBox.Controls)
             {
                 if ((C.GetType() == typeof(RadioButton)) && (C as RadioButton).Checked)
+                {
                     TeamID = Parser.UserTeamIDs[int.Parse(C.Tag.ToString(), CultureInfo.InvariantCulture)];
+                }
             }
             return TeamID;
         }
@@ -722,12 +739,16 @@ namespace HTMatchPredictor
                 foreach (Control C in HomeTeamGroupBox.Controls)
                 {
                     if (C.TabIndex == RatingIndex + 14)
+                    {
                         C.ForeColor = Color.Red;
+                    }
                 }
                 foreach (Control C in AwayTeamGroupBox.Controls)
                 {
                     if (C.TabIndex == RatingIndex + 14)
+                    {
                         C.ForeColor = Color.Red;
+                    }
                 }
                 return false;
             }
@@ -736,11 +757,18 @@ namespace HTMatchPredictor
                 foreach (Control C in HomeTeamGroupBox.Controls)
                 {
                     if (C.TabIndex == RatingIndex + 14)
+                    {
                         C.ForeColor = SystemColors.ControlText;
+                    }
                 }
                 foreach (Control C in AwayTeamGroupBox.Controls)
+                {
                     if (C.TabIndex == RatingIndex + 14)
+                    {
                         C.ForeColor = SystemColors.ControlText;
+                    }
+                }
+
                 return true;
             }
         }
@@ -757,7 +785,9 @@ namespace HTMatchPredictor
             {
                 TempResult = SetRatingLabelColor(i);
                 if (!TempResult)
+                {
                     Result = TempResult;
+                }
             }
 
             if (!Result)
