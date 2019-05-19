@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Xml;
 
 //todo sa vad daca pot scrie mai putine linii de cod pentru a face acelasi lucru cu procesarea fisierelor XML
+//todo de tratat cazurile in care fisierele XML nu ofera rezultatele scontate (cazurile de exceptie la interpretarea datelor din fisierele XML)
 
 /// <summary>
 /// Aceasta clasa se ocupa de urmatoarele lucruri:
@@ -292,7 +293,7 @@ namespace HTMatchPredictor
         /// <returns>-1, daca meciul nu meci de liga, amical tip normal sau amical international, tip normal; 0 daca totul e in regula</returns>
         public int ParseMatchDetailsFile(bool ShowErrorMessage)
         {
-            //todo de tratat cazul in care fisierul XML nu ofera rezultatele scontate
+
             int temp; //utilizata deoarece TryParse nu accepta ca variabila de iesire un element dintr-o lista, ci o variabila simpla
             XmlUrlResolver Resolver = new XmlUrlResolver()
             {

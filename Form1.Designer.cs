@@ -797,6 +797,7 @@
             this.FirstTeamRadioButton.Size = new System.Drawing.Size(110, 21);
             this.FirstTeamRadioButton.TabIndex = 16;
             this.FirstTeamRadioButton.TabStop = true;
+            this.FirstTeamRadioButton.Tag = "0";
             this.FirstTeamRadioButton.Text = "radioButton1";
             this.FirstTeamRadioButton.UseVisualStyleBackColor = true;
             this.FirstTeamRadioButton.CheckedChanged += new System.EventHandler(this.DownloadFirstTeamFutureMatches);
@@ -809,6 +810,7 @@
             this.SecondTeamRadioButton.Size = new System.Drawing.Size(110, 21);
             this.SecondTeamRadioButton.TabIndex = 17;
             this.SecondTeamRadioButton.TabStop = true;
+            this.SecondTeamRadioButton.Tag = "1";
             this.SecondTeamRadioButton.Text = "radioButton2";
             this.SecondTeamRadioButton.UseVisualStyleBackColor = true;
             this.SecondTeamRadioButton.Visible = false;
@@ -822,6 +824,7 @@
             this.ThirdTeamRadioButton.Size = new System.Drawing.Size(110, 21);
             this.ThirdTeamRadioButton.TabIndex = 18;
             this.ThirdTeamRadioButton.TabStop = true;
+            this.ThirdTeamRadioButton.Tag = "2";
             this.ThirdTeamRadioButton.Text = "radioButton3";
             this.ThirdTeamRadioButton.UseVisualStyleBackColor = true;
             this.ThirdTeamRadioButton.Visible = false;

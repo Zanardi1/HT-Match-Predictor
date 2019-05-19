@@ -16,6 +16,7 @@ using System.Windows.Forms;
 //todo bug atunci cand revoc aplicatia din contul Hattrick, jetoanele raman, dar sunt inutilizabile. Din acest motiv primesc o eroare
 //todo sa adaug un buton de anulare a importului meciurilor in baza de date
 //todo de creat o clasa care se ocupa de scrierea diferitelor erori intr-un fisier text
+//todo sa vad daca pot inlocui AddWithValue cu Add la scrierea in BD. Probabil ca o sa am o performanta mai buna. Punct de plecare: https://stackoverflow.com/questions/56206183/how-i-can-fix-the-next-error-in-visual-studio-2010-c
 
 namespace HTMatchPredictor
 {
@@ -134,7 +135,7 @@ namespace HTMatchPredictor
         /// </summary>
         private void LoginToHattrickServers()
         {
-            Uri Compendium = new Uri(DownloadString.CreateManagerCompendiumString());
+            Uri Compendium = new Uri(DownloadStringCreation.CreateManagerCompendiumString());
             InitializeAuthenticationObject();
             if (string.IsNullOrEmpty(o["token"]))
             {
@@ -318,7 +319,7 @@ namespace HTMatchPredictor
             }
             catch (IOException I) //todo bug din cand in cand mai primesc un mesaj de eroare cum ca fisierul Matches.xml e folosit de un alt proces.
             {
-                MessageBox.Show(I.Message);
+                //MessageBox.Show(I.Message);
                 File.WriteAllText(CurrentFolder + "\\Error.txt", I.StackTrace);
                 Cursor = Cursors.WaitCursor;
             }
@@ -333,8 +334,21 @@ namespace HTMatchPredictor
             LoginNameLabel.Text = "User name: " + Parser.UserName + " (" + Parser.UserID + ")";
             UserCountryLabel.Text = "Country: " + Parser.UserCountry + " (" + Parser.UserCountryID + ")";
             SupporterTierLabel.Text = "Supporter: " + Parser.UserSupporterLevel;
-            string[] TeamPieces = new string[] { "Team list: \r\n", Parser.UserTeamNames[0], " (", Parser.UserTeamIDs[0].ToString(CultureInfo.InvariantCulture), ")\r\n", Parser.UserTeamNames[1], " (", Parser.UserTeamIDs[1].ToString(CultureInfo.InvariantCulture), ")\r\n", Parser.UserTeamNames[2], " (", Parser.UserTeamIDs[2].ToString(CultureInfo.InvariantCulture), ")\r\n" };
-            TeamListLabel.Text = String.Concat(TeamPieces);
+            StringBuilder TeamList = new StringBuilder();
+            TeamList.Append("Team list: \r\n");
+            TeamList.Append(Parser.UserTeamNames[0]);
+            TeamList.Append(" (");
+            TeamList.Append(Parser.UserTeamIDs[0].ToString(CultureInfo.InvariantCulture));
+            TeamList.Append(")\r\n");
+            TeamList.Append(Parser.UserTeamNames[1]);
+            TeamList.Append(" (");
+            TeamList.Append(Parser.UserTeamIDs[1].ToString(CultureInfo.InvariantCulture));
+            TeamList.Append(")\r\n");
+            TeamList.Append(Parser.UserTeamNames[2]);
+            TeamList.Append(" (");
+            TeamList.Append(Parser.UserTeamIDs[2].ToString(CultureInfo.InvariantCulture));
+            TeamList.Append(")\r\n");
+            TeamListLabel.Text = TeamList.ToString();
             FirstTeamRadioButton.Checked = true;
             FirstTeamRadioButton.Text = Parser.UserTeamNames[0];
             if (!String.IsNullOrEmpty(Parser.UserTeamNames[1]))
@@ -492,6 +506,7 @@ namespace HTMatchPredictor
             if (AddTeam.ShowDialog(this) == DialogResult.OK)
             {
                 Uri MatchArchiveURL = new Uri(DownloadString.CreateMatchArchiveString(AddTeam.TeamID, AddTeam.SeasonNumber));
+                StringBuilder ProgressString = new StringBuilder();
                 Cursor = Cursors.WaitCursor;
                 ProgressWindow PW = new ProgressWindow();
                 PW.Show(this);
@@ -512,8 +527,13 @@ namespace HTMatchPredictor
                         }
                     }
                     MatchRatings = Parser.ResetMatchRatingsList();
-                    PW.ProgressLabel.Text = "Progress... " + (i + 1).ToString(CultureInfo.InvariantCulture) + "/" + MatchesIDList.Count.ToString(CultureInfo.InvariantCulture);
+                    ProgressString.Append("Progress... ");
+                    ProgressString.Append((i + 1).ToString(CultureInfo.InvariantCulture));
+                    ProgressString.Append("/");
+                    ProgressString.Append(MatchesIDList.Count.ToString(CultureInfo.InvariantCulture));
+                    PW.ProgressLabel.Text = ProgressString.ToString();
                     PW.TheProgressBar.Value++;
+                    ProgressString.Clear();
                     PW.ProgressLabel.Refresh();
                 }
                 Cursor = Cursors.Default;
@@ -533,6 +553,7 @@ namespace HTMatchPredictor
         {
             int NumberOfMatchesAdded = 0; //retine cate meciuri au fost adaugate in baza de date
             AddMultipleMatchesByMatchIDRange AddID = new AddMultipleMatchesByMatchIDRange();
+            StringBuilder Matches = new StringBuilder();
             if (AddID.ShowDialog(this) == DialogResult.OK)
             {
                 Cursor = Cursors.WaitCursor;
@@ -554,7 +575,12 @@ namespace HTMatchPredictor
                     }
                     MatchRatings = Parser.ResetMatchRatingsList();
                     //Dupa fiecare meci citit se aduce la 0 lista cu evaluari ale meciului. Motivul este acela ca in baza de date, evaluarile sunt trecute ca numere de la 1 la 80. Daca urmeaza sa fie adaugat in baza de date un meci care se va disputa, el nu va avea nicio evaluare, deci elementele listei vor ramane in continuare 0. Astfel se poate testa daca meciul care ar fi introdus in BD s-a jucat sau urmeaza sa se joace.
-                    PW.ProgressLabel.Text = "Progress... " + (i - AddID.LowLimit + 1).ToString(CultureInfo.InvariantCulture) + "/" + (AddID.HighLimit - AddID.LowLimit + 1).ToString(CultureInfo.InvariantCulture);
+                    Matches.Append("Progress... ");
+                    Matches.Append((i - AddID.LowLimit + 1).ToString(CultureInfo.InvariantCulture));
+                    Matches.Append("/");
+                    Matches.Append((AddID.HighLimit - AddID.LowLimit + 1).ToString(CultureInfo.InvariantCulture));
+                    PW.ProgressLabel.Text = Matches.ToString();
+                    Matches.Clear();
                     PW.TheProgressBar.Value++;
                     PW.ProgressLabel.Refresh();
                 }
@@ -621,11 +647,11 @@ namespace HTMatchPredictor
         }
 
         /// <summary>
-        /// Functia coverteste abilitatea exprimata printr-un numar (de la 1 la 80) in cea exprimata sb format text
+        /// Functia coverteste abilitatea exprimata printr-un numar (de la 1 la 80) in cea exprimata sub format text
         /// </summary>
         /// <param name="Number">numarul care va fi convertit</param>
         /// <returns>abilitatea in format text</returns>
-        private string ConvertNumberToSkill(int Number)
+        private static string ConvertNumberToSkill(int Number)
         {
             List<string> Skill = new List<string> { "Disastrous (1)", "Wretched (2)", "Poor (3)", "Weak (4)", "Inadequate (5)", "Passable(6)", "Solid (7)", "Excellent (8)", "Formidable (9)", "Outstanding (10)", "Brilliant (11)", "Magnificent (12)", "World Class (13)", "Supernatural (14)", "Titanic (15)", "Extraterrestrial (16)", "Mythical (17)", "Magical (18)", "Utopian (19)", "Divine (20)" };
             List<string> SubSkill = new List<string> { "very low", "low", "high", "very high" };
@@ -1118,35 +1144,10 @@ namespace HTMatchPredictor
         }
 
         /// <summary>
-        /// Functia incarca evaluarile prezise pentru meciul selectat
+        /// Procedura se ocupa de afisarea in fereastra a evaluarilor pe sectoare ale echipei gazda.
         /// </summary>
-        /// <param name="sender">Handler de eveniment</param>
-        /// <param name="e">Handler de eveniment</param>
-        private void LoadPredictedRatings(object sender, EventArgs e)
+        private void ShowPredictedRatings()
         {
-            int UserTeamID = 0;
-            if (FirstTeamRadioButton.Checked)
-            {
-                UserTeamID = Parser.UserTeamIDs[0];
-            }
-
-            if (SecondTeamRadioButton.Checked)
-            {
-                UserTeamID = Parser.UserTeamIDs[1];
-            }
-
-            if (ThirdTeamRadioButton.Checked)
-            {
-                UserTeamID = Parser.UserTeamIDs[2];
-            }
-
-            Uri MatchOrdersURL = new Uri(DownloadString.CreateMatchOrdersString(ParseXMLFiles.FinalFutureMatches[FutureMatchesListBox.SelectedIndex].MatchID, UserTeamID));
-            SaveResponseToFile(MatchOrdersURL, XMLFolder + "\\Orders.xml");
-            Parser.ParseOrdersFile();
-            for (int i = 0; i <= 6; i++)
-            {
-                MatchRatings[i] = Parser.ReadMatchRatings[i];
-            }
             HomeMidfieldRatingLabel.Text = ConvertNumberToSkill(MatchRatings[0]);
             HomeRightDefenceRatingLabel.Text = ConvertNumberToSkill(MatchRatings[1]);
             HomeCentralDefenceRatingLabel.Text = ConvertNumberToSkill(MatchRatings[2]);
@@ -1157,157 +1158,88 @@ namespace HTMatchPredictor
         }
 
         /// <summary>
+        /// Procedura se ocupa de incarcarea evaluarilor pentru echipa gazda in lista cu evaluari.
+        /// </summary>
+        private void LoadMatchRatings()
+        {
+            for (int i = 0; i <= 6; i++)
+            {
+                MatchRatings[i] = Parser.ReadMatchRatings[i];
+            }
+        }
+
+        /// <summary>
+        /// Functia obtine numarul de identificare pentru echipa pentru care vor fi preluate meciurile
+        /// </summary>
+        /// <returns>Numarul de identificare pentru echipa mentionata mai sus</returns>
+        private int GetUserTeamID()
+        {
+            int TeamID = 0;
+            foreach (Control C in TeamListGroupBox.Controls)
+            {
+                if ((C.GetType() == typeof(RadioButton)) && (C as RadioButton).Checked)
+                    TeamID = Parser.UserTeamIDs[int.Parse(C.Tag.ToString(), CultureInfo.InvariantCulture)];
+            }
+            return TeamID;
+        }
+
+        /// <summary>
+        /// Functia incarca evaluarile prezise pentru meciul selectat
+        /// </summary>
+        /// <param name="sender">Handler de eveniment</param>
+        /// <param name="e">Handler de eveniment</param>
+        private void LoadPredictedRatings(object sender, EventArgs e)
+        {
+            Uri MatchOrdersURL = new Uri(DownloadString.CreateMatchOrdersString(ParseXMLFiles.FinalFutureMatches[FutureMatchesListBox.SelectedIndex].MatchID, GetUserTeamID()));
+            SaveResponseToFile(MatchOrdersURL, XMLFolder + "\\Orders.xml");
+            Parser.ParseOrdersFile();
+            LoadMatchRatings();
+            ShowPredictedRatings();
+        }
+
+        private bool SetRatingLabelColor(int RatingIndex)
+        {
+            if (MatchRatings[RatingIndex] == 0)
+            {
+                foreach (Control C in HomeTeamGroupBox.Controls)
+                {
+                    if (C.TabIndex == RatingIndex + 14)
+                        C.ForeColor = Color.Red;
+                }
+                foreach (Control C in AwayTeamGroupBox.Controls)
+                {
+                    if (C.TabIndex == RatingIndex + 14)
+                        C.ForeColor = Color.Red;
+                }
+                return false;
+            }
+            else
+            {
+                foreach (Control C in HomeTeamGroupBox.Controls)
+                {
+                    if (C.TabIndex == RatingIndex + 14)
+                        C.ForeColor = SystemColors.ControlText;
+                }
+                foreach (Control C in AwayTeamGroupBox.Controls)
+                    if (C.TabIndex == RatingIndex + 14)
+                        C.ForeColor = SystemColors.ControlText;
+                return true;
+            }
+        }
+
+        /// <summary>
         /// functia verifica daca toate datele de intrare sunt introduse corect (fiecare compartiment a primit o evaluare)
         /// </summary>
         /// <returns>true, daca fiecare compartiment a primit o evaluare, false altfel</returns>
         private bool InputsAreValid()
         {
             bool Result = true;
-            if (MatchRatings[0] == 0)
+            bool TempResult;
+            for (int i = 0; i < 14; i++)
             {
-                HomeMidfieldRatingLabel.ForeColor = Color.Red;
-            }
-            else
-            {
-                HomeMidfieldRatingLabel.ForeColor = SystemColors.ControlText;
-            }
-
-            if (MatchRatings[1] == 0)
-            {
-                HomeRightDefenceRatingLabel.ForeColor = Color.Red;
-            }
-            else
-            {
-                HomeRightDefenceRatingLabel.ForeColor = SystemColors.ControlText;
-            }
-
-            if (MatchRatings[2] == 0)
-            {
-                HomeCentralDefenceRatingLabel.ForeColor = Color.Red;
-            }
-            else
-            {
-                HomeCentralDefenceRatingLabel.ForeColor = SystemColors.ControlText;
-            }
-
-            if (MatchRatings[3] == 0)
-            {
-                HomeLeftDefenceRatingLabel.ForeColor = Color.Red;
-            }
-            else
-            {
-                HomeLeftDefenceRatingLabel.ForeColor = SystemColors.ControlText;
-            }
-
-            if (MatchRatings[4] == 0)
-            {
-                HomeRightAttackRatingLabel.ForeColor = Color.Red;
-            }
-            else
-            {
-                HomeRightAttackRatingLabel.ForeColor = SystemColors.ControlText;
-            }
-
-            if (MatchRatings[5] == 0)
-            {
-                HomeCentralAttackRatingLabel.ForeColor = Color.Red;
-            }
-            else
-            {
-                HomeCentralAttackRatingLabel.ForeColor = SystemColors.ControlText;
-            }
-
-            if (MatchRatings[6] == 0)
-            {
-                HomeLeftAttackRatingLabel.ForeColor = Color.Red;
-            }
-            else
-            {
-                HomeLeftAttackRatingLabel.ForeColor = SystemColors.ControlText;
-            }
-
-            if (MatchRatings[7] == 0)
-            {
-                AwayMidfieldRatingLabel.ForeColor = Color.Red;
-            }
-            else
-            {
-                AwayMidfieldRatingLabel.ForeColor = SystemColors.ControlText;
-            }
-
-            if (MatchRatings[8] == 0)
-            {
-                AwayRightDefenceRatingLabel.ForeColor = Color.Red;
-            }
-            else
-            {
-                AwayRightDefenceRatingLabel.ForeColor = SystemColors.ControlText;
-            }
-
-            if (MatchRatings[9] == 0)
-            {
-                AwayCentralDefenceRatingLabel.ForeColor = Color.Red;
-            }
-            else
-            {
-                AwayCentralDefenceRatingLabel.ForeColor = SystemColors.ControlText;
-            }
-
-            if (MatchRatings[10] == 0)
-            {
-                AwayLeftDefenceRatingLabel.ForeColor = Color.Red;
-            }
-            else
-            {
-                AwayLeftDefenceRatingLabel.ForeColor = SystemColors.ControlText;
-            }
-
-            if (MatchRatings[11] == 0)
-            {
-                AwayRightAttackRatingLabel.ForeColor = Color.Red;
-            }
-            else
-            {
-                AwayRightAttackRatingLabel.ForeColor = SystemColors.ControlText;
-            }
-
-            if (MatchRatings[12] == 0)
-            {
-                AwayCentralAttackRatingLabel.ForeColor = Color.Red;
-            }
-            else
-            {
-                AwayCentralAttackRatingLabel.ForeColor = SystemColors.ControlText;
-            }
-
-            if (MatchRatings[13] == 0)
-            {
-                AwayLeftAttackRatingLabel.ForeColor = Color.Red;
-            }
-            else
-            {
-                AwayLeftAttackRatingLabel.ForeColor = SystemColors.ControlText;
-            }
-
-            foreach (Control i in HomeTeamGroupBox.Controls)
-            {
-                if ((i.GetType() == typeof(System.Windows.Forms.Label)) && (i.ForeColor == Color.Red))
-                {
-                    Result = false;
-                    break;
-                }
-            }
-
-            if (Result)
-            {
-                foreach (Control i in AwayTeamGroupBox.Controls)
-                {
-                    if ((i.GetType() == typeof(System.Windows.Forms.Label)) && (i.ForeColor == Color.Red))
-                    {
-                        Result = false;
-                        break;
-                    }
-                }
+                TempResult = SetRatingLabelColor(i);
+                if (!TempResult)
+                    Result = TempResult;
             }
 
             if (!Result)
