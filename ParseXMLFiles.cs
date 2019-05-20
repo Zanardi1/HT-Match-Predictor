@@ -293,7 +293,6 @@ namespace HTMatchPredictor
         /// <returns>-1, daca meciul nu meci de liga, amical tip normal sau amical international, tip normal; 0 daca totul e in regula</returns>
         public int ParseMatchDetailsFile(bool ShowErrorMessage)
         {
-
             int temp; //utilizata deoarece TryParse nu accepta ca variabila de iesire un element dintr-o lista, ci o variabila simpla
             XmlUrlResolver Resolver = new XmlUrlResolver()
             {

@@ -17,6 +17,7 @@ using System.Windows.Forms;
 //todo sa adaug un buton de anulare a importului meciurilor in baza de date
 //todo de creat o clasa care se ocupa de scrierea diferitelor erori intr-un fisier text
 //todo sa vad daca pot inlocui AddWithValue cu Add la scrierea in BD. Probabil ca o sa am o performanta mai buna. Punct de plecare: https://stackoverflow.com/questions/56206183/how-i-can-fix-the-next-error-in-visual-studio-2010-c
+//todo sa vad daca pot accesa BD din folosind mai putine deschideri si inchideri de conexiune
 
 namespace HTMatchPredictor
 {
@@ -326,14 +327,21 @@ namespace HTMatchPredictor
         }
 
         /// <summary>
-        /// Afiseaza detaliile despre utilizator
+        /// Verifica daca utilizatorul are echipe secundare. Daca da, le afiseaza
         /// </summary>
-        private void DisplayUserDetails()
+        /// <param name="Team">Numele echipei</param>
+        /// <param name="btn">Butonul radio care va fi afisat</param>
+        private static void CheckOtherTeam(string Team, RadioButton btn)
         {
-            Parser.ParseUserFile();
-            LoginNameLabel.Text = "User name: " + Parser.UserName + " (" + Parser.UserID + ")";
-            UserCountryLabel.Text = "Country: " + Parser.UserCountry + " (" + Parser.UserCountryID + ")";
-            SupporterTierLabel.Text = "Supporter: " + Parser.UserSupporterLevel;
+            if (!String.IsNullOrEmpty(Team))
+            {
+                btn.Visible = true;
+                btn.Text = Team;
+            }
+        }
+
+        private string CreateTeamList()
+        {
             StringBuilder TeamList = new StringBuilder();
             TeamList.Append("Team list: \r\n");
             TeamList.Append(Parser.UserTeamNames[0]);
@@ -348,19 +356,23 @@ namespace HTMatchPredictor
             TeamList.Append(" (");
             TeamList.Append(Parser.UserTeamIDs[2].ToString(CultureInfo.InvariantCulture));
             TeamList.Append(")\r\n");
-            TeamListLabel.Text = TeamList.ToString();
+            return TeamList.ToString();
+        }
+
+        /// <summary>
+        /// Afiseaza detaliile despre utilizator
+        /// </summary>
+        private void DisplayUserDetails()
+        {
+            Parser.ParseUserFile();
+            LoginNameLabel.Text = "User name: " + Parser.UserName + " (" + Parser.UserID + ")";
+            UserCountryLabel.Text = "Country: " + Parser.UserCountry + " (" + Parser.UserCountryID + ")";
+            SupporterTierLabel.Text = "Supporter: " + Parser.UserSupporterLevel;
+            TeamListLabel.Text = CreateTeamList();
             FirstTeamRadioButton.Checked = true;
             FirstTeamRadioButton.Text = Parser.UserTeamNames[0];
-            if (!String.IsNullOrEmpty(Parser.UserTeamNames[1]))
-            {
-                SecondTeamRadioButton.Visible = true;
-                SecondTeamRadioButton.Text = Parser.UserTeamNames[1];
-            }
-            if (!String.IsNullOrEmpty(Parser.UserTeamNames[1]))
-            {
-                ThirdTeamRadioButton.Visible = true;
-                ThirdTeamRadioButton.Text = Parser.UserTeamNames[2];
-            }
+            CheckOtherTeam(Parser.UserTeamNames[1], SecondTeamRadioButton);
+            CheckOtherTeam(Parser.UserTeamNames[2], ThirdTeamRadioButton);
         }
 
         public Form1()
@@ -442,14 +454,10 @@ namespace HTMatchPredictor
         }
 
         /// <summary>
-        /// Procedura aduce datele specifice simularii la valorile initiale
+        /// Functia reseteaza valorile etichetelor din grupul echipei gazda
         /// </summary>
-        /// <param name="sender">Handler de eveniment</param>
-        /// <param name="e">Handler de eveniment</param>
-        private void ResetData(object sender, EventArgs e)
+        private void ResetHomeTab()
         {
-            ResetMatchRatingList();
-
             foreach (Control C in HomeTeamGroupBox.Controls)
             {
                 if ((C.GetType() == typeof(Label)) && (C.TabIndex >= 14) && (C.TabIndex <= 20))
@@ -458,7 +466,13 @@ namespace HTMatchPredictor
                     C.Text = "(No rating selected!)";
                 }
             }
+        }
 
+        /// <summary>
+        /// Functia reseteaza valorile etichetelor din grupul echipei oaspete
+        /// </summary>
+        private void ResetAwayTab()
+        {
             foreach (Control C in AwayTeamGroupBox.Controls)
             {
                 if ((C.GetType() == typeof(Label)) && (C.TabIndex >= 21) && (C.TabIndex <= 27))
@@ -467,6 +481,18 @@ namespace HTMatchPredictor
                     C.Text = "(No rating selected!)";
                 }
             }
+        }
+
+        /// <summary>
+        /// Procedura aduce datele specifice simularii la valorile initiale
+        /// </summary>
+        /// <param name="sender">Handler de eveniment</param>
+        /// <param name="e">Handler de eveniment</param>
+        private void ResetData(object sender, EventArgs e)
+        {
+            ResetMatchRatingList();
+            ResetHomeTab();
+            ResetAwayTab();
         }
 
         /// <summary>
@@ -508,7 +534,7 @@ namespace HTMatchPredictor
             MatchRatings = Parser.ResetMatchRatingsList();
         }
 
-        private void UpdateProgressWindowInterface(StringBuilder ProgressString, ProgressWindow TheWindow, List<int> MatchesIDList, int MatchID)
+        private void UpdateProgressWindowInterfaceForTeamAdding(StringBuilder ProgressString, ProgressWindow TheWindow, List<int> MatchesIDList, int MatchID)
         {
             ProgressString.Append("Progress... ");
             ProgressString.Append((MatchID + 1).ToString(CultureInfo.InvariantCulture));
@@ -520,7 +546,7 @@ namespace HTMatchPredictor
             TheWindow.ProgressLabel.Refresh();
         }
 
-        private void ShowFinalMessage(int TheNumberOfMatchesAdded, List<int> MatchesIDList)
+        private void ShowFinalMessageForTeamAdding(int TheNumberOfMatchesAdded, List<int> MatchesIDList)
         {
             Cursor = Cursors.Default;
             MessageBoxButtons Buttons = MessageBoxButtons.OK;
@@ -552,11 +578,38 @@ namespace HTMatchPredictor
                     StringBuilder ProgressString = new StringBuilder();
                     MatchesAddingByTeamEngine(i, MatchesIDList);
                     NumberOfMatchesAdded++;
-                    UpdateProgressWindowInterface(ProgressString, PW, MatchesIDList, i);
+                    UpdateProgressWindowInterfaceForTeamAdding(ProgressString, PW, MatchesIDList, i);
                 }
-                ShowFinalMessage(NumberOfMatchesAdded,MatchesIDList);
+                ShowFinalMessageForTeamAdding(NumberOfMatchesAdded, MatchesIDList);
                 PW.Close();
             }
+        }
+
+        private void MatchesAddingByIDEngine(int MatchID)
+        {
+            MatchRatings = Parser.ReadMatchRatings;
+            Operations.AddAMatch(MatchID, MatchRatings);
+        }
+
+        private void UpdateProgressWindowInterfaceForIDAdding(int MatchID, int LowLimit, int HighLimit, ProgressWindow PW)
+        {
+            StringBuilder Matches = new StringBuilder();
+            Matches.Append("Progress... ");
+            Matches.Append((MatchID - LowLimit + 1).ToString(CultureInfo.InvariantCulture));
+            Matches.Append("/");
+            Matches.Append((HighLimit - LowLimit + 1).ToString(CultureInfo.InvariantCulture));
+            PW.ProgressLabel.Text = Matches.ToString();
+            Matches.Clear();
+            PW.TheProgressBar.Value++;
+            PW.ProgressLabel.Refresh();
+        }
+
+        private void ShowFinalMessageForIDAdding(int MatchesAdded, int LowLimit, int HighLimit)
+        {
+            Cursor = Cursors.Default;
+            MessageBoxButtons Buttons = MessageBoxButtons.OK;
+            MessageBoxIcon Icon = MessageBoxIcon.Information;
+            MessageBox.Show("Specified kind of matches added successfully! " + MatchesAdded.ToString(CultureInfo.InvariantCulture) + " matches were added to the database, from the " + (HighLimit - LowLimit + 1).ToString(CultureInfo.InvariantCulture) + " matches specified.", "Operation complete", Buttons, Icon);
         }
 
         /// <summary>
@@ -568,7 +621,7 @@ namespace HTMatchPredictor
         {
             int NumberOfMatchesAdded = 0; //retine cate meciuri au fost adaugate in baza de date
             AddMultipleMatchesByMatchIDRange AddID = new AddMultipleMatchesByMatchIDRange();
-            StringBuilder Matches = new StringBuilder();
+
             if (AddID.ShowDialog(this) == DialogResult.OK)
             {
                 Cursor = Cursors.WaitCursor;
@@ -581,28 +634,14 @@ namespace HTMatchPredictor
                     SaveResponseToFile(MatchDetailsURL, XMLFolder + "\\MatchDetails.xml");
                     if (Parser.ParseMatchDetailsFile(false) != -1) //Daca face parte din categoria meciurilor ce pot intra in BD
                     {
-                        if (Parser.ReadMatchRatings[0] != 0)
-                        {
-                            MatchRatings = Parser.ReadMatchRatings;
-                            Operations.AddAMatch(i, MatchRatings);
-                            NumberOfMatchesAdded++;
-                        }
+                        MatchesAddingByIDEngine(i);
+                        NumberOfMatchesAdded++;
                     }
                     MatchRatings = Parser.ResetMatchRatingsList();
                     //Dupa fiecare meci citit se aduce la 0 lista cu evaluari ale meciului. Motivul este acela ca in baza de date, evaluarile sunt trecute ca numere de la 1 la 80. Daca urmeaza sa fie adaugat in baza de date un meci care se va disputa, el nu va avea nicio evaluare, deci elementele listei vor ramane in continuare 0. Astfel se poate testa daca meciul care ar fi introdus in BD s-a jucat sau urmeaza sa se joace.
-                    Matches.Append("Progress... ");
-                    Matches.Append((i - AddID.LowLimit + 1).ToString(CultureInfo.InvariantCulture));
-                    Matches.Append("/");
-                    Matches.Append((AddID.HighLimit - AddID.LowLimit + 1).ToString(CultureInfo.InvariantCulture));
-                    PW.ProgressLabel.Text = Matches.ToString();
-                    Matches.Clear();
-                    PW.TheProgressBar.Value++;
-                    PW.ProgressLabel.Refresh();
+                    UpdateProgressWindowInterfaceForIDAdding(i, AddID.LowLimit, AddID.HighLimit, PW);
                 }
-                Cursor = Cursors.Default;
-                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                MessageBoxIcon Icon = MessageBoxIcon.Information;
-                MessageBox.Show("Specified kind of matches added successfully! " + NumberOfMatchesAdded.ToString(CultureInfo.InvariantCulture) + " matches were added to the database, from the " + (AddID.HighLimit - AddID.LowLimit + 1).ToString(CultureInfo.InvariantCulture) + " matches specified.", "Operation complete", Buttons, Icon);
+                ShowFinalMessageForIDAdding(NumberOfMatchesAdded, AddID.LowLimit, AddID.HighLimit);
                 PW.Close();
             }
         }
