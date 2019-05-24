@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
 //todo bug atunci cand revoc aplicatia din contul Hattrick, jetoanele raman, dar sunt inutilizabile. Din acest motiv primesc o eroare
-//todo sa adaug un buton de anulare a importului meciurilor in baza de date
 //todo de creat o clasa care se ocupa de scrierea diferitelor erori intr-un fisier text
 //todo sa vad daca pot inlocui AddWithValue cu Add la scrierea in BD. Probabil ca o sa am o performanta mai buna. Punct de plecare: https://stackoverflow.com/questions/56206183/how-i-can-fix-the-next-error-in-visual-studio-2010-c
 //todo sa vad daca pot accesa BD din folosind mai putine deschideri si inchideri de conexiune
@@ -594,7 +593,7 @@ namespace HTMatchPredictor
                 for (int i = 0; i < MatchesIDList.Count; i++)
                 {
                     StringBuilder ProgressString = new StringBuilder();
-                    await MatchesAddingByTeamEngine(i, MatchesIDList);
+                    await MatchesAddingByTeamEngine(i, MatchesIDList).ConfigureAwait(false);
                     NumberOfMatchesAdded++;
                     UpdateProgressWindowInterfaceForTeamAdding(ProgressString, PW, MatchesIDList, i);
                     if (CancelDatabaseAdding)
@@ -664,7 +663,7 @@ namespace HTMatchPredictor
                 PW.Cursor = Cursors.Default;
                 for (int i = AddID.LowLimit; i <= AddID.HighLimit; i++)
                 {
-                    await MatchesAddingByIDEngine(i);
+                    await MatchesAddingByIDEngine(i).ConfigureAwait(false);
                     NumberOfMatchesAdded++;
                     MatchRatings = Parser.ResetMatchRatingsList();
                     //Dupa fiecare meci citit se aduce la 0 lista cu evaluari ale meciului. Motivul este acela ca in baza de date, evaluarile sunt trecute ca numere de la 1 la 80. Daca urmeaza sa fie adaugat in baza de date un meci care se va disputa, el nu va avea nicio evaluare, deci elementele listei vor ramane in continuare 0. Astfel se poate testa daca meciul care ar fi introdus in BD s-a jucat sau urmeaza sa se joace.
