@@ -8,5 +8,10 @@ namespace HTMatchPredictor
         {
             InitializeComponent();
         }
+
+        private void CancelImport(object sender, System.EventArgs e)
+        {
+            Form1.CancelDatabaseAdding = true;
+        }
     }
 }

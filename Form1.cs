@@ -11,6 +11,7 @@ using System.Net;
 using System.Security;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
 //todo bug atunci cand revoc aplicatia din contul Hattrick, jetoanele raman, dar sunt inutilizabile. Din acest motiv primesc o eroare
@@ -106,6 +107,22 @@ namespace HTMatchPredictor
             set
             {
                 matchidtoadd = value;
+            }
+        }
+
+        /// <summary>
+        /// Retine daca a fost apasat butonul de anulare din fereastra de progres. E true, daca a fost apasast.
+        /// </summary>
+        private static bool canceldatabaseadding;
+        public static bool CancelDatabaseAdding
+        {
+            get
+            {
+                return canceldatabaseadding;
+            }
+            set
+            {
+                canceldatabaseadding = value;
             }
         }
 
@@ -519,19 +536,19 @@ namespace HTMatchPredictor
             }
         }
 
-        private void MatchesAddingByTeamEngine(int MatchID, List<int> MatchesIDList)
+        private Task MatchesAddingByTeamEngine(int MatchID, List<int> MatchesIDList)
         {
-            Uri MatchDetailsURL = new Uri(DownloadString.CreateMatchDetailsString(MatchesIDList[MatchID]));
-            SaveResponseToFile(MatchDetailsURL, XMLFolder + "\\MatchDetails.xml");
-            if (Parser.ParseMatchDetailsFile(false) != -1)
-            {
-                if (Parser.ReadMatchRatings[0] != 0)
-                {
-                    MatchRatings = Parser.ReadMatchRatings;
-                    Operations.AddAMatch(MatchesIDList[MatchID], MatchRatings);
-                }
-            }
-            MatchRatings = Parser.ResetMatchRatingsList();
+            return Task.Run(() =>
+           {
+               Uri MatchDetailsURL = new Uri(DownloadString.CreateMatchDetailsString(MatchesIDList[MatchID]));
+               SaveResponseToFile(MatchDetailsURL, XMLFolder + "\\MatchDetails.xml");
+               if (Parser.ParseMatchDetailsFile(false) != -1)
+               {
+                   MatchRatings = Parser.ReadMatchRatings;
+                   Operations.AddAMatch(MatchesIDList[MatchID], MatchRatings);
+               }
+               MatchRatings = Parser.ResetMatchRatingsList();
+           });
         }
 
         private void UpdateProgressWindowInterfaceForTeamAdding(StringBuilder ProgressString, ProgressWindow TheWindow, List<int> MatchesIDList, int MatchID)
@@ -559,9 +576,10 @@ namespace HTMatchPredictor
         /// </summary>
         /// <param name="sender">Handler de eveniment</param>
         /// <param name="e">Handler de eveniment</param>
-        private void AddMultipleMatchesByTeam(object sender, EventArgs e)
+        private async void AddMultipleMatchesByTeam(object sender, EventArgs e)
         {
             int NumberOfMatchesAdded = 0;
+            CancelDatabaseAdding = false;
             List<int> MatchesIDList = new List<int> { }; //retine numerele de identificare ale meciurilor citite din fisier
             AddMultipleMatchesByTeam AddTeam = new AddMultipleMatchesByTeam();
             if (AddTeam.ShowDialog(this) == DialogResult.OK)
@@ -576,19 +594,34 @@ namespace HTMatchPredictor
                 for (int i = 0; i < MatchesIDList.Count; i++)
                 {
                     StringBuilder ProgressString = new StringBuilder();
-                    MatchesAddingByTeamEngine(i, MatchesIDList);
+                    await MatchesAddingByTeamEngine(i, MatchesIDList);
                     NumberOfMatchesAdded++;
                     UpdateProgressWindowInterfaceForTeamAdding(ProgressString, PW, MatchesIDList, i);
+                    if (CancelDatabaseAdding)
+                    {
+                        MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                        MessageBoxIcon Icon = MessageBoxIcon.Information;
+                        MessageBox.Show("Adding cancelled", "Information", Buttons, Icon);
+                        break;
+                    }
                 }
                 ShowFinalMessageForTeamAdding(NumberOfMatchesAdded, MatchesIDList);
                 PW.Close();
             }
         }
 
-        private void MatchesAddingByIDEngine(int MatchID)
+        private Task MatchesAddingByIDEngine(int MatchID)
         {
-            MatchRatings = Parser.ReadMatchRatings;
-            Operations.AddAMatch(MatchID, MatchRatings);
+            return Task.Run(() =>
+            {
+                Uri MatchDetailsURL = new Uri(DownloadString.CreateMatchDetailsString(MatchID));
+                SaveResponseToFile(MatchDetailsURL, XMLFolder + "\\MatchDetails.xml");
+                if (Parser.ParseMatchDetailsFile(false) != -1) //Daca face parte din categoria meciurilor ce pot intra in BD
+                {
+                    MatchRatings = Parser.ReadMatchRatings;
+                    Operations.AddAMatch(MatchID, MatchRatings);
+                }
+            });
         }
 
         private void UpdateProgressWindowInterfaceForIDAdding(int MatchID, int LowLimit, int HighLimit, ProgressWindow PW)
@@ -617,29 +650,32 @@ namespace HTMatchPredictor
         /// </summary>
         /// <param name="sender">Hander de eveniment</param>
         /// <param name="e">Handler de eveniment</param>
-        private void AddMultipleMatchesByID(object sender, EventArgs e)
+        private async void AddMultipleMatchesByID(object sender, EventArgs e)
         {
             int NumberOfMatchesAdded = 0; //retine cate meciuri au fost adaugate in baza de date
+            CancelDatabaseAdding = false;
             AddMultipleMatchesByMatchIDRange AddID = new AddMultipleMatchesByMatchIDRange();
-
             if (AddID.ShowDialog(this) == DialogResult.OK)
             {
                 Cursor = Cursors.WaitCursor;
                 ProgressWindow PW = new ProgressWindow();
                 PW.Show(this);
                 PW.TheProgressBar.Maximum = AddID.HighLimit - AddID.LowLimit + 1;
+                PW.Cursor = Cursors.Default;
                 for (int i = AddID.LowLimit; i <= AddID.HighLimit; i++)
                 {
-                    Uri MatchDetailsURL = new Uri(DownloadString.CreateMatchDetailsString(i));
-                    SaveResponseToFile(MatchDetailsURL, XMLFolder + "\\MatchDetails.xml");
-                    if (Parser.ParseMatchDetailsFile(false) != -1) //Daca face parte din categoria meciurilor ce pot intra in BD
-                    {
-                        MatchesAddingByIDEngine(i);
-                        NumberOfMatchesAdded++;
-                    }
+                    await MatchesAddingByIDEngine(i);
+                    NumberOfMatchesAdded++;
                     MatchRatings = Parser.ResetMatchRatingsList();
                     //Dupa fiecare meci citit se aduce la 0 lista cu evaluari ale meciului. Motivul este acela ca in baza de date, evaluarile sunt trecute ca numere de la 1 la 80. Daca urmeaza sa fie adaugat in baza de date un meci care se va disputa, el nu va avea nicio evaluare, deci elementele listei vor ramane in continuare 0. Astfel se poate testa daca meciul care ar fi introdus in BD s-a jucat sau urmeaza sa se joace.
                     UpdateProgressWindowInterfaceForIDAdding(i, AddID.LowLimit, AddID.HighLimit, PW);
+                    if (CancelDatabaseAdding)
+                    {
+                        MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                        MessageBoxIcon Icon = MessageBoxIcon.Information;
+                        MessageBox.Show("Adding cancelled","Information",Buttons,Icon);
+                        break;
+                    }
                 }
                 ShowFinalMessageForIDAdding(NumberOfMatchesAdded, AddID.LowLimit, AddID.HighLimit);
                 PW.Close();
