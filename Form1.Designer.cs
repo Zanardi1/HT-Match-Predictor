@@ -591,7 +591,7 @@
             // 
             this.ResetButton.Location = new System.Drawing.Point(868, 295);
             this.ResetButton.Name = "ResetButton";
-            this.ResetButton.Size = new System.Drawing.Size(75, 23);
+            this.ResetButton.Size = new System.Drawing.Size(75, 26);
             this.ResetButton.TabIndex = 3;
             this.ResetButton.Tag = "16";
             this.ResetButton.Text = "Reset";
@@ -684,9 +684,9 @@
             this.StatusBar.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.HelpStatusLabel});
-            this.StatusBar.Location = new System.Drawing.Point(0, 649);
+            this.StatusBar.Location = new System.Drawing.Point(0, 648);
             this.StatusBar.Name = "StatusBar";
-            this.StatusBar.Size = new System.Drawing.Size(1504, 25);
+            this.StatusBar.Size = new System.Drawing.Size(1504, 26);
             this.StatusBar.TabIndex = 13;
             this.StatusBar.Text = "Welcome";
             // 
@@ -718,14 +718,14 @@
             this.addSingleMatchToolStripMenuItem,
             this.addMultipleMatchesToolStripMenuItem});
             this.databaseOperationsToolStripMenuItem.Name = "databaseOperationsToolStripMenuItem";
-            this.databaseOperationsToolStripMenuItem.Size = new System.Drawing.Size(159, 24);
+            this.databaseOperationsToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
             this.databaseOperationsToolStripMenuItem.Text = "Database operations";
             // 
             // createDatabaseToolStripMenuItem
             // 
             this.createDatabaseToolStripMenuItem.Name = "createDatabaseToolStripMenuItem";
             this.createDatabaseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.createDatabaseToolStripMenuItem.Size = new System.Drawing.Size(254, 26);
+            this.createDatabaseToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
             this.createDatabaseToolStripMenuItem.Text = "Create Database";
             this.createDatabaseToolStripMenuItem.Click += new System.EventHandler(this.CreateMatchesDatabase);
             // 
@@ -733,20 +733,20 @@
             // 
             this.deleteDatabaseToolStripMenuItem.Name = "deleteDatabaseToolStripMenuItem";
             this.deleteDatabaseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
-            this.deleteDatabaseToolStripMenuItem.Size = new System.Drawing.Size(254, 26);
+            this.deleteDatabaseToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
             this.deleteDatabaseToolStripMenuItem.Text = "Delete Database";
             this.deleteDatabaseToolStripMenuItem.Click += new System.EventHandler(this.DeleteMatchesDatabase);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(251, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(259, 6);
             // 
             // addSingleMatchToolStripMenuItem
             // 
             this.addSingleMatchToolStripMenuItem.Name = "addSingleMatchToolStripMenuItem";
             this.addSingleMatchToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.addSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(254, 26);
+            this.addSingleMatchToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
             this.addSingleMatchToolStripMenuItem.Text = "Add Single Match";
             this.addSingleMatchToolStripMenuItem.Click += new System.EventHandler(this.AddSingleMatchToDatabase);
             // 
@@ -756,14 +756,14 @@
             this.AdMatchesbyTeamToolStripMenuItem,
             this.AdMatchesbyMatchIDRangeToolStripMenuItem});
             this.addMultipleMatchesToolStripMenuItem.Name = "addMultipleMatchesToolStripMenuItem";
-            this.addMultipleMatchesToolStripMenuItem.Size = new System.Drawing.Size(254, 26);
+            this.addMultipleMatchesToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
             this.addMultipleMatchesToolStripMenuItem.Text = "Add Multiple Matches";
             // 
             // AdMatchesbyTeamToolStripMenuItem
             // 
             this.AdMatchesbyTeamToolStripMenuItem.Name = "AdMatchesbyTeamToolStripMenuItem";
             this.AdMatchesbyTeamToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.AdMatchesbyTeamToolStripMenuItem.Size = new System.Drawing.Size(261, 26);
+            this.AdMatchesbyTeamToolStripMenuItem.Size = new System.Drawing.Size(269, 26);
             this.AdMatchesbyTeamToolStripMenuItem.Text = "By Team";
             this.AdMatchesbyTeamToolStripMenuItem.Click += new System.EventHandler(this.AddMultipleMatchesByTeam);
             // 
@@ -771,21 +771,21 @@
             // 
             this.AdMatchesbyMatchIDRangeToolStripMenuItem.Name = "AdMatchesbyMatchIDRangeToolStripMenuItem";
             this.AdMatchesbyMatchIDRangeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
-            this.AdMatchesbyMatchIDRangeToolStripMenuItem.Size = new System.Drawing.Size(261, 26);
+            this.AdMatchesbyMatchIDRangeToolStripMenuItem.Size = new System.Drawing.Size(269, 26);
             this.AdMatchesbyMatchIDRangeToolStripMenuItem.Text = "By Match ID Range";
             this.AdMatchesbyMatchIDRangeToolStripMenuItem.Click += new System.EventHandler(this.AddMultipleMatchesByID);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(75, 24);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Visible = false;
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(62, 24);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.ShowAboutWindow);
             // 

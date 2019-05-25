@@ -593,7 +593,7 @@ namespace HTMatchPredictor
                 for (int i = 0; i < MatchesIDList.Count; i++)
                 {
                     StringBuilder ProgressString = new StringBuilder();
-                    await MatchesAddingByTeamEngine(i, MatchesIDList).ConfigureAwait(false);
+                    await MatchesAddingByTeamEngine(i, MatchesIDList).ConfigureAwait(true);
                     NumberOfMatchesAdded++;
                     UpdateProgressWindowInterfaceForTeamAdding(ProgressString, PW, MatchesIDList, i);
                     if (CancelDatabaseAdding)
@@ -630,15 +630,14 @@ namespace HTMatchPredictor
             Matches.Append((MatchID - LowLimit + 1).ToString(CultureInfo.InvariantCulture));
             Matches.Append("/");
             Matches.Append((HighLimit - LowLimit + 1).ToString(CultureInfo.InvariantCulture));
-            PW.ProgressLabel.Text = Matches.ToString();
+            PW.ProgressLabel.Invoke((Action)(() => PW.ProgressLabel.Text = Matches.ToString())); 
             Matches.Clear();
-            PW.TheProgressBar.Value++;
-            PW.ProgressLabel.Refresh();
+            PW.TheProgressBar.Invoke((Action)(() => PW.TheProgressBar.Value++));
+            PW.ProgressLabel.Invoke((Action)(() => PW.ProgressLabel.Refresh()));
         }
 
         private void ShowFinalMessageForIDAdding(int MatchesAdded, int LowLimit, int HighLimit)
         {
-            Cursor = Cursors.Default;
             MessageBoxButtons Buttons = MessageBoxButtons.OK;
             MessageBoxIcon Icon = MessageBoxIcon.Information;
             MessageBox.Show("Specified kind of matches added successfully! " + MatchesAdded.ToString(CultureInfo.InvariantCulture) + " matches were added to the database, from the " + (HighLimit - LowLimit + 1).ToString(CultureInfo.InvariantCulture) + " matches specified.", "Operation complete", Buttons, Icon);
@@ -663,7 +662,7 @@ namespace HTMatchPredictor
                 PW.Cursor = Cursors.Default;
                 for (int i = AddID.LowLimit; i <= AddID.HighLimit; i++)
                 {
-                    await MatchesAddingByIDEngine(i).ConfigureAwait(false);
+                    await MatchesAddingByIDEngine(i).ConfigureAwait(true);
                     NumberOfMatchesAdded++;
                     MatchRatings = Parser.ResetMatchRatingsList();
                     //Dupa fiecare meci citit se aduce la 0 lista cu evaluari ale meciului. Motivul este acela ca in baza de date, evaluarile sunt trecute ca numere de la 1 la 80. Daca urmeaza sa fie adaugat in baza de date un meci care se va disputa, el nu va avea nicio evaluare, deci elementele listei vor ramane in continuare 0. Astfel se poate testa daca meciul care ar fi introdus in BD s-a jucat sau urmeaza sa se joace.
@@ -676,6 +675,7 @@ namespace HTMatchPredictor
                         break;
                     }
                 }
+                Cursor = Cursors.Default;
                 ShowFinalMessageForIDAdding(NumberOfMatchesAdded, AddID.LowLimit, AddID.HighLimit);
                 PW.Close();
             }

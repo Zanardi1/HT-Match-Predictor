@@ -57,7 +57,6 @@ namespace HTMatchPredictor
         private void CreateDatabaseFile()
         {
             SqlConnection MyConn = new SqlConnection(CreateDatabaseConnectionString);
-            //string Str = "Create Database Matches on Primary (Name=Matches, Filename='" + DatabaseFile + "') log on (Name=MatchesLog, Filename='" + DatabaseLog + "')"; //retine comanda SQL care creeaza BD
             string Str = "Create Database Matches on Primary (Name=Matches, Filename='@DatabaseFile') log on (Name=MatchesLog, Filename='@DatabaseLog')"; //retine comanda SQL care creeaza BD
             SqlCommand command = new SqlCommand(Str, MyConn);
             command.Parameters.AddWithValue("@DatabaseFile", DatabaseFile);
