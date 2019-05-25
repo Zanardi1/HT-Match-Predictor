@@ -335,6 +335,11 @@ namespace HTMatchPredictor
             doc.Load(Reader);
 
             XmlNode Current = doc.DocumentElement.SelectSingleNode("Match");
+            if (Current == null)
+            {
+                Reader.Close();
+                return -1;
+            }
             XmlNodeList MatchNodeList = Current.SelectNodes("*");
             foreach (XmlNode i in MatchNodeList)
             {

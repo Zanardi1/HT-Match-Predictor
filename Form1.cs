@@ -336,7 +336,7 @@ namespace HTMatchPredictor
             catch (IOException I) //todo bug din cand in cand mai primesc un mesaj de eroare cum ca fisierul Matches.xml e folosit de un alt proces.
             {
                 //MessageBox.Show(I.Message);
-                File.WriteAllText(CurrentFolder + "\\Error.txt", I.StackTrace);
+                File.WriteAllText(CurrentFolder + "\\Error.txt", DateTime.Now.ToString(CultureInfo.InvariantCulture)+"\r\n\r\n"+ I.StackTrace);
                 Cursor = Cursors.WaitCursor;
             }
         }
@@ -658,7 +658,6 @@ namespace HTMatchPredictor
                 ProgressWindow PW = new ProgressWindow();
                 PW.Show(this);
                 PW.TheProgressBar.Maximum = AddID.HighLimit - AddID.LowLimit + 1;
-                PW.Cursor = Cursors.Default;
                 for (int i = AddID.LowLimit; i <= AddID.HighLimit; i++)
                 {
                     await MatchesAddingByIDEngine(i).ConfigureAwait(true);
