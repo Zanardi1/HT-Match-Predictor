@@ -3,7 +3,6 @@ using System.Windows.Forms;
 using System.Xml;
 
 //todo sa vad daca pot scrie mai putine linii de cod pentru a face acelasi lucru cu procesarea fisierelor XML
-//todo de tratat cazurile in care fisierele XML nu ofera rezultatele scontate (cazurile de exceptie la interpretarea datelor din fisierele XML)
 
 /// <summary>
 /// Aceasta clasa se ocupa de urmatoarele lucruri:
@@ -83,11 +82,40 @@ namespace HTMatchPredictor
         /// Instanta a structurii
         /// </summary>
         private FutureMatches F;
+        /// <summary>
+        /// Lista ce contine date despre meciurile viitoare
+        /// </summary>
         public static List<FutureMatches> FinalFutureMatches = new List<FutureMatches> { };
 
+        /// <summary>
+        /// Constructorul clasei
+        /// </summary>
         public ParseXMLFiles()
         {
 
+        }
+
+        /// <summary>
+        /// Aduna toate instructiunile pentru afisarea unei casute cu un mesaj intr-o singura functie.
+        /// </summary>
+        /// <param name="message">Mesajul ce va fi scris</param>
+        private static void ShowErrorMessageBox(string message)
+        {
+            MessageBoxButtons Buttons = MessageBoxButtons.OK;
+            MessageBoxIcon Icon = MessageBoxIcon.Error;
+            MessageBox.Show(message, "Error!", Buttons, Icon);
+        }
+
+        /// <summary>
+        /// Alta varianta de adunare a instructiunilor pentru afisarea unei casute cu mesaj intr-o singura functie.
+        /// </summary>
+        /// <param name="message">Mesajul ce va fi scris</param>
+        /// <param name="errormessage">Titlul casutei</param>
+        private static void ShowErrorMessageBox(string message,string errormessage)
+        {
+            MessageBoxIcon Icon = MessageBoxIcon.Error;
+            MessageBoxButtons Button = MessageBoxButtons.OK;
+            MessageBox.Show(message, errormessage, Button, Icon);
         }
 
         public List<int> ResetMatchRatingsList()
@@ -164,7 +192,7 @@ namespace HTMatchPredictor
                     case "Teams":
                         {
                             int counter = 0;
-                            XmlNodeList TeamNodes = i.SelectNodes("*");
+                            XmlNodeList TeamNodes = i.SelectNodes("Team");
                             foreach (XmlNode j in TeamNodes)
                             {
                                 XmlNodeList TeamDetails = j.SelectNodes("*");
@@ -181,9 +209,7 @@ namespace HTMatchPredictor
                                             {
                                                 if (!int.TryParse(k.InnerXml, out UserTeamIDs[counter]))
                                                 {
-                                                    MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                                    MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                                    MessageBox.Show("Parsing TeamID from XML file failed!", "Error!", Buttons, Icon);
+                                                    ShowErrorMessageBox("Parsing TeamID from XML file failed!");
                                                 }
                                                 break;
                                             }
@@ -221,7 +247,7 @@ namespace HTMatchPredictor
 
             XmlNode Current = doc.DocumentElement.SelectSingleNode("Team");
             XmlNode MatchListNode = Current.SelectSingleNode("MatchList");
-            XmlNodeList MatchListNodeList = MatchListNode.SelectNodes("*");
+            XmlNodeList MatchListNodeList = MatchListNode.SelectNodes("Match");
             foreach (XmlNode i in MatchListNodeList)
             {
                 XmlNodeList MatchNodeList = i.SelectNodes("*");
@@ -233,9 +259,7 @@ namespace HTMatchPredictor
                             {
                                 if (!int.TryParse(j.InnerXml, out F.MatchID))
                                 {
-                                    MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                    MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                    MessageBox.Show("Parsing the Matc ID from the XML file failed!", "Error!", Buttons, Icon);
+                                    ShowErrorMessageBox("Parsing the Match ID from the XML file failed!", "Error!");
                                 }
                                 break;
                             }
@@ -267,9 +291,7 @@ namespace HTMatchPredictor
                             {
                                 if (!int.TryParse(j.InnerXml, out TempMatchType))
                                 {
-                                    MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                    MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                    MessageBox.Show("Parsing Match Type from XML file failed!", "Error!", Buttons, Icon);
+                                    ShowErrorMessageBox("Parsing Match Type from XML file failed!", "Error!");
                                 }
                                 break;
                             }
@@ -326,9 +348,7 @@ namespace HTMatchPredictor
                                 {
                                     if (ShowErrorMessage)
                                     {
-                                        MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                        MessageBoxButtons Button = MessageBoxButtons.OK;
-                                        MessageBox.Show("Only league, friendly (normal rules) and international friendly (normal rules) matches can be added into the database. The match with the chosen ID was not added.", "Match type error!", Button, Icon);
+                                        ShowErrorMessageBox("Only league, friendly (normal rules) and international friendly (normal rules) matches can be added into the database. The match with the chosen ID was not added.", "Match type error!");
                                     }
                                     Reader.Close();
                                     return -1;
@@ -351,9 +371,7 @@ namespace HTMatchPredictor
                                             }
                                             else
                                             {
-                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                                MessageBox.Show("Parsing the home midfield rating from the XML file failed!", "Error!", Buttons, Icon);
+                                                ShowErrorMessageBox("Parsing the home midfield rating from the XML file failed!");
                                             }
                                             break;
                                         }
@@ -365,9 +383,7 @@ namespace HTMatchPredictor
                                             }
                                             else
                                             {
-                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                                MessageBox.Show("Parsing the home right defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                                                ShowErrorMessageBox("Parsing the home right defense rating from the XML file failed!");
                                             }
                                             break;
                                         }
@@ -379,9 +395,7 @@ namespace HTMatchPredictor
                                             }
                                             else
                                             {
-                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                                MessageBox.Show("Parsing the home central defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                                                ShowErrorMessageBox("Parsing the home central defense rating from the XML file failed!");
                                             }
                                             break;
                                         }
@@ -393,9 +407,7 @@ namespace HTMatchPredictor
                                             }
                                             else
                                             {
-                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                                MessageBox.Show("Parsing the home left defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                                                ShowErrorMessageBox("Parsing the home left defense rating from the XML file failed!");
                                             }
                                             break;
                                         }
@@ -407,9 +419,7 @@ namespace HTMatchPredictor
                                             }
                                             else
                                             {
-                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                                MessageBox.Show("Parsing the home right attack rating from the XML file failed!", "Error!", Buttons, Icon);
+                                                ShowErrorMessageBox("Parsing the home right attack rating from the XML file failed!");
                                             }
                                             break;
                                         }
@@ -421,9 +431,7 @@ namespace HTMatchPredictor
                                             }
                                             else
                                             {
-                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                                MessageBox.Show("Parsing the home central attack rating from the XML file failed!", "Error!", Buttons, Icon);
+                                                ShowErrorMessageBox("Parsing the home central attack rating from the XML file failed!");
                                             }
                                             break;
                                         }
@@ -435,9 +443,7 @@ namespace HTMatchPredictor
                                             }
                                             else
                                             {
-                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                                MessageBox.Show("Parsing the home left defense attack from the XML file failed!", "Error!", Buttons, Icon);
+                                                ShowErrorMessageBox("Parsing the home left defense attack from the XML file failed!");
                                             }
                                             break;
                                         }
@@ -449,9 +455,7 @@ namespace HTMatchPredictor
                                             }
                                             else
                                             {
-                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                                MessageBox.Show("Parsing the home goals field from the XML file failed!", "Error!", Buttons, Icon);
+                                                ShowErrorMessageBox("Parsing the home goals field from the XML file failed!");
                                             }
                                             break;
                                         }
@@ -474,9 +478,7 @@ namespace HTMatchPredictor
                                             }
                                             else
                                             {
-                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                                MessageBox.Show("Parsing the away midfield rating from the XML file failed!", "Error!", Buttons, Icon);
+                                                ShowErrorMessageBox("Parsing the away midfield rating from the XML file failed!");
                                             }
                                             break;
                                         }
@@ -488,9 +490,7 @@ namespace HTMatchPredictor
                                             }
                                             else
                                             {
-                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                                MessageBox.Show("Parsing the away right defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                                                ShowErrorMessageBox("Parsing the away right defense rating from the XML file failed!");
                                             }
                                             break;
                                         }
@@ -502,9 +502,7 @@ namespace HTMatchPredictor
                                             }
                                             else
                                             {
-                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                                MessageBox.Show("Parsing the away central defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                                                ShowErrorMessageBox("Parsing the away central defense rating from the XML file failed!");
                                             }
                                             break;
                                         }
@@ -516,9 +514,7 @@ namespace HTMatchPredictor
                                             }
                                             else
                                             {
-                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                                MessageBox.Show("Parsing the away left defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                                                ShowErrorMessageBox("Parsing the away left defense rating from the XML file failed!");
                                             }
                                             break;
                                         }
@@ -530,9 +526,7 @@ namespace HTMatchPredictor
                                             }
                                             else
                                             {
-                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                                MessageBox.Show("Parsing the away right defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                                                ShowErrorMessageBox("Parsing the away right defense rating from the XML file failed!");
                                             }
                                             break;
                                         }
@@ -544,9 +538,7 @@ namespace HTMatchPredictor
                                             }
                                             else
                                             {
-                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                                MessageBox.Show("Parsing the away right attack rating from the XML file failed!", "Error!", Buttons, Icon);
+                                                ShowErrorMessageBox("Parsing the away right attack rating from the XML file failed!");
                                             }
                                             break;
                                         }
@@ -558,9 +550,7 @@ namespace HTMatchPredictor
                                             }
                                             else
                                             {
-                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                                MessageBox.Show("Parsing the away left attack rating from the XML file failed!", "Error!", Buttons, Icon);
+                                                ShowErrorMessageBox("Parsing the away left attack rating from the XML file failed!");
                                             }
                                             break;
                                         }
@@ -572,9 +562,7 @@ namespace HTMatchPredictor
                                             }
                                             else
                                             {
-                                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                                MessageBox.Show("Parsing the away goals field rating from the XML file failed!", "Error!", Buttons, Icon);
+                                                ShowErrorMessageBox("Parsing the away goals field rating from the XML file failed!");
                                             }
                                             break;
                                         }
@@ -588,7 +576,7 @@ namespace HTMatchPredictor
             return 0;
         }
 
-        public void ParseOrdersFile()
+        public bool ParseOrdersFile()
         {
             int temp;
             XmlUrlResolver Resolver = new XmlUrlResolver()
@@ -609,7 +597,15 @@ namespace HTMatchPredictor
             };
             doc.Load(Reader);
 
-            XmlNode Current = doc.DocumentElement.SelectSingleNode("MatchData");
+            XmlNode Current = doc.DocumentElement.SelectSingleNode("Error"); //Din motive necunoscute mie, unele XML-uri vin cu mesaje de eroare, desi toti parametrii sunt transmisi corect. Aici se testeaza accest caz. Daca nu e niciun mesaj de eroare, Current va fi null si functia trece mai departe. Altfel, afiseaza un mesaj si iese.
+            if (Current!=null)
+            {
+                ShowErrorMessageBox("The predicted ratings for this match could not be loaded, because of a Hattrick server fault. " + Current.InnerXml);
+                Reader.Close();
+                return false;
+            }
+
+            Current = doc.DocumentElement.SelectSingleNode("MatchData");
             XmlNodeList MatchDataNodeList = Current.SelectNodes("*");
             foreach (XmlNode i in MatchDataNodeList)
             {
@@ -623,9 +619,7 @@ namespace HTMatchPredictor
                             }
                             else
                             {
-                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                MessageBox.Show("Parsing the predicted midfield rating from the XML file failed!", "Error!", Buttons, Icon);
+                                ShowErrorMessageBox("Parsing the predicted midfield rating from the XML file failed!");
                             }
                             break;
                         }
@@ -637,9 +631,7 @@ namespace HTMatchPredictor
                             }
                             else
                             {
-                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                MessageBox.Show("Parsing the predicted right defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                                ShowErrorMessageBox("Parsing the predicted right defense rating from the XML file failed!");
                             }
                             break;
                         }
@@ -651,9 +643,7 @@ namespace HTMatchPredictor
                             }
                             else
                             {
-                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                MessageBox.Show("Parsing the predicted central defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                                ShowErrorMessageBox("Parsing the predicted central defense rating from the XML file failed!");
                             }
                             break;
                         }
@@ -665,9 +655,7 @@ namespace HTMatchPredictor
                             }
                             else
                             {
-                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                MessageBox.Show("Parsing the predicted left defense rating from the XML file failed!", "Error!", Buttons, Icon);
+                                ShowErrorMessageBox("Parsing the predicted left defense rating from the XML file failed!");
                             }
                             break;
                         }
@@ -679,9 +667,7 @@ namespace HTMatchPredictor
                             }
                             else
                             {
-                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                MessageBox.Show("Parsing the predicted right attack rating from the XML file failed!", "Error!", Buttons, Icon);
+                                ShowErrorMessageBox("Parsing the predicted right attack rating from the XML file failed!");
                             }
                             break;
                         }
@@ -693,9 +679,7 @@ namespace HTMatchPredictor
                             }
                             else
                             {
-                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                MessageBox.Show("Parsing the predicted central attack rating from the XML file failed!", "Error!", Buttons, Icon);
+                                ShowErrorMessageBox("Parsing the predicted central attack rating from the XML file failed!");
                             }
                             break;
                         }
@@ -707,9 +691,7 @@ namespace HTMatchPredictor
                             }
                             else
                             {
-                                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                                MessageBox.Show("Parsing the predicted left attack rating from the XML file failed!", "Error!", Buttons, Icon);
+                                ShowErrorMessageBox("Parsing the predicted left attack rating from the XML file failed!");
                             }
                             break;
                         }
@@ -717,6 +699,7 @@ namespace HTMatchPredictor
                 }
             }
             Reader.Close();
+            return true;
         }
 
         /// <summary>

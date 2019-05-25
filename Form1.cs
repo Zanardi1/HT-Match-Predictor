@@ -17,7 +17,6 @@ using System.Threading.Tasks;
 //todo bug atunci cand revoc aplicatia din contul Hattrick, jetoanele raman, dar sunt inutilizabile. Din acest motiv primesc o eroare
 //todo de creat o clasa care se ocupa de scrierea diferitelor erori intr-un fisier text
 //todo sa vad daca pot inlocui AddWithValue cu Add la scrierea in BD. Probabil ca o sa am o performanta mai buna. Punct de plecare: https://stackoverflow.com/questions/56206183/how-i-can-fix-the-next-error-in-visual-studio-2010-c
-//todo sa vad daca pot accesa BD din folosind mai putine deschideri si inchideri de conexiune
 
 namespace HTMatchPredictor
 {
@@ -630,10 +629,10 @@ namespace HTMatchPredictor
             Matches.Append((MatchID - LowLimit + 1).ToString(CultureInfo.InvariantCulture));
             Matches.Append("/");
             Matches.Append((HighLimit - LowLimit + 1).ToString(CultureInfo.InvariantCulture));
-            PW.ProgressLabel.Invoke((Action)(() => PW.ProgressLabel.Text = Matches.ToString())); 
+            PW.ProgressLabel.Text = Matches.ToString();
             Matches.Clear();
-            PW.TheProgressBar.Invoke((Action)(() => PW.TheProgressBar.Value++));
-            PW.ProgressLabel.Invoke((Action)(() => PW.ProgressLabel.Refresh()));
+            PW.TheProgressBar.Value++;
+            PW.ProgressLabel.Refresh();
         }
 
         private void ShowFinalMessageForIDAdding(int MatchesAdded, int LowLimit, int HighLimit)
@@ -801,9 +800,11 @@ namespace HTMatchPredictor
         {
             Uri MatchOrdersURL = new Uri(DownloadString.CreateMatchOrdersString(ParseXMLFiles.FinalFutureMatches[FutureMatchesListBox.SelectedIndex].MatchID, GetUserTeamID()));
             SaveResponseToFile(MatchOrdersURL, XMLFolder + "\\Orders.xml");
-            Parser.ParseOrdersFile();
-            LoadMatchRatings();
-            ShowPredictedRatings();
+            if (Parser.ParseOrdersFile())
+            {
+                LoadMatchRatings();
+                ShowPredictedRatings();
+            }
         }
 
         private bool SetRatingLabelColor(int RatingIndex)
