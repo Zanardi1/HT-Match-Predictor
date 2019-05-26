@@ -60,7 +60,7 @@ namespace HTMatchPredictor
             return ComposeFinalString();
         }
 
-        public string CreateMatchDetailsString(int MatchID)
+        public static string CreateMatchDetailsString(int MatchID)
         {
             StringBuilder Details = new StringBuilder();
             Details.Append("&version=3.0&matchEvents=false&matchID=");

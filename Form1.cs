@@ -519,7 +519,7 @@ namespace HTMatchPredictor
         {
             AddSingleMatchForm A = new AddSingleMatchForm();
             A.ShowDialog(this);
-            Uri DownloadURL = new Uri(DownloadString.CreateMatchDetailsString(MatchIDToAdd));
+            Uri DownloadURL = new Uri(DownloadStringCreation.CreateMatchDetailsString(MatchIDToAdd));
             if (MatchIDToAdd != -1)
             {
                 SaveResponseToFile(DownloadURL, XMLFolder + "\\MatchDetails.xml");
@@ -538,7 +538,7 @@ namespace HTMatchPredictor
         {
             return Task.Run(() =>
            {
-               Uri MatchDetailsURL = new Uri(DownloadString.CreateMatchDetailsString(MatchesIDList[MatchID]));
+               Uri MatchDetailsURL = new Uri(DownloadStringCreation.CreateMatchDetailsString(MatchesIDList[MatchID]));
                SaveResponseToFile(MatchDetailsURL, XMLFolder + "\\MatchDetails.xml");
                if (Parser.ParseMatchDetailsFile(false) != -1)
                {
@@ -612,7 +612,7 @@ namespace HTMatchPredictor
         {
             return Task.Run(() =>
             {
-                Uri MatchDetailsURL = new Uri(DownloadString.CreateMatchDetailsString(MatchID));
+                Uri MatchDetailsURL = new Uri(DownloadStringCreation.CreateMatchDetailsString(MatchID));
                 SaveResponseToFile(MatchDetailsURL, XMLFolder + "\\MatchDetails.xml");
                 if (Parser.ParseMatchDetailsFile(false) != -1) //Daca face parte din categoria meciurilor ce pot intra in BD
                 {

@@ -30,7 +30,7 @@
         {
             this.TheProgressBar = new System.Windows.Forms.ProgressBar();
             this.ProgressLabel = new System.Windows.Forms.Label();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.DiscardButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // TheProgressBar
@@ -49,15 +49,15 @@
             this.ProgressLabel.TabIndex = 1;
             this.ProgressLabel.Text = "Progress...";
             // 
-            // CancelButton
+            // DiscardButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(135, 123);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton.TabIndex = 2;
-            this.CancelButton.Text = "Cancel";
-            this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.Click += new System.EventHandler(this.CancelImport);
+            this.DiscardButton.Location = new System.Drawing.Point(135, 123);
+            this.DiscardButton.Name = "DiscardButton";
+            this.DiscardButton.Size = new System.Drawing.Size(75, 23);
+            this.DiscardButton.TabIndex = 2;
+            this.DiscardButton.Text = "Cancel";
+            this.DiscardButton.UseVisualStyleBackColor = true;
+            this.DiscardButton.Click += new System.EventHandler(this.CancelImport);
             // 
             // ProgressWindow
             // 
@@ -65,7 +65,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(360, 186);
             this.ControlBox = false;
-            this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.DiscardButton);
             this.Controls.Add(this.ProgressLabel);
             this.Controls.Add(this.TheProgressBar);
             this.MaximumSize = new System.Drawing.Size(378, 233);
@@ -81,6 +81,6 @@
         #endregion
         public System.Windows.Forms.ProgressBar TheProgressBar;
         public System.Windows.Forms.Label ProgressLabel;
-        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button DiscardButton;
     }
 }

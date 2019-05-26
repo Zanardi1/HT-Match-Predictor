@@ -153,9 +153,11 @@ namespace HTMatchPredictor
             }
             catch (SqlException S)
             {
-                MessageBox.Show(S.Message);
-                //Daca exista deja inregistrarea cu un anumit numar de identificare pentru un meci, atunci nu face nimic. Nu stiu daca asta e cea mai buna modalitate de a trata exceptia
-                //todo sa ma gandesc la o modalitate mai eleganta de a trata aceasta exceptie (daca e cazul).
+                if (S.Number != 2627)
+                {
+                    MessageBox.Show(S.Message);
+                }
+                //Daca exista deja inregistrarea cu un anumit numar de identificare pentru un meci (2627), atunci nu face nimic. Nu stiu daca asta e cea mai buna modalitate de a trata exceptia
             }
             MyConn.Close();
         }
