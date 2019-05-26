@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
+using System.Data;
 
 //Clasa ce se ocupa de operatiile cu baza de date in care vor fi stocate meciurile. In aceasta clasa vor fi programate urmatoarele functii 
 //1. Testarea existentei fisierului ce contine baza de date. Fisierul trebuie sa fie in folderul db;
@@ -59,8 +60,8 @@ namespace HTMatchPredictor
             SqlConnection MyConn = new SqlConnection(CreateDatabaseConnectionString);
             string Str = "Create Database Matches on Primary (Name=Matches, Filename='@DatabaseFile') log on (Name=MatchesLog, Filename='@DatabaseLog')"; //retine comanda SQL care creeaza BD
             SqlCommand command = new SqlCommand(Str, MyConn);
-            command.Parameters.AddWithValue("@DatabaseFile", DatabaseFile);
-            command.Parameters.AddWithValue("@DatabaseLog", DatabaseLog);
+            command.Parameters.Add("@DatabaseFile", SqlDbType.Text).Value = DatabaseFile;
+            command.Parameters.Add("@DatabaseLog", SqlDbType.Text).Value = DatabaseLog;
             MyConn.Open();
             command.ExecuteNonQuery();
             MyConn.Close();
@@ -129,23 +130,23 @@ namespace HTMatchPredictor
             string AddMatchCommand = "Insert into Games values (@Match, @Ratings1, @Ratings2, @Ratings3, @Ratings4, @Ratings5, @Ratings6, @Ratings7, @Ratings8, @Ratings9, @Ratings10, @Ratings11, @Ratings12, @Ratings13, @Ratings14, @Ratings15, @Ratings16)";
             SqlConnection MyConn = new SqlConnection(CreateTableConnectionString);
             SqlCommand command = new SqlCommand(AddMatchCommand, MyConn);
-            command.Parameters.AddWithValue("@Match", MatchIDToInsert.ToString(CultureInfo.InvariantCulture));
-            command.Parameters.AddWithValue("@Ratings1", RatingsToInsert[0].ToString(CultureInfo.InvariantCulture));
-            command.Parameters.AddWithValue("@Ratings2", RatingsToInsert[1].ToString(CultureInfo.InvariantCulture));
-            command.Parameters.AddWithValue("@Ratings3", RatingsToInsert[2].ToString(CultureInfo.InvariantCulture));
-            command.Parameters.AddWithValue("@Ratings4", RatingsToInsert[3].ToString(CultureInfo.InvariantCulture));
-            command.Parameters.AddWithValue("@Ratings5", RatingsToInsert[4].ToString(CultureInfo.InvariantCulture));
-            command.Parameters.AddWithValue("@Ratings6", RatingsToInsert[5].ToString(CultureInfo.InvariantCulture));
-            command.Parameters.AddWithValue("@Ratings7", RatingsToInsert[6].ToString(CultureInfo.InvariantCulture));
-            command.Parameters.AddWithValue("@Ratings8", RatingsToInsert[7].ToString(CultureInfo.InvariantCulture));
-            command.Parameters.AddWithValue("@Ratings9", RatingsToInsert[8].ToString(CultureInfo.InvariantCulture));
-            command.Parameters.AddWithValue("@Ratings10", RatingsToInsert[9].ToString(CultureInfo.InvariantCulture));
-            command.Parameters.AddWithValue("@Ratings11", RatingsToInsert[10].ToString(CultureInfo.InvariantCulture));
-            command.Parameters.AddWithValue("@Ratings12", RatingsToInsert[11].ToString(CultureInfo.InvariantCulture));
-            command.Parameters.AddWithValue("@Ratings13", RatingsToInsert[12].ToString(CultureInfo.InvariantCulture));
-            command.Parameters.AddWithValue("@Ratings14", RatingsToInsert[13].ToString(CultureInfo.InvariantCulture));
-            command.Parameters.AddWithValue("@Ratings15", RatingsToInsert[14].ToString(CultureInfo.InvariantCulture));
-            command.Parameters.AddWithValue("@Ratings16", RatingsToInsert[15].ToString(CultureInfo.InvariantCulture));
+            command.Parameters.Add("@Match", SqlDbType.Int).Value = MatchIDToInsert.ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@Ratings1", SqlDbType.TinyInt).Value = RatingsToInsert[0].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@Ratings2", SqlDbType.TinyInt).Value = RatingsToInsert[1].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@Ratings3", SqlDbType.TinyInt).Value = RatingsToInsert[2].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@Ratings4", SqlDbType.TinyInt).Value = RatingsToInsert[3].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@Ratings5", SqlDbType.TinyInt).Value = RatingsToInsert[4].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@Ratings6", SqlDbType.TinyInt).Value = RatingsToInsert[5].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@Ratings7", SqlDbType.TinyInt).Value = RatingsToInsert[6].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@Ratings8", SqlDbType.TinyInt).Value = RatingsToInsert[7].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@Ratings9", SqlDbType.TinyInt).Value = RatingsToInsert[8].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@Ratings10", SqlDbType.TinyInt).Value = RatingsToInsert[9].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@Ratings11", SqlDbType.TinyInt).Value = RatingsToInsert[10].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@Ratings12", SqlDbType.TinyInt).Value = RatingsToInsert[11].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@Ratings13", SqlDbType.TinyInt).Value = RatingsToInsert[12].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@Ratings14", SqlDbType.TinyInt).Value = RatingsToInsert[13].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@Ratings15", SqlDbType.TinyInt).Value = RatingsToInsert[14].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@Ratings16", SqlDbType.TinyInt).Value = RatingsToInsert[15].ToString(CultureInfo.InvariantCulture);
             MyConn.Open();
             try
             {

@@ -10,13 +10,12 @@ using System.IO;
 using System.Net;
 using System.Security;
 using System.Text;
-using System.Windows.Forms;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
 //todo bug atunci cand revoc aplicatia din contul Hattrick, jetoanele raman, dar sunt inutilizabile. Din acest motiv primesc o eroare
 //todo de creat o clasa care se ocupa de scrierea diferitelor erori intr-un fisier text
-//todo sa vad daca pot inlocui AddWithValue cu Add la scrierea in BD. Probabil ca o sa am o performanta mai buna. Punct de plecare: https://stackoverflow.com/questions/56206183/how-i-can-fix-the-next-error-in-visual-studio-2010-c
 
 namespace HTMatchPredictor
 {
@@ -82,7 +81,7 @@ namespace HTMatchPredictor
         /// 12. Evaluarea atacului pe centru (echipa din deplasare));
         /// 13. Evaluarea atacului pe stanga (echipa din deplasare));
         /// </summary>
-        public List<int> MatchRatings = new List<int>(14);
+        public static List<int> MatchRatings = new List<int>(14);
         /// <summary>
         /// Obiect ce se ocupa de crearea sirului care va fi transmis mai departe pentru descarcarea fisierului XML
         /// </summary>
@@ -336,7 +335,7 @@ namespace HTMatchPredictor
             catch (IOException I) //todo bug din cand in cand mai primesc un mesaj de eroare cum ca fisierul Matches.xml e folosit de un alt proces.
             {
                 //MessageBox.Show(I.Message);
-                File.WriteAllText(CurrentFolder + "\\Error.txt", DateTime.Now.ToString(CultureInfo.InvariantCulture)+"\r\n\r\n"+ I.StackTrace);
+                File.WriteAllText(CurrentFolder + "\\Error.txt", DateTime.Now.ToString(CultureInfo.InvariantCulture) + "\r\n\r\n" + I.StackTrace);
                 Cursor = Cursors.WaitCursor;
             }
         }
@@ -669,7 +668,7 @@ namespace HTMatchPredictor
                     {
                         MessageBoxButtons Buttons = MessageBoxButtons.OK;
                         MessageBoxIcon Icon = MessageBoxIcon.Information;
-                        MessageBox.Show("Adding cancelled","Information",Buttons,Icon);
+                        MessageBox.Show("Adding cancelled", "Information", Buttons, Icon);
                         break;
                     }
                 }
@@ -806,6 +805,11 @@ namespace HTMatchPredictor
             }
         }
 
+        /// <summary>
+        /// Functia stabileste culorile etichetelor care afiseaza evaluarile, in functie de existenta unei evaluari pe un anumit post
+        /// </summary>
+        /// <param name="RatingIndex">Evaluarea de pe un anume post</param>
+        /// <returns>False, daca macar o eticheta are culoarea rosie (pe pozitia respectvia nu s-a stabilit o evaluare). True altfel</returns>
         private bool SetRatingLabelColor(int RatingIndex)
         {
             if (MatchRatings[RatingIndex] == 0)
@@ -892,23 +896,23 @@ namespace HTMatchPredictor
             float TiePercentage = 0;
             float AwayWinPercentage = 0;
             SqlConnection MyConn = new SqlConnection(Operations.CreateTableConnectionString);
-            SqlCommand Command = new SqlCommand(SelectionCommand, MyConn);
-            Command.Parameters.AddWithValue("@HTM", MatchRatings[0].ToString(CultureInfo.InvariantCulture));
-            Command.Parameters.AddWithValue("@HTRD", MatchRatings[1].ToString(CultureInfo.InvariantCulture));
-            Command.Parameters.AddWithValue("@HTCD", MatchRatings[2].ToString(CultureInfo.InvariantCulture));
-            Command.Parameters.AddWithValue("@HTLD", MatchRatings[3].ToString(CultureInfo.InvariantCulture));
-            Command.Parameters.AddWithValue("@HTRA", MatchRatings[4].ToString(CultureInfo.InvariantCulture));
-            Command.Parameters.AddWithValue("@HTCA", MatchRatings[5].ToString(CultureInfo.InvariantCulture));
-            Command.Parameters.AddWithValue("@HTLA", MatchRatings[6].ToString(CultureInfo.InvariantCulture));
-            Command.Parameters.AddWithValue("@ATM", MatchRatings[7].ToString(CultureInfo.InvariantCulture));
-            Command.Parameters.AddWithValue("@ATRD", MatchRatings[8].ToString(CultureInfo.InvariantCulture));
-            Command.Parameters.AddWithValue("@ATCD", MatchRatings[9].ToString(CultureInfo.InvariantCulture));
-            Command.Parameters.AddWithValue("@ATLD", MatchRatings[10].ToString(CultureInfo.InvariantCulture));
-            Command.Parameters.AddWithValue("@ATRA", MatchRatings[11].ToString(CultureInfo.InvariantCulture));
-            Command.Parameters.AddWithValue("@ATCA", MatchRatings[12].ToString(CultureInfo.InvariantCulture));
-            Command.Parameters.AddWithValue("@ATLA", MatchRatings[13].ToString(CultureInfo.InvariantCulture));
+            SqlCommand command = new SqlCommand(SelectionCommand, MyConn);
+            command.Parameters.Add("@HTM", SqlDbType.TinyInt).Value = MatchRatings[0].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@HTRD", SqlDbType.TinyInt).Value = MatchRatings[1].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@HTCD", SqlDbType.TinyInt).Value = MatchRatings[2].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@HTLD", SqlDbType.TinyInt).Value = MatchRatings[3].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@HTRA", SqlDbType.TinyInt).Value = MatchRatings[4].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@HTCA", SqlDbType.TinyInt).Value = MatchRatings[5].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@HTLA", SqlDbType.TinyInt).Value = MatchRatings[6].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@ATM", SqlDbType.TinyInt).Value = MatchRatings[7].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@ATRD", SqlDbType.TinyInt).Value = MatchRatings[8].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@ATCD", SqlDbType.TinyInt).Value = MatchRatings[9].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@ATLD", SqlDbType.TinyInt).Value = MatchRatings[10].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@ATRA", SqlDbType.TinyInt).Value = MatchRatings[11].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@ATCA", SqlDbType.TinyInt).Value = MatchRatings[12].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@ATLA", SqlDbType.TinyInt).Value = MatchRatings[13].ToString(CultureInfo.InvariantCulture);
             MyConn.Open();
-            SqlDataReader reader = Command.ExecuteReader();
+            SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
                 Score = ReadSingleRow((IDataRecord)reader);
@@ -955,10 +959,17 @@ namespace HTMatchPredictor
         {
             if (InputsAreValid())
             {
+                Cursor = Cursors.WaitCursor;
                 PredictingEngine();
+                Cursor = Cursors.Default;
             }
         }
 
+        /// <summary>
+        /// Functia citeste golurile inscrise de cele doua echipe dintr-un rand al bazei de date si le adauga intr-o lista. Rezultatul va fi folosit pentru prelucrarea rezultatelor finale
+        /// </summary>
+        /// <param name="record">Inregistrarea din care se citeste scorul</param>
+        /// <returns>Scorul convertit sub forma unei liste</returns>
         private static List<int> ReadSingleRow(IDataRecord record)
         {
             List<int> Score = new List<int> { };
