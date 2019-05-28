@@ -111,7 +111,7 @@ namespace HTMatchPredictor
         /// </summary>
         /// <param name="message">Mesajul ce va fi scris</param>
         /// <param name="errormessage">Titlul casutei</param>
-        private static void ShowErrorMessageBox(string message,string errormessage)
+        private static void ShowErrorMessageBox(string message, string errormessage)
         {
             MessageBoxIcon Icon = MessageBoxIcon.Error;
             MessageBoxButtons Button = MessageBoxButtons.OK;
@@ -127,7 +127,10 @@ namespace HTMatchPredictor
             return ReadMatchRatings;
         }
 
-        public void ParseUserFile()
+        /// <summary>
+        /// Citeste fisierul User.xml si pune datele citite in program
+        /// </summary>
+        public void ParseUserFile() //Maintainability index inainte de rescriere: 45
         {
             XmlUrlResolver URLResolver = new XmlUrlResolver
             {
@@ -148,78 +151,56 @@ namespace HTMatchPredictor
             doc.Load(Reader);
 
             XmlNode Current = doc.DocumentElement.SelectSingleNode("Manager"); //Trec la nodul "Manager
-            XmlNodeList NodeList = Current.SelectNodes("*"); //Obtin nodurile-copil
-            foreach (XmlNode i in NodeList)
+            XmlNode Node = Current.SelectSingleNode("UserId");
+            UserID = Node.InnerXml;
+            Node = Current.SelectSingleNode("Loginname");
+            UserName = Node.InnerXml;
+            Node = Current.SelectSingleNode("SupporterTier");
+            UserSupporterLevel = Node.InnerXml;
+            Node = Current.SelectSingleNode("Country");
+            XmlNodeList Nodes = Node.SelectNodes("*[self::CountryName or self::CountryId]");
+            foreach (XmlNode j in Nodes)
             {
-                switch (i.Name)
+                switch (j.Name)
                 {
-                    case "UserId":
+                    case "CountryName":
                         {
-                            UserID = i.InnerXml;
+                            UserCountry = j.InnerXml;
                             break;
                         }
-                    case "Loginname":
+                    case "CountryId":
                         {
-                            UserName = i.InnerXml;
-                            break;
-                        }
-                    case "SupporterTier":
-                        {
-                            UserSupporterLevel = i.InnerXml;
-                            break;
-                        }
-                    case "Country":
-                        {
-                            XmlNodeList CountryNodes = i.SelectNodes("*");
-                            foreach (XmlNode j in CountryNodes)
-                            {
-                                switch (j.Name)
-                                {
-                                    case "CountryName":
-                                        {
-                                            UserCountry = j.InnerXml;
-                                            break;
-                                        }
-                                    case "CountryId":
-                                        {
-                                            UserCountryID = j.InnerXml;
-                                            break;
-                                        }
-                                }
-                            }
-                            break;
-                        }
-                    case "Teams":
-                        {
-                            int counter = 0;
-                            XmlNodeList TeamNodes = i.SelectNodes("Team");
-                            foreach (XmlNode j in TeamNodes)
-                            {
-                                XmlNodeList TeamDetails = j.SelectNodes("*");
-                                foreach (XmlNode k in TeamDetails)
-                                {
-                                    switch (k.Name)
-                                    {
-                                        case "TeamName":
-                                            {
-                                                UserTeamNames[counter] = k.InnerXml;
-                                                break;
-                                            }
-                                        case "TeamId":
-                                            {
-                                                if (!int.TryParse(k.InnerXml, out UserTeamIDs[counter]))
-                                                {
-                                                    ShowErrorMessageBox("Parsing TeamID from XML file failed!");
-                                                }
-                                                break;
-                                            }
-                                    }
-                                }
-                                counter++;
-                            }
+                            UserCountryID = j.InnerXml;
                             break;
                         }
                 }
+            }
+            Node = Current.SelectSingleNode("Teams");
+            int counter = 0;
+            Nodes = Node.SelectNodes("*");
+            foreach (XmlNode j in Nodes)
+            {
+                XmlNodeList TeamDetails = j.SelectNodes("*[self::TeamId or self::TeamName]");
+                foreach (XmlNode k in TeamDetails)
+                {
+                    switch (k.Name)
+                    {
+                        case "TeamName":
+                            {
+                                UserTeamNames[counter] = k.InnerXml;
+                                break;
+                            }
+                        case "TeamId":
+                            {
+                                if (!int.TryParse(k.InnerXml, out UserTeamIDs[counter]))
+                                {
+                                    ShowErrorMessageBox("Parsing TeamID from XML file failed!");
+                                }
+                                break;
+                            }
+                    }
+                }
+                counter++;
             }
             Reader.Close();
         }
@@ -250,7 +231,7 @@ namespace HTMatchPredictor
             XmlNodeList MatchListNodeList = MatchListNode.SelectNodes("Match");
             foreach (XmlNode i in MatchListNodeList)
             {
-                XmlNodeList MatchNodeList = i.SelectNodes("*");
+                XmlNodeList MatchNodeList = i.SelectNodes("*[self::MatchID or self::HomeTeam or self::AwayTeam or self::MatchType or self::Status]");
                 foreach (XmlNode j in MatchNodeList)
                 {
                     switch (j.Name)
@@ -340,7 +321,7 @@ namespace HTMatchPredictor
                 Reader.Close();
                 return -1;
             }
-            XmlNodeList MatchNodeList = Current.SelectNodes("*");
+            XmlNodeList MatchNodeList = Current.SelectNodes("*[self::MatchType or self::HomeTeam or self::AwayTeam]");
             foreach (XmlNode i in MatchNodeList)
             {
                 switch (i.Name)
@@ -363,7 +344,7 @@ namespace HTMatchPredictor
                         }
                     case "HomeTeam":
                         {
-                            XmlNodeList HomeTeamNodeList = i.SelectNodes("*");
+                            XmlNodeList HomeTeamNodeList = i.SelectNodes("*[self::RatingMidfield or self::RatingRightDef or self::RatingMidDef or self::RatingLeftDef or self::RatingRightAtt or self::RatingMidAtt or self::RatingLeftAtt or self::HomeGoals]");
                             foreach (XmlNode j in HomeTeamNodeList)
                             {
                                 switch (j.Name)
@@ -470,7 +451,7 @@ namespace HTMatchPredictor
                         }
                     case "AwayTeam":
                         {
-                            XmlNodeList HomeTeamNodeList = i.SelectNodes("*");
+                            XmlNodeList HomeTeamNodeList = i.SelectNodes("*[self::RatingMidfield or self::RatingRightDef or self::RatingMidDef or self::RatingLeftDef or self::RatingRightAtt or self::RatingMidAtt or self::RatingLeftAtt or self::AwayGoals]");
                             foreach (XmlNode j in HomeTeamNodeList)
                             {
                                 switch (j.Name)
@@ -603,7 +584,7 @@ namespace HTMatchPredictor
             doc.Load(Reader);
 
             XmlNode Current = doc.DocumentElement.SelectSingleNode("Error"); //Din motive necunoscute mie, unele XML-uri vin cu mesaje de eroare, desi toti parametrii sunt transmisi corect. Aici se testeaza accest caz. Daca nu e niciun mesaj de eroare, Current va fi null si functia trece mai departe. Altfel, afiseaza un mesaj si iese.
-            if (Current!=null)
+            if (Current != null)
             {
                 ShowErrorMessageBox("The predicted ratings for this match could not be loaded, because of a Hattrick server fault. " + Current.InnerXml);
                 Reader.Close();
@@ -611,7 +592,7 @@ namespace HTMatchPredictor
             }
 
             Current = doc.DocumentElement.SelectSingleNode("MatchData");
-            XmlNodeList MatchDataNodeList = Current.SelectNodes("*");
+            XmlNodeList MatchDataNodeList = Current.SelectNodes("*[self::RatingMidfield or self::RatingRightDef or self::RatingMidDef or self::RatingLeftDef or self::RatingRightAtt or self::RatingMidAtt or self::RatingLeftAtt]");
             foreach (XmlNode i in MatchDataNodeList)
             {
                 switch (i.Name)
@@ -747,7 +728,7 @@ namespace HTMatchPredictor
                                 {
                                     case "Match":
                                         {
-                                            XmlNodeList MatchIDNodeList = j.SelectNodes("MatchID");
+                                            XmlNodeList MatchIDNodeList = Current.SelectNodes("/MatchList/Match/MatchID");
                                             foreach (XmlNode k in MatchIDNodeList)
                                             {
                                                 switch (k.Name)
@@ -758,12 +739,10 @@ namespace HTMatchPredictor
                                                             {
                                                                 MatchIDList.Add(temp);
                                                             }
-
                                                             break;
                                                         }
                                                 }
                                             }
-
                                             break;
                                         }
                                 }

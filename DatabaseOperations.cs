@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
-using System.Data;
 
 //Clasa ce se ocupa de operatiile cu baza de date in care vor fi stocate meciurile. In aceasta clasa vor fi programate urmatoarele functii 
 //1. Testarea existentei fisierului ce contine baza de date. Fisierul trebuie sa fie in folderul db;
@@ -127,7 +127,8 @@ namespace HTMatchPredictor
 
         public void AddAMatch(int MatchIDToInsert, List<int> RatingsToInsert)
         {
-            string AddMatchCommand = "Insert into Games values (@Match, @Ratings1, @Ratings2, @Ratings3, @Ratings4, @Ratings5, @Ratings6, @Ratings7, @Ratings8, @Ratings9, @Ratings10, @Ratings11, @Ratings12, @Ratings13, @Ratings14, @Ratings15, @Ratings16)";
+            string AddMatchCommand = "Insert into Games select @Match, @Ratings1, @Ratings2, @Ratings3, @Ratings4, @Ratings5, @Ratings6, @Ratings7, @Ratings8, @Ratings9, @Ratings10, @Ratings11, @Ratings12, @Ratings13, @Ratings14, @Ratings15, @Ratings16 where not exists (select 1 from Games g where g.MatchID=@Match)";
+
             SqlConnection MyConn = new SqlConnection(CreateTableConnectionString);
             SqlCommand command = new SqlCommand(AddMatchCommand, MyConn);
             command.Parameters.Add("@Match", SqlDbType.Int).Value = MatchIDToInsert.ToString(CultureInfo.InvariantCulture);
@@ -154,11 +155,7 @@ namespace HTMatchPredictor
             }
             catch (SqlException S)
             {
-                if (S.Number != 2627)
-                {
-                    MessageBox.Show(S.Message);
-                }
-                //Daca exista deja inregistrarea cu un anumit numar de identificare pentru un meci (2627), atunci nu face nimic. Nu stiu daca asta e cea mai buna modalitate de a trata exceptia
+                MessageBox.Show(S.Message);
             }
             MyConn.Close();
         }

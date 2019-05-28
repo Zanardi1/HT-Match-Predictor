@@ -336,7 +336,8 @@ namespace HTMatchPredictor
             {
                 //MessageBox.Show(I.Message);
                 File.WriteAllText(CurrentFolder + "\\Error.txt", DateTime.Now.ToString(CultureInfo.InvariantCulture) + "\r\n\r\n" + I.StackTrace);
-                Cursor = Cursors.WaitCursor;
+                Cursor = Cursors.WaitCursor; 
+                //todo System.InvalidOperationException: 'Cross-thread operation not valid: Control 'Form1' accessed from a thread other than the thread it was created on.'
             }
         }
 
