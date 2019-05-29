@@ -2,8 +2,6 @@
 using System.Windows.Forms;
 using System.Xml;
 
-//todo sa vad daca pot scrie mai putine linii de cod pentru a face acelasi lucru cu procesarea fisierelor XML
-
 /// <summary>
 /// Aceasta clasa se ocupa de urmatoarele lucruri:
 /// 1. Citirea unui fisier XML;
@@ -316,6 +314,7 @@ namespace HTMatchPredictor
             doc.Load(Reader);
 
             XmlNode Current = doc.DocumentElement.SelectSingleNode("Match");
+            //Din cand in cand mai sunt probleme cu API-ul Hattrick, iar fisierul intoarce un mesaj de eroare. Din acest motiv, Current e null. Codul de mai jos trateaza acest caz
             if (Current == null)
             {
                 Reader.Close();
@@ -556,6 +555,9 @@ namespace HTMatchPredictor
                             }
                             break;
                         }
+
+                    default:
+                        break;
                 }
             }
             Reader.Close();
@@ -714,38 +716,18 @@ namespace HTMatchPredictor
             doc.Load(Reader);
 
             XmlNode Current = doc.DocumentElement.SelectSingleNode("Team");
-            XmlNodeList TeamIDNodeList = Current.SelectNodes("MatchList");
-            foreach (XmlNode i in TeamIDNodeList)
+            XmlNode TeamIDNode = Current.SelectSingleNode("MatchList");
+            XmlNodeList MatchNodeList = TeamIDNode.SelectNodes("Match");
+            foreach (XmlNode j in MatchNodeList)
             {
-                switch (i.Name)
+                switch (j.Name)
                 {
-                    case "MatchList":
+                    case "Match":
                         {
-                            XmlNodeList MatchNodeList = i.SelectNodes("Match");
-                            foreach (XmlNode j in MatchNodeList)
+                            XmlNode MatchIDNode = j.SelectSingleNode("MatchID");
+                            if (int.TryParse(MatchIDNode.InnerXml, out int temp))
                             {
-                                switch (j.Name)
-                                {
-                                    case "Match":
-                                        {
-                                            XmlNodeList MatchIDNodeList = Current.SelectNodes("/MatchList/Match/MatchID");
-                                            foreach (XmlNode k in MatchIDNodeList)
-                                            {
-                                                switch (k.Name)
-                                                {
-                                                    case "MatchID":
-                                                        {
-                                                            if (int.TryParse(k.InnerXml, out int temp))
-                                                            {
-                                                                MatchIDList.Add(temp);
-                                                            }
-                                                            break;
-                                                        }
-                                                }
-                                            }
-                                            break;
-                                        }
-                                }
+                                MatchIDList.Add(temp);
                             }
                             break;
                         }

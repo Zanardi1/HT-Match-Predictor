@@ -327,17 +327,10 @@ namespace HTMatchPredictor
             {
                 File.WriteAllText(DestinationFileName, GetFileContent(SourceURLAddress.ToString()));
             }
-            catch (DirectoryNotFoundException) //In cazul in care nu exista folderul XML, il creaza si mai incearca o data
-            {
-                Directory.CreateDirectory(XMLFolder);
-                File.WriteAllText(DestinationFileName, GetFileContent(SourceURLAddress.ToString()));
-            }
             catch (IOException I) //todo bug din cand in cand mai primesc un mesaj de eroare cum ca fisierul Matches.xml e folosit de un alt proces.
             {
                 //MessageBox.Show(I.Message);
                 File.WriteAllText(CurrentFolder + "\\Error.txt", DateTime.Now.ToString(CultureInfo.InvariantCulture) + "\r\n\r\n" + I.StackTrace);
-                Cursor = Cursors.WaitCursor; 
-                //todo System.InvalidOperationException: 'Cross-thread operation not valid: Control 'Form1' accessed from a thread other than the thread it was created on.'
             }
         }
 
@@ -390,12 +383,19 @@ namespace HTMatchPredictor
             CheckOtherTeam(Parser.UserTeamNames[2], ThirdTeamRadioButton);
         }
 
+        private void CheckXMLFolderExistence()
+        {
+            if (!Directory.Exists(XMLFolder))
+                Directory.CreateDirectory(XMLFolder);
+        }
+
         public Form1()
         {
             InitializeComponent();
             LoginToHattrickServers();
             InitializeMatchRatingList();
             DisplayUserDetails();
+            CheckXMLFolderExistence();
         }
 
         private void ShowSkillWindow(object sender, System.EventArgs e)
@@ -563,7 +563,7 @@ namespace HTMatchPredictor
 
         private void ShowFinalMessageForTeamAdding(int TheNumberOfMatchesAdded, List<int> MatchesIDList)
         {
-            Cursor = Cursors.Default;
+            Enabled = true;
             MessageBoxButtons Buttons = MessageBoxButtons.OK;
             MessageBoxIcon Icon = MessageBoxIcon.Information;
             MessageBox.Show($"Specified kind of matches added successfully! {TheNumberOfMatchesAdded.ToString(CultureInfo.InvariantCulture)} matches added to the database from the {MatchesIDList.Count.ToString(CultureInfo.InvariantCulture)} matches played in the selected season", "Operation complete", Buttons, Icon);
@@ -583,7 +583,7 @@ namespace HTMatchPredictor
             if (AddTeam.ShowDialog(this) == DialogResult.OK)
             {
                 Uri MatchArchiveURL = new Uri(DownloadString.CreateMatchArchiveString(AddTeam.TeamID, AddTeam.SeasonNumber));
-                Cursor = Cursors.WaitCursor;
+                Enabled = false;
                 SaveResponseToFile(MatchArchiveURL, XMLFolder + "\\Archive.xml");
                 MatchesIDList = Parser.ParseArchiveFile();
                 ProgressWindow PW = new ProgressWindow();
@@ -599,11 +599,15 @@ namespace HTMatchPredictor
                     {
                         MessageBoxButtons Buttons = MessageBoxButtons.OK;
                         MessageBoxIcon Icon = MessageBoxIcon.Information;
-                        MessageBox.Show("Adding cancelled", "Information", Buttons, Icon);
+                        MessageBox.Show("Adding cancelled. Matches prior to cancelling were inserted into the database.", "Information", Buttons, Icon);
                         break;
                     }
                 }
-                ShowFinalMessageForTeamAdding(NumberOfMatchesAdded, MatchesIDList);
+                if (!CancelDatabaseAdding)
+                {
+                    ShowFinalMessageForTeamAdding(NumberOfMatchesAdded, MatchesIDList);
+                }
+
                 PW.Close();
             }
         }
@@ -654,7 +658,7 @@ namespace HTMatchPredictor
             AddMultipleMatchesByMatchIDRange AddID = new AddMultipleMatchesByMatchIDRange();
             if (AddID.ShowDialog(this) == DialogResult.OK)
             {
-                Cursor = Cursors.WaitCursor;
+                Enabled = false;
                 ProgressWindow PW = new ProgressWindow();
                 PW.Show(this);
                 PW.TheProgressBar.Maximum = AddID.HighLimit - AddID.LowLimit + 1;
@@ -669,12 +673,15 @@ namespace HTMatchPredictor
                     {
                         MessageBoxButtons Buttons = MessageBoxButtons.OK;
                         MessageBoxIcon Icon = MessageBoxIcon.Information;
-                        MessageBox.Show("Adding cancelled", "Information", Buttons, Icon);
+                        MessageBox.Show("Adding cancelled. Matches prior to cancelling were inserted into the database.", "Information", Buttons, Icon);
                         break;
                     }
                 }
-                Cursor = Cursors.Default;
-                ShowFinalMessageForIDAdding(NumberOfMatchesAdded, AddID.LowLimit, AddID.HighLimit);
+                Enabled = true;
+                if (!CancelDatabaseAdding)
+                {
+                    ShowFinalMessageForIDAdding(NumberOfMatchesAdded, AddID.LowLimit, AddID.HighLimit);
+                }
                 PW.Close();
             }
         }
