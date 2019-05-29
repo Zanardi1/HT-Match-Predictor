@@ -284,7 +284,7 @@ namespace HTMatchPredictor
 
         private void GetRequestToken()
         {
-            OAuthResponse rt = o.AcquireRequestToken("https://chpp.hattrick.org/oauth/request_token.ashx", "GET");
+            o.AcquireRequestToken("https://chpp.hattrick.org/oauth/request_token.ashx", "GET");
             var url = "https://chpp.hattrick.org/oauth/authorize.aspx?oauth_token=" + o["token"];
             System.Diagnostics.Process.Start(url);
         }
@@ -294,7 +294,7 @@ namespace HTMatchPredictor
             InsertPIN I = new InsertPIN();
             I.ShowDialog(this);
             string pin = I.InsertPINTextBox.Text;
-            OAuthResponse at = o.AcquireAccessToken("https://chpp.hattrick.org/oauth/access_token.ashx", "GET", pin);
+            o.AcquireAccessToken("https://chpp.hattrick.org/oauth/access_token.ashx", "GET", pin);
             StoreTokensToRegistry();
         }
 
@@ -330,7 +330,7 @@ namespace HTMatchPredictor
             catch (IOException I) //todo bug din cand in cand mai primesc un mesaj de eroare cum ca fisierul Matches.xml e folosit de un alt proces.
             {
                 //MessageBox.Show(I.Message);
-                File.WriteAllText(CurrentFolder + "\\Error.txt", DateTime.Now.ToString(CultureInfo.InvariantCulture) + "\r\n\r\n" + I.StackTrace);
+                File.WriteAllText(CurrentFolder + "\\Error.txt", DateTime.Now.ToString(CultureInfo.InvariantCulture) + "\r\n\r\n" + I.StackTrace + "\r\n\r\n" + I.Message);
             }
         }
 
@@ -578,14 +578,13 @@ namespace HTMatchPredictor
         {
             int NumberOfMatchesAdded = 0;
             CancelDatabaseAdding = false;
-            List<int> MatchesIDList = new List<int> { }; //retine numerele de identificare ale meciurilor citite din fisier
             AddMultipleMatchesByTeam AddTeam = new AddMultipleMatchesByTeam();
             if (AddTeam.ShowDialog(this) == DialogResult.OK)
             {
                 Uri MatchArchiveURL = new Uri(DownloadString.CreateMatchArchiveString(AddTeam.TeamID, AddTeam.SeasonNumber));
                 Enabled = false;
                 SaveResponseToFile(MatchArchiveURL, XMLFolder + "\\Archive.xml");
-                MatchesIDList = Parser.ParseArchiveFile();
+                List<int> MatchesIDList = Parser.ParseArchiveFile(); //retine numerele de identificare ale meciurilor citite din fisier
                 ProgressWindow PW = new ProgressWindow();
                 PW.TheProgressBar.Maximum = MatchesIDList.Count;
                 PW.Show(this);
@@ -891,7 +890,6 @@ namespace HTMatchPredictor
         private void PredictingEngine()
         {
             string SelectionCommand = "Select HomeTeamGoals, AwayTeamGoals from Games where HomeTeamMidfield=@HTM and HomeTeamRDefense=@HTRD and HomeTeamCDefense=@HTCD and HomeTeamLDefense=@HTRD and HomeTeamRAttack=@HTRA and HomeTeamCAttack=@HTCA and HomeTeamLAttack=@HTLA and AwayTeamMidfield=@ATM and AwayTeamRDefense=@ATRD and AwayTeamCDefense=@ATCD and AwayTeamLDefense=@ATLD and AwayTeamRAttack=@ATRA and AwayTeamCAttack=@ATCA and AwayTeamLAttack=@ATLA";
-            List<int> Score = new List<int> { };
             int HomeWins = 0;
             int Ties = 0;
             int AwayWins = 0;
@@ -923,7 +921,7 @@ namespace HTMatchPredictor
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                Score = ReadSingleRow((IDataRecord)reader);
+                List<int> Score = ReadSingleRow((IDataRecord)reader);
                 NumberOfPlayedMatches++;
                 int HomeGoals = Score[0];
                 int AwayGoals = Score[1];
