@@ -103,6 +103,9 @@
             this.TeamListGroupBox = new System.Windows.Forms.GroupBox();
             this.FutureMatchesListBox = new System.Windows.Forms.ListBox();
             this.ExplanationLabel = new System.Windows.Forms.Label();
+            this.permissionOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkPermissionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.withdrawPermissionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HomeTeamGroupBox.SuspendLayout();
             this.AwayTeamGroupBox.SuspendLayout();
             this.StatusBar.SuspendLayout();
@@ -777,10 +780,11 @@
             // 
             // optionsToolStripMenuItem
             // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.permissionOptionsToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(75, 24);
             this.optionsToolStripMenuItem.Text = "Options";
-            this.optionsToolStripMenuItem.Visible = false;
             // 
             // aboutToolStripMenuItem
             // 
@@ -859,6 +863,28 @@
             this.ExplanationLabel.Size = new System.Drawing.Size(280, 143);
             this.ExplanationLabel.TabIndex = 21;
             this.ExplanationLabel.Text = resources.GetString("ExplanationLabel.Text");
+            // 
+            // permissionOptionsToolStripMenuItem
+            // 
+            this.permissionOptionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.checkPermissionToolStripMenuItem,
+            this.withdrawPermissionToolStripMenuItem});
+            this.permissionOptionsToolStripMenuItem.Name = "permissionOptionsToolStripMenuItem";
+            this.permissionOptionsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.permissionOptionsToolStripMenuItem.Text = "Permission Options";
+            // 
+            // checkPermissionToolStripMenuItem
+            // 
+            this.checkPermissionToolStripMenuItem.Name = "checkPermissionToolStripMenuItem";
+            this.checkPermissionToolStripMenuItem.Size = new System.Drawing.Size(230, 26);
+            this.checkPermissionToolStripMenuItem.Text = "Check Permission";
+            // 
+            // withdrawPermissionToolStripMenuItem
+            // 
+            this.withdrawPermissionToolStripMenuItem.Name = "withdrawPermissionToolStripMenuItem";
+            this.withdrawPermissionToolStripMenuItem.Size = new System.Drawing.Size(230, 26);
+            this.withdrawPermissionToolStripMenuItem.Text = "Withdraw Permission";
+            this.withdrawPermissionToolStripMenuItem.Click += new System.EventHandler(this.DeleteTokensFromRegistry);
             // 
             // Form1
             // 
@@ -979,6 +1005,9 @@
         private System.Windows.Forms.GroupBox TeamListGroupBox;
         private System.Windows.Forms.ListBox FutureMatchesListBox;
         private System.Windows.Forms.Label ExplanationLabel;
+        private System.Windows.Forms.ToolStripMenuItem permissionOptionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem checkPermissionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem withdrawPermissionToolStripMenuItem;
     }
 }
 

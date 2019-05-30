@@ -16,6 +16,7 @@ using System.Windows.Forms;
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
 //todo bug atunci cand revoc aplicatia din contul Hattrick, jetoanele raman, dar sunt inutilizabile. Din acest motiv primesc o eroare
 //todo de creat o clasa care se ocupa de scrierea diferitelor erori intr-un fisier text
+//todo sa fac o optiune de anulare a conectarii la Hattrick, adica de stergere a celor doua jetoane
 
 namespace HTMatchPredictor
 {
@@ -326,6 +327,7 @@ namespace HTMatchPredictor
             try
             {
                 File.WriteAllText(DestinationFileName, GetFileContent(SourceURLAddress.ToString()));
+                //File.WriteAllText(DestinationFileName, GetFileContent("https://chpp.hattrick.org/oauth/invalidate_token.ashx"));
             }
             catch (IOException I) //todo bug din cand in cand mai primesc un mesaj de eroare cum ca fisierul Matches.xml e folosit de un alt proces.
             {
@@ -386,7 +388,9 @@ namespace HTMatchPredictor
         private void CheckXMLFolderExistence()
         {
             if (!Directory.Exists(XMLFolder))
+            {
                 Directory.CreateDirectory(XMLFolder);
+            }
         }
 
         public Form1()
@@ -404,9 +408,11 @@ namespace HTMatchPredictor
             {
                 Tag = (sender as Button).Tag.ToString() //Tag este folosit pentru a determina ce buton a fost apasat pentru a afisa fereastra
             };
-            S.ShowDialog(this);
-
-            MatchRatings[Convert.ToInt16(S.Tag, CultureInfo.InvariantCulture) - 1] = RatingReturned; //atribuie evaluarea numerica primita sectorului corespunzator, in functie de eticheta butonului a carui apasare a deschis fereastra
+            S.LoadExistingSkill(MatchRatings[Convert.ToInt16(S.Tag, CultureInfo.InvariantCulture) - 1]);
+            if (S.ShowDialog(this) == DialogResult.OK)
+            {
+                MatchRatings[Convert.ToInt16(S.Tag, CultureInfo.InvariantCulture) - 1] = RatingReturned; //atribuie evaluarea numerica primita sectorului corespunzator, in functie de eticheta butonului a carui apasare a deschis fereastra
+            }
         }
 
         /// <summary>
@@ -606,7 +612,6 @@ namespace HTMatchPredictor
                 {
                     ShowFinalMessageForTeamAdding(NumberOfMatchesAdded, MatchesIDList);
                 }
-
                 PW.Close();
             }
         }
@@ -990,6 +995,48 @@ namespace HTMatchPredictor
             }
 
             return Score;
+        }
+
+        private bool DeleteTokensFromRegistryEngine()
+        {
+            try
+            {
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey("HTMPTK"))
+                {
+                    if (key != null)
+                    {
+                        key.DeleteSubKeyTree("HTMPTK", true);
+                    }
+                }
+            }
+            catch (ArgumentNullException A)
+            {
+                MessageBox.Show(A.Message);
+            }
+            catch (ObjectDisposedException O)
+            {
+                MessageBox.Show(O.Message);
+            }
+            catch (SecurityException S)
+            {
+                MessageBox.Show(S.Message);
+            }
+            catch (IOException I)
+            {
+                MessageBox.Show(I.Message);
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Functia sterge cele 2 jetoane din registry
+        /// </summary>
+        /// <param name="sender">handler de eveniment</param>
+        /// <param name="e">handler de eveniment</param>
+        private void DeleteTokensFromRegistry(object sender, EventArgs e)
+        {
+            if (DeleteTokensFromRegistryEngine())
+                MessageBox.Show("Error in revoking Hattrick access!");
         }
     }
 }

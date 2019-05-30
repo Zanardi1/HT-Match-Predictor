@@ -14,16 +14,23 @@ namespace HTMatchPredictor
             return (MainSkill * 4) + SubSkill + 1;
         }
 
-        private void Startup()
+        public void LoadExistingSkill(int SkillNumber)
         {
-            SkillListBox.SetSelected(0, true);
-            SubskillListBox.SetSelected(0, true);
+            if ((SkillNumber < 1) || (SkillNumber > 80))
+            {
+                SkillListBox.SetSelected(0, true);
+                SubskillListBox.SetSelected(0, true);
+            }
+            else
+            {
+                SkillListBox.SetSelected((SkillNumber - 1) / 4, true);
+                SubskillListBox.SetSelected((SkillNumber - SkillListBox.SelectedIndex * 4) - 1, true);
+            }
         }
 
         public SkillSelectionWindow()
         {
             InitializeComponent();
-            Startup();
         }
 
         private void SaveChoice(object sender, System.EventArgs e)
@@ -105,6 +112,7 @@ namespace HTMatchPredictor
                     break;
             }
             Form1.RatingReturned = ConvertSkillToNumber(SkillListBox.SelectedIndex, SubskillListBox.SelectedIndex);
+            DialogResult = DialogResult.OK;
             Close();
         }
     }
