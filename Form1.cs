@@ -523,14 +523,7 @@ namespace HTMatchPredictor
         /// <param name="e">Handler de eveniment</param>
         private void AddSingleMatchToDatabase(object sender, EventArgs e)
         {
-            if (!CheckPermissionEngine())
-            {
-                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                MessageBox.Show("The program had lost permission to access Hattrick. It will now close", "Error", Buttons, Icon);
-                Application.Exit();
-                return;
-            }
+            CheckPermissionBeforeUseFunction();
             AddSingleMatchForm A = new AddSingleMatchForm();
             A.ShowDialog(this);
             Uri DownloadURL = new Uri(DownloadStringCreation.CreateMatchDetailsString(MatchIDToAdd));
@@ -590,14 +583,7 @@ namespace HTMatchPredictor
         /// <param name="e">Handler de eveniment</param>
         private async void AddMultipleMatchesByTeam(object sender, EventArgs e)
         {
-            if (!CheckPermissionEngine())
-            {
-                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                MessageBox.Show("The program had lost permission to access Hattrick. It will now close", "Error", Buttons, Icon);
-                Application.Exit();
-                return;
-            }
+            CheckPermissionBeforeUseFunction();
             int NumberOfMatchesAdded = 0;
             CancelDatabaseAdding = false;
             AddMultipleMatchesByTeam AddTeam = new AddMultipleMatchesByTeam();
@@ -673,14 +659,7 @@ namespace HTMatchPredictor
         /// <param name="e">Handler de eveniment</param>
         private async void AddMultipleMatchesByID(object sender, EventArgs e)
         {
-            if (!CheckPermissionEngine())
-            {
-                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                MessageBox.Show("The program had lost permission to access Hattrick. It will now close", "Error", Buttons, Icon);
-                Application.Exit();
-                return;
-            }
+            CheckPermissionBeforeUseFunction();
             int NumberOfMatchesAdded = 0; //retine cate meciuri au fost adaugate in baza de date
             CancelDatabaseAdding = false;
             AddMultipleMatchesByMatchIDRange AddID = new AddMultipleMatchesByMatchIDRange();
