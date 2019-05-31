@@ -14,9 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
-//todo bug atunci cand revoc aplicatia din contul Hattrick, jetoanele raman, dar sunt inutilizabile. Din acest motiv primesc o eroare
 //todo de creat o clasa care se ocupa de scrierea diferitelor erori intr-un fisier text
-//todo sa fac o optiune de anulare a conectarii la Hattrick, adica de stergere a celor doua jetoane
 
 namespace HTMatchPredictor
 {
@@ -243,11 +241,15 @@ namespace HTMatchPredictor
         private void StoreTokensToRegistry()
         {
             RegistryKey Key;
-            Key = Registry.CurrentUser.CreateSubKey("HTMPTK"); //HTMP = HatTrick Match Predictor
+            Key = Registry.CurrentUser.OpenSubKey("HTMPTK", RegistryKeyPermissionCheck.ReadWriteSubTree); //HTMPTK = HatTrick Match Predictor Token Keys
+            if (Key == null)
+            {
+                Key = Registry.CurrentUser.CreateSubKey("HTMPTK");
+            }
             try
             {
-                Key.SetValue("Token", o["token"]);
-                Key.SetValue("Secret Token", o["token_secret"]);
+                Key.SetValue("Secret Token", o["token_secret"].ToString(CultureInfo.InvariantCulture));
+                Key.SetValue("Token", o["token"].ToString(CultureInfo.InvariantCulture));
             }
             catch (ArgumentNullException A)
             {
@@ -327,11 +329,9 @@ namespace HTMatchPredictor
             try
             {
                 File.WriteAllText(DestinationFileName, GetFileContent(SourceURLAddress.ToString()));
-                //File.WriteAllText(DestinationFileName, GetFileContent("https://chpp.hattrick.org/oauth/invalidate_token.ashx"));
             }
             catch (IOException I) //todo bug din cand in cand mai primesc un mesaj de eroare cum ca fisierul Matches.xml e folosit de un alt proces.
             {
-                //MessageBox.Show(I.Message);
                 File.WriteAllText(CurrentFolder + "\\Error.txt", DateTime.Now.ToString(CultureInfo.InvariantCulture) + "\r\n\r\n" + I.StackTrace + "\r\n\r\n" + I.Message);
             }
         }
@@ -523,6 +523,14 @@ namespace HTMatchPredictor
         /// <param name="e">Handler de eveniment</param>
         private void AddSingleMatchToDatabase(object sender, EventArgs e)
         {
+            if (!CheckPermissionEngine())
+            {
+                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                MessageBox.Show("The program had lost permission to access Hattrick. It will now close", "Error", Buttons, Icon);
+                Application.Exit();
+                return;
+            }
             AddSingleMatchForm A = new AddSingleMatchForm();
             A.ShowDialog(this);
             Uri DownloadURL = new Uri(DownloadStringCreation.CreateMatchDetailsString(MatchIDToAdd));
@@ -582,6 +590,14 @@ namespace HTMatchPredictor
         /// <param name="e">Handler de eveniment</param>
         private async void AddMultipleMatchesByTeam(object sender, EventArgs e)
         {
+            if (!CheckPermissionEngine())
+            {
+                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                MessageBox.Show("The program had lost permission to access Hattrick. It will now close", "Error", Buttons, Icon);
+                Application.Exit();
+                return;
+            }
             int NumberOfMatchesAdded = 0;
             CancelDatabaseAdding = false;
             AddMultipleMatchesByTeam AddTeam = new AddMultipleMatchesByTeam();
@@ -657,6 +673,14 @@ namespace HTMatchPredictor
         /// <param name="e">Handler de eveniment</param>
         private async void AddMultipleMatchesByID(object sender, EventArgs e)
         {
+            if (!CheckPermissionEngine())
+            {
+                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                MessageBox.Show("The program had lost permission to access Hattrick. It will now close", "Error", Buttons, Icon);
+                Application.Exit();
+                return;
+            }
             int NumberOfMatchesAdded = 0; //retine cate meciuri au fost adaugate in baza de date
             CancelDatabaseAdding = false;
             AddMultipleMatchesByMatchIDRange AddID = new AddMultipleMatchesByMatchIDRange();
@@ -691,12 +715,28 @@ namespace HTMatchPredictor
         }
 
         /// <summary>
+        /// Functia verifica daca programul mai are permisiune de la Hattrick pentru a-i utiliza resursele inainte de a permite utilizatorului folosirea functiei apelate. Similara cu handlerul de eveniment, dar nu identica
+        /// </summary>
+        private void CheckPermissionBeforeUseFunction()
+        {
+            if (!CheckPermissionEngine())
+            {
+                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                MessageBox.Show("The program had lost permission to access Hattrick. It will now close", "Error", Buttons, Icon);
+                Application.Exit();
+                return;
+            }
+        }
+
+        /// <summary>
         /// Functia descarca meciurile viitoare ale primei echipe 
         /// </summary>
         /// <param name="sender">Handler de eveniment</param>
         /// <param name="e">Handler de eveniment</param>
         private void DownloadFirstTeamFutureMatches(object sender, EventArgs e)
         {
+            CheckPermissionBeforeUseFunction();
             ParseXMLFiles.FinalFutureMatches.Clear();
             Uri DownloadURL = new Uri(DownloadString.CreateMatchesString(Parser.UserTeamIDs[0]));
             FutureMatchesListBox.Items.Clear();
@@ -715,6 +755,7 @@ namespace HTMatchPredictor
         /// <param name="e">Handler de eveniment</param>
         private void DownloadSecondTeamFutureMatches(object sender, EventArgs e)
         {
+            CheckPermissionBeforeUseFunction();
             ParseXMLFiles.FinalFutureMatches.Clear();
             Uri DownloadURL = new Uri(DownloadString.CreateMatchesString(Parser.UserTeamIDs[1]));
             FutureMatchesListBox.Items.Clear();
@@ -733,6 +774,7 @@ namespace HTMatchPredictor
         /// <param name="e">Handler de eveniment</param>
         private void DownloadThirdTeamFutureMatches(object sender, EventArgs e)
         {
+            CheckPermissionBeforeUseFunction();
             ParseXMLFiles.FinalFutureMatches.Clear();
             Uri DownloadURL = new Uri(DownloadString.CreateMatchesString(Parser.UserTeamIDs[2]));
             FutureMatchesListBox.Items.Clear();
@@ -808,6 +850,7 @@ namespace HTMatchPredictor
         /// <param name="e">Handler de eveniment</param>
         private void LoadPredictedRatings(object sender, EventArgs e)
         {
+            CheckPermissionBeforeUseFunction();
             Uri MatchOrdersURL = new Uri(DownloadString.CreateMatchOrdersString(ParseXMLFiles.FinalFutureMatches[FutureMatchesListBox.SelectedIndex].MatchID, GetUserTeamID()));
             SaveResponseToFile(MatchOrdersURL, XMLFolder + "\\Orders.xml");
             if (Parser.ParseOrdersFile())
@@ -858,7 +901,6 @@ namespace HTMatchPredictor
                         C.ForeColor = SystemColors.ControlText;
                     }
                 }
-
                 return true;
             }
         }
@@ -968,6 +1010,7 @@ namespace HTMatchPredictor
         /// <param name="e">Handler de eveniment</param>
         private void MakeThePrediction(object sender, EventArgs e)
         {
+            CheckPermissionBeforeUseFunction();
             if (InputsAreValid())
             {
                 Cursor = Cursors.WaitCursor;
@@ -997,33 +1040,48 @@ namespace HTMatchPredictor
             return Score;
         }
 
-        private bool DeleteTokensFromRegistryEngine()
+        /// <summary>
+        /// Functia sterge inregistrarile din registri ce contin jetoanele.
+        /// </summary>
+        /// <returns>true, daca stergerea a avut succes, altfel false</returns>
+        private static bool DeleteTokensFromRegistryEngine()
         {
+            RegistryKey key = Registry.CurrentUser.OpenSubKey("HTMPTK");
             try
             {
-                using (RegistryKey key = Registry.CurrentUser.OpenSubKey("HTMPTK"))
+                if (key != null)
                 {
-                    if (key != null)
-                    {
-                        key.DeleteSubKeyTree("HTMPTK", true);
-                    }
+                    Registry.CurrentUser.DeleteSubKeyTree("HTMPTK", true);
                 }
+            }
+            catch (UnauthorizedAccessException U)
+            {
+                MessageBox.Show(U.Message);
+                return false;
             }
             catch (ArgumentNullException A)
             {
                 MessageBox.Show(A.Message);
+                return false;
             }
             catch (ObjectDisposedException O)
             {
                 MessageBox.Show(O.Message);
+                return false;
             }
             catch (SecurityException S)
             {
                 MessageBox.Show(S.Message);
+                return false;
             }
             catch (IOException I)
             {
                 MessageBox.Show(I.Message);
+                return false;
+            }
+            finally
+            {
+                key.Close();
             }
             return true;
         }
@@ -1035,8 +1093,62 @@ namespace HTMatchPredictor
         /// <param name="e">handler de eveniment</param>
         private void DeleteTokensFromRegistry(object sender, EventArgs e)
         {
-            if (DeleteTokensFromRegistryEngine())
-                MessageBox.Show("Error in revoking Hattrick access!");
+            MessageBoxButtons Buttons = MessageBoxButtons.OK;
+            MessageBoxIcon Icon = MessageBoxIcon.Information;
+            if (!DeleteTokensFromRegistryEngine())
+            {
+                MessageBox.Show("Error in revoking Hattrick access!", "Error", Buttons, Icon);
+            }
+            else
+            {
+                MessageBox.Show("Access withdrawn. Next time the program runs, you will have to enter the PIN again.", "Success", Buttons, Icon);
+            }
+        }
+
+        /// <summary>
+        /// Functia verifica daca programul are permisiunea Hattrick de a-i accesa resursele
+        /// </summary>
+        /// <returns>true daca o are, altfel false</returns>
+        private bool CheckPermissionEngine()
+        {
+            Uri PermissionUri = new Uri("https://chpp.hattrick.org/oauth/check_token.ashx");
+            try
+            {
+                SaveResponseToFile(PermissionUri, XMLFolder + "\\Check.txt");
+            }
+            catch (WebException S)
+            {
+                if (S.Status == WebExceptionStatus.ProtocolError)
+                {
+                    DeleteTokensFromRegistryEngine();
+                    return false;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Functia verifica daca programul mai are acces la resursele Hattrick
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TestPermissionExistence(object sender, EventArgs e)
+        {
+            MessageBoxButtons Buttons = MessageBoxButtons.OK;
+            MessageBoxIcon Icon = MessageBoxIcon.Information;
+            if (CheckPermissionEngine())
+            {
+                MessageBox.Show("The program has permission to access Hattrick", "Acces granted", Buttons, Icon);
+            }
+            else
+            {
+                MessageBox.Show("The program does not have permission to access Hattrick. It will now close", "Acces denied", Buttons, Icon);
+                Application.Exit();
+            }
         }
     }
 }
