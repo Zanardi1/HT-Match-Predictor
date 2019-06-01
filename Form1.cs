@@ -12,7 +12,6 @@ using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Net;
 
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
 //todo de creat o clasa care se ocupa de scrierea diferitelor erori intr-un fisier text
@@ -290,7 +289,7 @@ namespace HTMatchPredictor
                     return true;
                 }
             }
-            catch
+            catch (WebException)
             {
                 return false;
             }
@@ -383,15 +382,6 @@ namespace HTMatchPredictor
         }
 
         /// <summary>
-        /// Verifica existenta fisierului baza de date
-        /// </summary>
-        /// <returns>true daca exista, altfel false</returns>
-        private bool CheckForDatabaseFileExistence()
-        {
-            return File.Exists(CurrentFolder + "\\db\\Matches.mdf");
-        }
-
-        /// <summary>
         /// Functia activeaza sau dezactiveaza toate controalele din fereastra
         /// </summary>
         /// <param name="ControlEnabled">true, daca trebuie activate controalele, false altfel</param>
@@ -468,10 +458,7 @@ namespace HTMatchPredictor
         public Form1()
         {
             InitializeComponent();
-            LoginToHattrickServers();
-            InitializeMatchRatingList();
-            DisplayUserDetails();
-            CheckXMLFolderExistence();
+
         }
 
         /// <summary>
@@ -1102,22 +1089,23 @@ namespace HTMatchPredictor
         /// <returns>true, daca stergerea a avut succes, altfel false</returns>
         private static bool DeleteTokensFromRegistryEngine()
         {
-            RegistryKey key = Registry.CurrentUser.OpenSubKey("HTMPTK");
             try
             {
-                if (key != null)
-                {
-                    Registry.CurrentUser.DeleteSubKeyTree("HTMPTK", true);
-                }
+                Registry.CurrentUser.DeleteSubKey("HTMPTK");
+            }
+            catch (NullReferenceException N)
+            {
+                MessageBox.Show(N.Message);
+                return false;
+            }
+            catch (ArgumentException A)
+            {
+                MessageBox.Show(A.Message);
+                return false;
             }
             catch (UnauthorizedAccessException U)
             {
                 MessageBox.Show(U.Message);
-                return false;
-            }
-            catch (ArgumentNullException A)
-            {
-                MessageBox.Show(A.Message);
                 return false;
             }
             catch (ObjectDisposedException O)
@@ -1137,7 +1125,7 @@ namespace HTMatchPredictor
             }
             finally
             {
-                key.Close();
+                Registry.CurrentUser.Close();
             }
             return true;
         }
@@ -1207,24 +1195,48 @@ namespace HTMatchPredictor
             }
         }
 
+        /// <summary>
+        /// Functia implementeaza actiunile pentru monitorizarea existentei BD si a conexiunii la net
+        /// </summary>
+        /// <returns>true, daca avem atat net cat si BD, false altfel</returns>
+        private bool ContinuousMonitoringJobsEngine()
+        {
+            if ((Operations.DatabaseExists()) && (CheckForInternetConnection()))
+            {
+                AlterControlsEnable(true);
+                HelpStatusLabel.Text = string.Empty;
+                return true;
+            }
+            else
+            {
+                AlterControlsEnable(false);
+                HelpStatusLabel.Text = !Operations.DatabaseExists()
+                    ? "Database file not found. Controls will be disabled until the database is found or another one is created."
+                    : "Internet connection not found. Controls will be disabled until internet connection is restored.";
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Verifica o data pe secunda existenta BD si a conexiunii la net.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ContinuousMonitoringJobs(object sender, EventArgs e)
         {
-            if (CheckForDatabaseFileExistence())
-                AlterControlsEnable(true);
-            else
-            {
-                AlterControlsEnable(false);
-                HelpStatusLabel.Text = "Database file not found. Controls will be disabled until the database is found or another one is created.";
-            }
+            ContinuousMonitoringJobsEngine();
+        }
 
-            if (CheckForInternetConnection())
-                AlterControlsEnable(true);
-            else
+        private void Startup(object sender, EventArgs e)
+        {
+            if (!ContinuousMonitoringJobsEngine())
             {
-                HelpStatusLabel.Text = "Internet connection not found. Controls will be disabled until internet connection is restored.";
-                AlterControlsEnable(false);
+                return;
             }
-
+            LoginToHattrickServers();
+            InitializeMatchRatingList();
+            DisplayUserDetails();
+            CheckXMLFolderExistence();
         }
     }
 }
