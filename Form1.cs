@@ -15,6 +15,7 @@ using System.Windows.Forms;
 
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
 //todo de creat o clasa care se ocupa de scrierea diferitelor erori intr-un fisier text
+//todo atunci cand nu gaseste baza de date originala, Matches.mdf si creez o noua BD, apare o exceptie.
 
 namespace HTMatchPredictor
 {
@@ -285,6 +286,9 @@ namespace HTMatchPredictor
             o["token_secret"] = ReadTokenSecretFromRegistry();
         }
 
+        /// <summary>
+        /// Obtine jetonul de cerere
+        /// </summary>
         private void GetRequestToken()
         {
             o.AcquireRequestToken("https://chpp.hattrick.org/oauth/request_token.ashx", "GET");
@@ -292,6 +296,9 @@ namespace HTMatchPredictor
             System.Diagnostics.Process.Start(url);
         }
 
+        /// <summary>
+        /// Obtine jetonul de acces
+        /// </summary>
         private void GetAccessToken()
         {
             InsertPIN I = new InsertPIN();
@@ -301,6 +308,11 @@ namespace HTMatchPredictor
             StoreTokensToRegistry();
         }
 
+        /// <summary>
+        /// Lanseaza o cerere catre server si salveaza raspunsul intr-un fisier
+        /// </summary>
+        /// <param name="URLAddress">URL-ul catre care va fi trimisa cererea</param>
+        /// <returns>Raspunsul primit</returns>
         private string GetFileContent(string URLAddress)
         {
             Uri search = new Uri(URLAddress);
@@ -350,7 +362,41 @@ namespace HTMatchPredictor
             }
         }
 
-        private string CreateTeamList()
+        /// <summary>
+        /// Verifica existenta fisierului baza de date
+        /// </summary>
+        /// <returns>true daca exista, altfel false</returns>
+        private bool CheckForDatabaseFileExistence()
+        {
+            return File.Exists(CurrentFolder + "\\db\\Matches.mdf");
+        }
+
+        /// <summary>
+        /// Functia activeaza sau dezactiveaza toate controalele din fereastra
+        /// </summary>
+        /// <param name="ControlEnabled">true, daca trebuie activate controalele, false altfel</param>
+        private void AlterControlsEnable(bool ControlEnabled)
+        {
+            TeamListGroupBox.Enabled = ControlEnabled;
+            FutureMatchesListBox.Enabled = ControlEnabled;
+            HomeTeamGroupBox.Enabled = ControlEnabled;
+            AwayTeamGroupBox.Enabled = ControlEnabled;
+            PredictButton.Enabled = ControlEnabled;
+            ResetButton.Enabled = ControlEnabled;
+            optionsToolStripMenuItem.Enabled = ControlEnabled;
+            aboutToolStripMenuItem.Enabled = ControlEnabled;
+            deleteDatabaseToolStripMenuItem.Enabled = ControlEnabled;
+            addSingleMatchToolStripMenuItem.Enabled = ControlEnabled;
+            addMultipleMatchesToolStripMenuItem.Enabled = ControlEnabled;
+            databaseOperationsToolStripMenuItem.Enabled = true;
+            createDatabaseToolStripMenuItem.Enabled = true;
+        }
+
+        /// <summary>
+        /// Creaza lista de echipe a utilizatorului
+        /// </summary>
+        /// <returns>Lista de echipe a utilizatorului</returns>
+        private string CreateUserTeamList()
         {
             StringBuilder TeamList = new StringBuilder();
             TeamList.Append("Team list: \r\n");
@@ -378,13 +424,16 @@ namespace HTMatchPredictor
             LoginNameLabel.Text = "User name: " + Parser.UserName + " (" + Parser.UserID + ")";
             UserCountryLabel.Text = "Country: " + Parser.UserCountry + " (" + Parser.UserCountryID + ")";
             SupporterTierLabel.Text = "Supporter: " + Parser.UserSupporterLevel;
-            TeamListLabel.Text = CreateTeamList();
+            TeamListLabel.Text = CreateUserTeamList();
             FirstTeamRadioButton.Checked = true;
             FirstTeamRadioButton.Text = Parser.UserTeamNames[0];
             CheckOtherTeam(Parser.UserTeamNames[1], SecondTeamRadioButton);
             CheckOtherTeam(Parser.UserTeamNames[2], ThirdTeamRadioButton);
         }
 
+        /// <summary>
+        /// Functia verifica daca exista folderul "XML". Daca nu exista, il creaza.
+        /// </summary>
         private void CheckXMLFolderExistence()
         {
             if (!Directory.Exists(XMLFolder))
@@ -393,6 +442,9 @@ namespace HTMatchPredictor
             }
         }
 
+        /// <summary>
+        /// Constructorul clasei
+        /// </summary>
         public Form1()
         {
             InitializeComponent();
@@ -402,6 +454,11 @@ namespace HTMatchPredictor
             CheckXMLFolderExistence();
         }
 
+        /// <summary>
+        /// Afiseaza fereastra de selectare a abilitatilor
+        /// </summary>
+        /// <param name="sender">handler de eveniment</param>
+        /// <param name="e">handler de eveniment</param>
         private void ShowSkillWindow(object sender, System.EventArgs e)
         {
             SkillSelectionWindow S = new SkillSelectionWindow
@@ -1127,6 +1184,17 @@ namespace HTMatchPredictor
             {
                 MessageBox.Show("The program does not have permission to access Hattrick. It will now close", "Acces denied", Buttons, Icon);
                 Application.Exit();
+            }
+        }
+
+        private void SearchForDatabase(object sender, EventArgs e)
+        {
+            if (CheckForDatabaseFileExistence())
+                AlterControlsEnable(true);
+            else
+            {
+                AlterControlsEnable(false);
+                HelpStatusLabel.Text = "Database file not found. Controls will be disabled until the database is found or another one is created.";
             }
         }
     }

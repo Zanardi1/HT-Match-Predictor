@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
@@ -55,16 +56,44 @@ namespace HTMatchPredictor
         /// <summary>
         /// Rutina de creare a fisierului ce va contine baza de date
         /// </summary>
-        private void CreateDatabaseFile()
+        /// <returns>true, daca baza de date a fost creata, false altfel</returns>
+        private bool CreateDatabaseFile()
         {
             SqlConnection MyConn = new SqlConnection(CreateDatabaseConnectionString);
             string Str = "Create Database Matches on Primary (Name=Matches, Filename='@DatabaseFile') log on (Name=MatchesLog, Filename='@DatabaseLog')"; //retine comanda SQL care creeaza BD
-            SqlCommand command = new SqlCommand(Str, MyConn);
-            command.Parameters.Add("@DatabaseFile", SqlDbType.Text).Value = DatabaseFile;
-            command.Parameters.Add("@DatabaseLog", SqlDbType.Text).Value = DatabaseLog;
-            MyConn.Open();
-            command.ExecuteNonQuery();
-            MyConn.Close();
+            SqlCommand DatabaseCreationCommand = new SqlCommand(Str, MyConn);
+            DatabaseCreationCommand.Parameters.Add("@DatabaseFile", SqlDbType.Text).Value = DatabaseFile;
+            DatabaseCreationCommand.Parameters.Add("@DatabaseLog", SqlDbType.Text).Value = DatabaseLog;
+            try
+            {
+                MyConn.Open();
+                DatabaseCreationCommand.ExecuteNonQuery();
+            }
+            catch (SqlException S)
+            {
+                MessageBox.Show(S.Message);
+                return false;
+            }
+            catch (IOException I)
+            {
+                MessageBox.Show(I.Message);
+                return false;
+            }
+            catch (InvalidOperationException I)
+            {
+                MessageBox.Show(I.Message);
+                return false;
+            }
+            catch (InvalidCastException I)
+            {
+                MessageBox.Show(I.Message);
+                return false;
+            }
+            finally
+            {
+                MyConn.Close();
+            }
+            return true;
         }
 
         /// <summary>
@@ -96,10 +125,32 @@ namespace HTMatchPredictor
     PRIMARY KEY([MatchID])
 )
 ";
-            SqlCommand AnotherCommand = new SqlCommand(Str, MyConn);
-            MyConn.Open();
-            AnotherCommand.ExecuteNonQuery();
-            MyConn.Close();
+            SqlCommand TableCreationCommand = new SqlCommand(Str, MyConn);
+            try
+            {
+                MyConn.Open();
+                TableCreationCommand.ExecuteNonQuery();
+            }
+            catch (SqlException S)
+            {
+                MessageBox.Show(S.Message);
+            }
+            catch (IOException I)
+            {
+                MessageBox.Show(I.Message);
+            }
+            catch (InvalidOperationException I)
+            {
+                MessageBox.Show(I.Message);
+            }
+            catch (InvalidCastException I)
+            {
+                MessageBox.Show(I.Message);
+            }
+            finally
+            {
+                MyConn.Close();
+            }
         }
 
         /// <summary>
@@ -107,8 +158,10 @@ namespace HTMatchPredictor
         /// </summary>
         public void CreateDatabase()
         {
-            CreateDatabaseFile();
-            CreateDatabaseTable();
+            if (CreateDatabaseFile())
+            {
+                CreateDatabaseTable();
+            }
         }
 
         /// <summary>
@@ -120,9 +173,31 @@ namespace HTMatchPredictor
             SqlConnection MyConn = new SqlConnection(CreateDatabaseConnectionString);
             Str = "Alter database Matches set single_user with rollback immediate\r\ndrop database Matches";
             SqlCommand command = new SqlCommand(Str, MyConn);
-            MyConn.Open();
-            command.ExecuteNonQuery();
-            MyConn.Close();
+            try
+            {
+                MyConn.Open();
+                command.ExecuteNonQuery();
+            }
+            catch (SqlException S)
+            {
+                MessageBox.Show(S.Message);
+            }
+            catch (IOException I)
+            {
+                MessageBox.Show(I.Message);
+            }
+            catch (InvalidOperationException I)
+            {
+                MessageBox.Show(I.Message);
+            }
+            catch (InvalidCastException I)
+            {
+                MessageBox.Show(I.Message);
+            }
+            finally
+            {
+                MyConn.Close();
+            }
         }
 
         public void AddAMatch(int MatchIDToInsert, List<int> RatingsToInsert)
@@ -148,14 +223,26 @@ namespace HTMatchPredictor
             command.Parameters.Add("@Ratings14", SqlDbType.TinyInt).Value = RatingsToInsert[13].ToString(CultureInfo.InvariantCulture);
             command.Parameters.Add("@Ratings15", SqlDbType.TinyInt).Value = RatingsToInsert[14].ToString(CultureInfo.InvariantCulture);
             command.Parameters.Add("@Ratings16", SqlDbType.TinyInt).Value = RatingsToInsert[15].ToString(CultureInfo.InvariantCulture);
-            MyConn.Open();
             try
             {
+                MyConn.Open();
                 command.ExecuteNonQuery();
             }
             catch (SqlException S)
             {
                 MessageBox.Show(S.Message);
+            }
+            catch (IOException I)
+            {
+                MessageBox.Show(I.Message);
+            }
+            catch (InvalidOperationException I)
+            {
+                MessageBox.Show(I.Message);
+            }
+            catch (InvalidCastException I)
+            {
+                MessageBox.Show(I.Message);
             }
             MyConn.Close();
         }

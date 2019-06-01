@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.HomeTeamGroupBox = new System.Windows.Forms.GroupBox();
             this.HomeLeftAttackRatingLabel = new System.Windows.Forms.Label();
@@ -106,6 +107,7 @@
             this.TeamListGroupBox = new System.Windows.Forms.GroupBox();
             this.FutureMatchesListBox = new System.Windows.Forms.ListBox();
             this.ExplanationLabel = new System.Windows.Forms.Label();
+            this.CheckForDatabaseTimer = new System.Windows.Forms.Timer(this.components);
             this.HomeTeamGroupBox.SuspendLayout();
             this.AwayTeamGroupBox.SuspendLayout();
             this.StatusBar.SuspendLayout();
@@ -792,7 +794,7 @@
             this.checkPermissionToolStripMenuItem,
             this.withdrawPermissionToolStripMenuItem});
             this.permissionOptionsToolStripMenuItem.Name = "permissionOptionsToolStripMenuItem";
-            this.permissionOptionsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.permissionOptionsToolStripMenuItem.Size = new System.Drawing.Size(218, 26);
             this.permissionOptionsToolStripMenuItem.Text = "Permission Options";
             // 
             // checkPermissionToolStripMenuItem
@@ -886,6 +888,12 @@
             this.ExplanationLabel.Size = new System.Drawing.Size(280, 143);
             this.ExplanationLabel.TabIndex = 21;
             this.ExplanationLabel.Text = resources.GetString("ExplanationLabel.Text");
+            // 
+            // CheckForDatabaseTimer
+            // 
+            this.CheckForDatabaseTimer.Enabled = true;
+            this.CheckForDatabaseTimer.Interval = 1000;
+            this.CheckForDatabaseTimer.Tick += new System.EventHandler(this.SearchForDatabase);
             // 
             // Form1
             // 
@@ -1009,6 +1017,7 @@
         private System.Windows.Forms.ToolStripMenuItem permissionOptionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkPermissionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem withdrawPermissionToolStripMenuItem;
+        private System.Windows.Forms.Timer CheckForDatabaseTimer;
     }
 }
 
