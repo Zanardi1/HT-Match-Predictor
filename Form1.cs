@@ -12,6 +12,7 @@ using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net;
 
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
 //todo de creat o clasa care se ocupa de scrierea diferitelor erori intr-un fisier text
@@ -275,6 +276,25 @@ namespace HTMatchPredictor
             Key.Close();
         }
 
+        /// <summary>
+        /// Functia verifica daca exista conectivitate la net. Metoda luata de la https://stackoverflow.com/questions/2031824/what-is-the-best-way-to-check-for-internet-connectivity-using-net
+        /// </summary>
+        /// <returns>true, daca exista; false altfel</returns>
+        public static bool CheckForInternetConnection()
+        {
+            try
+            {
+                using (var client = new WebClient())
+                using (client.OpenRead("http://clients3.google.com/generate_204"))
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
         /// <summary>
         /// Incarca cele 4 jetoane ale obiectului care se ocupa cu conectarea la site.
         /// </summary>
@@ -1187,7 +1207,7 @@ namespace HTMatchPredictor
             }
         }
 
-        private void SearchForDatabase(object sender, EventArgs e)
+        private void ContinuousMonitoringJobs(object sender, EventArgs e)
         {
             if (CheckForDatabaseFileExistence())
                 AlterControlsEnable(true);
@@ -1196,6 +1216,15 @@ namespace HTMatchPredictor
                 AlterControlsEnable(false);
                 HelpStatusLabel.Text = "Database file not found. Controls will be disabled until the database is found or another one is created.";
             }
+
+            if (CheckForInternetConnection())
+                AlterControlsEnable(true);
+            else
+            {
+                HelpStatusLabel.Text = "Internet connection not found. Controls will be disabled until internet connection is restored.";
+                AlterControlsEnable(false);
+            }
+
         }
     }
 }

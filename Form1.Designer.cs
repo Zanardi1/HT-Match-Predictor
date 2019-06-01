@@ -893,7 +893,7 @@
             // 
             this.CheckForDatabaseTimer.Enabled = true;
             this.CheckForDatabaseTimer.Interval = 1000;
-            this.CheckForDatabaseTimer.Tick += new System.EventHandler(this.SearchForDatabase);
+            this.CheckForDatabaseTimer.Tick += new System.EventHandler(this.ContinuousMonitoringJobs);
             // 
             // Form1
             // 
