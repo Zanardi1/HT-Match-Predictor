@@ -458,7 +458,6 @@ namespace HTMatchPredictor
         public Form1()
         {
             InitializeComponent();
-
         }
 
         /// <summary>
@@ -587,7 +586,6 @@ namespace HTMatchPredictor
         /// <param name="e">Handler de eveniment</param>
         private void AddSingleMatchToDatabase(object sender, EventArgs e)
         {
-            CheckPermissionBeforeUseFunction();
             AddSingleMatchForm A = new AddSingleMatchForm();
             A.ShowDialog(this);
             Uri DownloadURL = new Uri(DownloadStringCreation.CreateMatchDetailsString(MatchIDToAdd));
@@ -647,7 +645,6 @@ namespace HTMatchPredictor
         /// <param name="e">Handler de eveniment</param>
         private async void AddMultipleMatchesByTeam(object sender, EventArgs e)
         {
-            CheckPermissionBeforeUseFunction();
             int NumberOfMatchesAdded = 0;
             CancelDatabaseAdding = false;
             AddMultipleMatchesByTeam AddTeam = new AddMultipleMatchesByTeam();
@@ -723,7 +720,6 @@ namespace HTMatchPredictor
         /// <param name="e">Handler de eveniment</param>
         private async void AddMultipleMatchesByID(object sender, EventArgs e)
         {
-            CheckPermissionBeforeUseFunction();
             int NumberOfMatchesAdded = 0; //retine cate meciuri au fost adaugate in baza de date
             CancelDatabaseAdding = false;
             AddMultipleMatchesByMatchIDRange AddID = new AddMultipleMatchesByMatchIDRange();
@@ -758,28 +754,12 @@ namespace HTMatchPredictor
         }
 
         /// <summary>
-        /// Functia verifica daca programul mai are permisiune de la Hattrick pentru a-i utiliza resursele inainte de a permite utilizatorului folosirea functiei apelate. Similara cu handlerul de eveniment, dar nu identica
-        /// </summary>
-        private void CheckPermissionBeforeUseFunction()
-        {
-            if (!CheckPermissionEngine())
-            {
-                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                MessageBox.Show("The program had lost permission to access Hattrick. It will now close", "Error", Buttons, Icon);
-                Application.Exit();
-                return;
-            }
-        }
-
-        /// <summary>
         /// Functia descarca meciurile viitoare ale primei echipe 
         /// </summary>
         /// <param name="sender">Handler de eveniment</param>
         /// <param name="e">Handler de eveniment</param>
         private void DownloadFirstTeamFutureMatches(object sender, EventArgs e)
         {
-            CheckPermissionBeforeUseFunction();
             ParseXMLFiles.FinalFutureMatches.Clear();
             Uri DownloadURL = new Uri(DownloadString.CreateMatchesString(Parser.UserTeamIDs[0]));
             FutureMatchesListBox.Items.Clear();
@@ -798,7 +778,6 @@ namespace HTMatchPredictor
         /// <param name="e">Handler de eveniment</param>
         private void DownloadSecondTeamFutureMatches(object sender, EventArgs e)
         {
-            CheckPermissionBeforeUseFunction();
             ParseXMLFiles.FinalFutureMatches.Clear();
             Uri DownloadURL = new Uri(DownloadString.CreateMatchesString(Parser.UserTeamIDs[1]));
             FutureMatchesListBox.Items.Clear();
@@ -817,7 +796,6 @@ namespace HTMatchPredictor
         /// <param name="e">Handler de eveniment</param>
         private void DownloadThirdTeamFutureMatches(object sender, EventArgs e)
         {
-            CheckPermissionBeforeUseFunction();
             ParseXMLFiles.FinalFutureMatches.Clear();
             Uri DownloadURL = new Uri(DownloadString.CreateMatchesString(Parser.UserTeamIDs[2]));
             FutureMatchesListBox.Items.Clear();
@@ -893,7 +871,6 @@ namespace HTMatchPredictor
         /// <param name="e">Handler de eveniment</param>
         private void LoadPredictedRatings(object sender, EventArgs e)
         {
-            CheckPermissionBeforeUseFunction();
             Uri MatchOrdersURL = new Uri(DownloadString.CreateMatchOrdersString(ParseXMLFiles.FinalFutureMatches[FutureMatchesListBox.SelectedIndex].MatchID, GetUserTeamID()));
             SaveResponseToFile(MatchOrdersURL, XMLFolder + "\\Orders.xml");
             if (Parser.ParseOrdersFile())
@@ -963,13 +940,6 @@ namespace HTMatchPredictor
                 {
                     Result = TempResult;
                 }
-            }
-
-            if (!Result)
-            {
-                MessageBoxButtons Buttons = MessageBoxButtons.OK;
-                MessageBoxIcon Icon = MessageBoxIcon.Error;
-                MessageBox.Show("Not all the sector evaluations added. Please check the texts written in red.", "Error", Buttons, Icon);
             }
             return Result;
         }
@@ -1053,12 +1023,17 @@ namespace HTMatchPredictor
         /// <param name="e">Handler de eveniment</param>
         private void MakeThePrediction(object sender, EventArgs e)
         {
-            CheckPermissionBeforeUseFunction();
             if (InputsAreValid())
             {
                 Cursor = Cursors.WaitCursor;
                 PredictingEngine();
                 Cursor = Cursors.Default;
+            }
+            else
+            {
+                MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                MessageBoxIcon Icon = MessageBoxIcon.Error;
+                MessageBox.Show("Not all the sector evaluations added. Please check the texts written in red.", "Error", Buttons, Icon);
             }
         }
 
@@ -1227,6 +1202,11 @@ namespace HTMatchPredictor
             ContinuousMonitoringJobsEngine();
         }
 
+        /// <summary>
+        /// Actiuni efectuate la incarcarea formularului (adica la pornirea programului
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Startup(object sender, EventArgs e)
         {
             if (!ContinuousMonitoringJobsEngine())
