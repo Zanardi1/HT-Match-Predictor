@@ -1203,7 +1203,7 @@ namespace HTMatchPredictor
         }
 
         /// <summary>
-        /// Actiuni efectuate la incarcarea formularului (adica la pornirea programului
+        /// Actiuni efectuate la incarcarea formularului (adica la pornirea programului)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
