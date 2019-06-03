@@ -496,7 +496,7 @@ namespace HTMatchPredictor
         /// <param name="e">Event handler</param>
         private void CreateMatchesDatabase(object sender, System.EventArgs e)
         {
-            if (!Operations.DatabaseExists())
+            if (!DatabaseOperations.DatabaseExists())
             {
                 HelpStatusLabel.Text = "Creating matches database...";
                 Cursor = Cursors.WaitCursor;
@@ -517,7 +517,7 @@ namespace HTMatchPredictor
         /// <param name="e">Event handler</param>
         private void DeleteMatchesDatabase(object sender, System.EventArgs e)
         {
-            if (Operations.DatabaseExists())
+            if (DatabaseOperations.DatabaseExists())
             {
                 MessageBoxButtons Buttons = MessageBoxButtons.YesNo;
                 MessageBoxIcon Icon = MessageBoxIcon.Question;
@@ -595,7 +595,7 @@ namespace HTMatchPredictor
                 if (Parser.ParseMatchDetailsFile(true) != -1) //Daca face parte din categoria meciurilor ce pot intra in BD
                 {
                     MatchRatings = Parser.ReadMatchRatings;
-                    Operations.AddAMatch(MatchIDToAdd, MatchRatings);
+                    DatabaseOperations.AddAMatch(MatchIDToAdd, MatchRatings);
                     MessageBoxButtons Buttons = MessageBoxButtons.OK;
                     MessageBoxIcon Icon = MessageBoxIcon.Information;
                     MessageBox.Show("Match inserted successfully", "Operation complete", Buttons, Icon);
@@ -612,7 +612,7 @@ namespace HTMatchPredictor
                if (Parser.ParseMatchDetailsFile(false) != -1)
                {
                    MatchRatings = Parser.ReadMatchRatings;
-                   Operations.AddAMatch(MatchesIDList[MatchID], MatchRatings);
+                   DatabaseOperations.AddAMatch(MatchesIDList[MatchID], MatchRatings);
                }
                MatchRatings = Parser.ResetMatchRatingsList();
            });
@@ -688,7 +688,7 @@ namespace HTMatchPredictor
                 if (Parser.ParseMatchDetailsFile(false) != -1) //Daca face parte din categoria meciurilor ce pot intra in BD
                 {
                     MatchRatings = Parser.ReadMatchRatings;
-                    Operations.AddAMatch(MatchID, MatchRatings);
+                    DatabaseOperations.AddAMatch(MatchID, MatchRatings);
                 }
             });
         }
@@ -961,7 +961,7 @@ namespace HTMatchPredictor
             float HomeWinPercentage = 0;
             float TiePercentage = 0;
             float AwayWinPercentage = 0;
-            SqlConnection MyConn = new SqlConnection(Operations.CreateTableConnectionString);
+            SqlConnection MyConn = new SqlConnection(DatabaseOperations.CreateTableConnectionString);
             SqlCommand command = new SqlCommand(SelectionCommand, MyConn);
             command.Parameters.Add("@HTM", SqlDbType.TinyInt).Value = MatchRatings[0].ToString(CultureInfo.InvariantCulture);
             command.Parameters.Add("@HTRD", SqlDbType.TinyInt).Value = MatchRatings[1].ToString(CultureInfo.InvariantCulture);
@@ -1176,7 +1176,7 @@ namespace HTMatchPredictor
         /// <returns>true, daca avem atat net cat si BD, false altfel</returns>
         private bool ContinuousMonitoringJobsEngine()
         {
-            if ((Operations.DatabaseExists()) && (CheckForInternetConnection()))
+            if ((DatabaseOperations.DatabaseExists()) && (CheckForInternetConnection()))
             {
                 AlterControlsEnable(true);
                 HelpStatusLabel.Text = string.Empty;
@@ -1185,7 +1185,7 @@ namespace HTMatchPredictor
             else
             {
                 AlterControlsEnable(false);
-                HelpStatusLabel.Text = !Operations.DatabaseExists()
+                HelpStatusLabel.Text = !DatabaseOperations.DatabaseExists()
                     ? "Database file not found. Controls will be disabled until the database is found or another one is created."
                     : "Internet connection not found. Controls will be disabled until internet connection is restored.";
                 return false;
@@ -1209,9 +1209,13 @@ namespace HTMatchPredictor
         /// <param name="e"></param>
         private void Startup(object sender, EventArgs e)
         {
-            if (!ContinuousMonitoringJobsEngine())
+            if (!DatabaseOperations.DatabaseExists())
             {
-                return;
+                AlterControlsEnable(false);
+                HelpStatusLabel.Text="No databases detected. Creating a new matches database...";
+                Operations.CreateDatabase();
+                HelpStatusLabel.Text="Matches database created.";
+                AlterControlsEnable(true);
             }
             LoginToHattrickServers();
             InitializeMatchRatingList();
