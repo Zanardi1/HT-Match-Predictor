@@ -289,9 +289,9 @@ namespace HTMatchPredictor
                     return true;
                 }
             }
-            catch (WebException)
+            catch (WebException W)
             {
-                return false;
+                return (!(W.Status == WebExceptionStatus.NameResolutionFailure));
             }
         }
         /// <summary>
@@ -1216,6 +1216,12 @@ namespace HTMatchPredictor
                 Operations.CreateDatabase();
                 HelpStatusLabel.Text="Matches database created.";
                 AlterControlsEnable(true);
+            }
+            if (!CheckForInternetConnection())
+            {
+                AlterControlsEnable(false);
+                HelpStatusLabel.Text = "No internet connection detected. Controls will be disabled until an existent internet connection is detected";
+                return;
             }
             LoginToHattrickServers();
             InitializeMatchRatingList();
