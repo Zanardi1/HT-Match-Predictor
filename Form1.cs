@@ -1022,19 +1022,19 @@ namespace HTMatchPredictor
 
                 TotalNumberOfHomeGoals += HomeGoals;
                 TotalNumberOfAwayGoals += AwayGoals;
-                AverageNumberOfHomeGoals = TotalNumberOfHomeGoals / NumberOfPlayedMatches;
-                AverageNumberOfAwayGoals = TotalNumberOfAwayGoals / NumberOfPlayedMatches;
+                AverageNumberOfHomeGoals = (float)TotalNumberOfHomeGoals / (float)NumberOfPlayedMatches;
+                AverageNumberOfAwayGoals = (float)TotalNumberOfAwayGoals / (float)NumberOfPlayedMatches;
                 HomeWinPercentage = ((float)HomeWins / (float)NumberOfPlayedMatches) * 100;
                 TiePercentage = ((float)Ties / (float)NumberOfPlayedMatches) * 100;
                 AwayWinPercentage = ((float)AwayWins / (float)NumberOfPlayedMatches) * 100;
             }
             reader.Close();
             MyConn.Close();
-            HomeWinPercentageLabel.Text = "Home win %: " + HomeWinPercentage.ToString(CultureInfo.InvariantCulture);
-            HGALabel.Text = "Home goals average: " + AverageNumberOfHomeGoals.ToString(CultureInfo.InvariantCulture);
-            DrawPercentageLabel.Text = "Draw: " + TiePercentage.ToString(CultureInfo.InvariantCulture);
-            AwayWinPercentageLabel.Text = "Away win %: " + AwayWinPercentage.ToString(CultureInfo.InvariantCulture);
-            AGALabel.Text = "Away goals average: " + AverageNumberOfAwayGoals.ToString(CultureInfo.InvariantCulture);
+            HomeWinPercentageLabel.Text = "Home win %: " + HomeWinPercentage.ToString("F",CultureInfo.InvariantCulture);
+            HGALabel.Text = "Home goals average: " + AverageNumberOfHomeGoals.ToString("F",CultureInfo.InvariantCulture);
+            DrawPercentageLabel.Text = "Draw: " + TiePercentage.ToString("F",CultureInfo.InvariantCulture);
+            AwayWinPercentageLabel.Text = "Away win %: " + AwayWinPercentage.ToString("F",CultureInfo.InvariantCulture);
+            AGALabel.Text = "Away goals average: " + AverageNumberOfAwayGoals.ToString("F",CultureInfo.InvariantCulture);
         }
 
         /// <summary>
