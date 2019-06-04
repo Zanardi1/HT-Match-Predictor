@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
-using System.Configuration;
 
 //Clasa ce se ocupa de operatiile cu baza de date in care vor fi stocate meciurile. In aceasta clasa vor fi programate urmatoarele functii 
 //1. Testarea existentei fisierului ce contine baza de date. Fisierul trebuie sa fie in folderul db;

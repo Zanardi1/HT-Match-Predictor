@@ -968,20 +968,6 @@ namespace HTMatchPredictor
             float AwayWinPercentage = 0.0f;
             SqlConnection MyConn = new SqlConnection(DatabaseOperations.CreateTableConnectionString);
             SqlCommand command = new SqlCommand(SelectionCommand, MyConn);
-            MatchRatings[0] = 15;
-            MatchRatings[1] = 17;
-            MatchRatings[2] = 29;
-            MatchRatings[3] = 27;
-            MatchRatings[4] = 14;
-            MatchRatings[5] = 13;
-            MatchRatings[6] = 6;
-            MatchRatings[7] = 15;
-            MatchRatings[8] = 18;
-            MatchRatings[9] = 19;
-            MatchRatings[10] = 13;
-            MatchRatings[11] = 15;
-            MatchRatings[12] = 24;
-            MatchRatings[13] = 22;
 
             command.Parameters.Add("@HTM", SqlDbType.TinyInt).Value = MatchRatings[0];
             command.Parameters.Add("@HTRD", SqlDbType.TinyInt).Value = MatchRatings[1];
@@ -1030,11 +1016,11 @@ namespace HTMatchPredictor
             }
             reader.Close();
             MyConn.Close();
-            HomeWinPercentageLabel.Text = "Home win %: " + HomeWinPercentage.ToString("F",CultureInfo.InvariantCulture);
-            HGALabel.Text = "Home goals average: " + AverageNumberOfHomeGoals.ToString("F",CultureInfo.InvariantCulture);
-            DrawPercentageLabel.Text = "Draw: " + TiePercentage.ToString("F",CultureInfo.InvariantCulture);
-            AwayWinPercentageLabel.Text = "Away win %: " + AwayWinPercentage.ToString("F",CultureInfo.InvariantCulture);
-            AGALabel.Text = "Away goals average: " + AverageNumberOfAwayGoals.ToString("F",CultureInfo.InvariantCulture);
+            HomeWinPercentageLabel.Text = "Home win %: " + HomeWinPercentage.ToString("F", CultureInfo.InvariantCulture);
+            HGALabel.Text = "Home goals average: " + AverageNumberOfHomeGoals.ToString("F", CultureInfo.InvariantCulture);
+            DrawPercentageLabel.Text = "Draw: " + TiePercentage.ToString("F", CultureInfo.InvariantCulture);
+            AwayWinPercentageLabel.Text = "Away win %: " + AwayWinPercentage.ToString("F", CultureInfo.InvariantCulture);
+            AGALabel.Text = "Away goals average: " + AverageNumberOfAwayGoals.ToString("F", CultureInfo.InvariantCulture);
         }
 
         /// <summary>
