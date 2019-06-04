@@ -953,34 +953,50 @@ namespace HTMatchPredictor
         /// </summary>
         private void PredictingEngine()
         {
-            string SelectionCommand = "Select HomeTeamGoals, AwayTeamGoals from Games where HomeTeamMidfield=@HTM and HomeTeamRDefense=@HTRD and HomeTeamCDefense=@HTCD and HomeTeamLDefense=@HTRD and HomeTeamRAttack=@HTRA and HomeTeamCAttack=@HTCA and HomeTeamLAttack=@HTLA and AwayTeamMidfield=@ATM and AwayTeamRDefense=@ATRD and AwayTeamCDefense=@ATCD and AwayTeamLDefense=@ATLD and AwayTeamRAttack=@ATRA and AwayTeamCAttack=@ATCA and AwayTeamLAttack=@ATLA";
+            string SelectionCommand = "Select HomeTeamGoals, AwayTeamGoals from Games where HomeTeamMidfield=@HTM and HomeTeamRDefense=@HTRD and HomeTeamCDefense=@HTCD and HomeTeamLDefense=@HTLD and HomeTeamRAttack=@HTRA and HomeTeamCAttack=@HTCA and HomeTeamLAttack=@HTLA and AwayTeamMidfield=@ATM and AwayTeamRDefense=@ATRD and AwayTeamCDefense=@ATCD and AwayTeamLDefense=@ATLD and AwayTeamRAttack=@ATRA and AwayTeamCAttack=@ATCA and AwayTeamLAttack=@ATLA;";
+            //string SelectionCommand = "Select HomeTeamGoals, AwayTeamGoals from Games where HomeTeamMidfield=15 and HomeTeamRDefense=17 and HomeTeamCDefense=29 and HomeTeamLDefense=27 and HomeTeamRAttack=14 and HomeTeamCAttack=13 and HomeTeamLAttack=6 and AwayTeamMidfield=15 and AwayTeamRDefense=18 and AwayTeamCDefense=19 and AwayTeamLDefense=13 and AwayTeamRAttack=15 and AwayTeamCAttack=24 and AwayTeamLAttack=22";
             int HomeWins = 0;
             int Ties = 0;
             int AwayWins = 0;
             int NumberOfPlayedMatches = 0;
             int TotalNumberOfHomeGoals = 0;
             int TotalNumberOfAwayGoals = 0;
-            float AverageNumberOfHomeGoals = 0;
-            float AverageNumberOfAwayGoals = 0;
-            float HomeWinPercentage = 0;
-            float TiePercentage = 0;
-            float AwayWinPercentage = 0;
+            float AverageNumberOfHomeGoals = 0.0f;
+            float AverageNumberOfAwayGoals = 0.0f;
+            float HomeWinPercentage = 0.0f;
+            float TiePercentage = 0.0f;
+            float AwayWinPercentage = 0.0f;
             SqlConnection MyConn = new SqlConnection(DatabaseOperations.CreateTableConnectionString);
             SqlCommand command = new SqlCommand(SelectionCommand, MyConn);
-            command.Parameters.Add("@HTM", SqlDbType.TinyInt).Value = MatchRatings[0].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@HTRD", SqlDbType.TinyInt).Value = MatchRatings[1].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@HTCD", SqlDbType.TinyInt).Value = MatchRatings[2].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@HTLD", SqlDbType.TinyInt).Value = MatchRatings[3].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@HTRA", SqlDbType.TinyInt).Value = MatchRatings[4].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@HTCA", SqlDbType.TinyInt).Value = MatchRatings[5].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@HTLA", SqlDbType.TinyInt).Value = MatchRatings[6].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@ATM", SqlDbType.TinyInt).Value = MatchRatings[7].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@ATRD", SqlDbType.TinyInt).Value = MatchRatings[8].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@ATCD", SqlDbType.TinyInt).Value = MatchRatings[9].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@ATLD", SqlDbType.TinyInt).Value = MatchRatings[10].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@ATRA", SqlDbType.TinyInt).Value = MatchRatings[11].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@ATCA", SqlDbType.TinyInt).Value = MatchRatings[12].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@ATLA", SqlDbType.TinyInt).Value = MatchRatings[13].ToString(CultureInfo.InvariantCulture);
+            MatchRatings[0] = 15;
+            MatchRatings[1] = 17;
+            MatchRatings[2] = 29;
+            MatchRatings[3] = 27;
+            MatchRatings[4] = 14;
+            MatchRatings[5] = 13;
+            MatchRatings[6] = 6;
+            MatchRatings[7] = 15;
+            MatchRatings[8] = 18;
+            MatchRatings[9] = 19;
+            MatchRatings[10] = 13;
+            MatchRatings[11] = 15;
+            MatchRatings[12] = 24;
+            MatchRatings[13] = 22;
+
+            command.Parameters.Add("@HTM", SqlDbType.TinyInt).Value = MatchRatings[0];
+            command.Parameters.Add("@HTRD", SqlDbType.TinyInt).Value = MatchRatings[1];
+            command.Parameters.Add("@HTCD", SqlDbType.TinyInt).Value = MatchRatings[2];
+            command.Parameters.Add("@HTLD", SqlDbType.TinyInt).Value = MatchRatings[3];
+            command.Parameters.Add("@HTRA", SqlDbType.TinyInt).Value = MatchRatings[4];
+            command.Parameters.Add("@HTCA", SqlDbType.TinyInt).Value = MatchRatings[5];
+            command.Parameters.Add("@HTLA", SqlDbType.TinyInt).Value = MatchRatings[6];
+            command.Parameters.Add("@ATM", SqlDbType.TinyInt).Value = MatchRatings[7];
+            command.Parameters.Add("@ATRD", SqlDbType.TinyInt).Value = MatchRatings[8];
+            command.Parameters.Add("@ATCD", SqlDbType.TinyInt).Value = MatchRatings[9];
+            command.Parameters.Add("@ATLD", SqlDbType.TinyInt).Value = MatchRatings[10];
+            command.Parameters.Add("@ATRA", SqlDbType.TinyInt).Value = MatchRatings[11];
+            command.Parameters.Add("@ATCA", SqlDbType.TinyInt).Value = MatchRatings[12];
+            command.Parameters.Add("@ATLA", SqlDbType.TinyInt).Value = MatchRatings[13];
             MyConn.Open();
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
@@ -1008,10 +1024,11 @@ namespace HTMatchPredictor
                 TotalNumberOfAwayGoals += AwayGoals;
                 AverageNumberOfHomeGoals = TotalNumberOfHomeGoals / NumberOfPlayedMatches;
                 AverageNumberOfAwayGoals = TotalNumberOfAwayGoals / NumberOfPlayedMatches;
-                HomeWinPercentage = (HomeWins / NumberOfPlayedMatches) * 100;
-                TiePercentage = (Ties / NumberOfPlayedMatches) * 100;
-                AwayWinPercentage = (AwayWins / NumberOfPlayedMatches) * 100;
+                HomeWinPercentage = ((float)HomeWins / (float)NumberOfPlayedMatches) * 100;
+                TiePercentage = ((float)Ties / (float)NumberOfPlayedMatches) * 100;
+                AwayWinPercentage = ((float)AwayWins / (float)NumberOfPlayedMatches) * 100;
             }
+            reader.Close();
             MyConn.Close();
             HomeWinPercentageLabel.Text = "Home win %: " + HomeWinPercentage.ToString(CultureInfo.InvariantCulture);
             HGALabel.Text = "Home goals average: " + AverageNumberOfHomeGoals.ToString(CultureInfo.InvariantCulture);

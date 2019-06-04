@@ -79,10 +79,10 @@
             this.SubskillListBox.FormattingEnabled = true;
             this.SubskillListBox.ItemHeight = 16;
             this.SubskillListBox.Items.AddRange(new object[] {
-            "very low",
-            "low",
-            "high",
-            "very high"});
+            "very low (.00)",
+            "low (.25)",
+            "high (.50)",
+            "very high (.75)"});
             this.SubskillListBox.Location = new System.Drawing.Point(222, 66);
             this.SubskillListBox.Name = "SubskillListBox";
             this.SubskillListBox.Size = new System.Drawing.Size(120, 68);

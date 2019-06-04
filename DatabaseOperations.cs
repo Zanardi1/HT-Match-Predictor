@@ -22,7 +22,10 @@ namespace HTMatchPredictor
         /// <summary>
         /// Retine sirul de conectare la baza de date. Depinde de serverul de BD pe care il am.
         /// </summary>
-        public const string CreateDatabaseConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        //public const string CreateDatabaseConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
+        public const string CreateDatabaseConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
         /// <summary>
         /// Retine sirul de conectare pentru crearea tabelei
         /// </summary>
@@ -227,23 +230,23 @@ namespace HTMatchPredictor
 
             SqlConnection MyConn = new SqlConnection(CreateTableConnectionString);
             SqlCommand command = new SqlCommand(AddMatchCommand, MyConn);
-            command.Parameters.Add("@Match", SqlDbType.Int).Value = MatchIDToInsert.ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@Ratings1", SqlDbType.TinyInt).Value = RatingsToInsert[0].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@Ratings2", SqlDbType.TinyInt).Value = RatingsToInsert[1].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@Ratings3", SqlDbType.TinyInt).Value = RatingsToInsert[2].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@Ratings4", SqlDbType.TinyInt).Value = RatingsToInsert[3].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@Ratings5", SqlDbType.TinyInt).Value = RatingsToInsert[4].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@Ratings6", SqlDbType.TinyInt).Value = RatingsToInsert[5].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@Ratings7", SqlDbType.TinyInt).Value = RatingsToInsert[6].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@Ratings8", SqlDbType.TinyInt).Value = RatingsToInsert[7].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@Ratings9", SqlDbType.TinyInt).Value = RatingsToInsert[8].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@Ratings10", SqlDbType.TinyInt).Value = RatingsToInsert[9].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@Ratings11", SqlDbType.TinyInt).Value = RatingsToInsert[10].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@Ratings12", SqlDbType.TinyInt).Value = RatingsToInsert[11].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@Ratings13", SqlDbType.TinyInt).Value = RatingsToInsert[12].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@Ratings14", SqlDbType.TinyInt).Value = RatingsToInsert[13].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@Ratings15", SqlDbType.TinyInt).Value = RatingsToInsert[14].ToString(CultureInfo.InvariantCulture);
-            command.Parameters.Add("@Ratings16", SqlDbType.TinyInt).Value = RatingsToInsert[15].ToString(CultureInfo.InvariantCulture);
+            command.Parameters.Add("@Match", SqlDbType.Int).Value = MatchIDToInsert;
+            command.Parameters.Add("@Ratings1", SqlDbType.TinyInt).Value = RatingsToInsert[0];
+            command.Parameters.Add("@Ratings2", SqlDbType.TinyInt).Value = RatingsToInsert[1];
+            command.Parameters.Add("@Ratings3", SqlDbType.TinyInt).Value = RatingsToInsert[2];
+            command.Parameters.Add("@Ratings4", SqlDbType.TinyInt).Value = RatingsToInsert[3];
+            command.Parameters.Add("@Ratings5", SqlDbType.TinyInt).Value = RatingsToInsert[4];
+            command.Parameters.Add("@Ratings6", SqlDbType.TinyInt).Value = RatingsToInsert[5];
+            command.Parameters.Add("@Ratings7", SqlDbType.TinyInt).Value = RatingsToInsert[6];
+            command.Parameters.Add("@Ratings8", SqlDbType.TinyInt).Value = RatingsToInsert[7];
+            command.Parameters.Add("@Ratings9", SqlDbType.TinyInt).Value = RatingsToInsert[8];
+            command.Parameters.Add("@Ratings10", SqlDbType.TinyInt).Value = RatingsToInsert[9];
+            command.Parameters.Add("@Ratings11", SqlDbType.TinyInt).Value = RatingsToInsert[10];
+            command.Parameters.Add("@Ratings12", SqlDbType.TinyInt).Value = RatingsToInsert[11];
+            command.Parameters.Add("@Ratings13", SqlDbType.TinyInt).Value = RatingsToInsert[12];
+            command.Parameters.Add("@Ratings14", SqlDbType.TinyInt).Value = RatingsToInsert[13];
+            command.Parameters.Add("@Ratings15", SqlDbType.TinyInt).Value = RatingsToInsert[14];
+            command.Parameters.Add("@Ratings16", SqlDbType.TinyInt).Value = RatingsToInsert[15];
             try
             {
                 MyConn.Open();
