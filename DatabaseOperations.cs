@@ -20,18 +20,6 @@ namespace HTMatchPredictor
     class DatabaseOperations
     {
         /// <summary>
-        /// Retine folderul unde va fi pusa baza de date cu meciuri
-        /// </summary>
-        static readonly string DatabaseFolder = Path.GetDirectoryName(Application.ExecutablePath) + "\\db";
-        /// <summary>
-        /// Retine numele fisierului ce va retine baza de date
-        /// </summary>
-        readonly string DatabaseFile = DatabaseFolder + "\\Matches.mdf";
-        /// <summary>
-        /// Retine numele fisierului jurnal
-        /// </summary>
-        readonly string DatabaseLog = DatabaseFolder + "\\MatchesLog.ldf";
-        /// <summary>
         /// Retine sirul de conectare la baza de date. Depinde de serverul de BD pe care il am.
         /// </summary>
         public const string CreateDatabaseConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";

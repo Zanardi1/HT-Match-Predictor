@@ -15,7 +15,6 @@ using System.Windows.Forms;
 
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
 //todo de creat o clasa care se ocupa de scrierea diferitelor erori intr-un fisier text
-//todo atunci cand nu gaseste baza de date originala, Matches.mdf si creez o noua BD, apare o exceptie.
 
 namespace HTMatchPredictor
 {
@@ -124,9 +123,14 @@ namespace HTMatchPredictor
         }
 
         /// <summary>
+        /// Retine daca era o conexiune la net la pornirea programului (true) sau nu (false)
+        /// </summary>
+        private bool InternetConnectionExistentAtStartup = true;
+
+        /// <summary>
         /// Aduce cele 14 evaluari ale unui meci la 0
         /// </summary>
-        private void InitializeMatchRatingList()
+        private static void InitializeMatchRatingList()
         {
             for (int i = 0; i < 14; i++)
             {
@@ -444,7 +448,7 @@ namespace HTMatchPredictor
         /// <summary>
         /// Functia verifica daca exista folderul "XML". Daca nu exista, il creaza.
         /// </summary>
-        private void CheckXMLFolderExistence()
+        private static void CheckXMLFolderExistence()
         {
             if (!Directory.Exists(XMLFolder))
             {
@@ -1180,6 +1184,14 @@ namespace HTMatchPredictor
             {
                 AlterControlsEnable(true);
                 HelpStatusLabel.Text = string.Empty;
+                if (!InternetConnectionExistentAtStartup)
+                {
+                    LoginToHattrickServers();
+                    InitializeMatchRatingList();
+                    DisplayUserDetails();
+                    CheckXMLFolderExistence();
+                    InternetConnectionExistentAtStartup = true;
+                }
                 return true;
             }
             else
@@ -1212,21 +1224,26 @@ namespace HTMatchPredictor
             if (!DatabaseOperations.DatabaseExists())
             {
                 AlterControlsEnable(false);
-                HelpStatusLabel.Text="No databases detected. Creating a new matches database...";
+                HelpStatusLabel.Text = "No databases detected. Creating a new matches database...";
                 Operations.CreateDatabase();
-                HelpStatusLabel.Text="Matches database created.";
+                HelpStatusLabel.Text = "Matches database created.";
                 AlterControlsEnable(true);
             }
             if (!CheckForInternetConnection())
             {
                 AlterControlsEnable(false);
                 HelpStatusLabel.Text = "No internet connection detected. Controls will be disabled until an existent internet connection is detected";
+                InternetConnectionExistentAtStartup = false;
                 return;
             }
-            LoginToHattrickServers();
-            InitializeMatchRatingList();
-            DisplayUserDetails();
-            CheckXMLFolderExistence();
+            else
+            {
+                InternetConnectionExistentAtStartup = true;
+                LoginToHattrickServers();
+                InitializeMatchRatingList();
+                DisplayUserDetails();
+                CheckXMLFolderExistence();
+            }
         }
     }
 }
