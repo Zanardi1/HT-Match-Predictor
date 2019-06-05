@@ -291,7 +291,7 @@ namespace HTMatchPredictor
         /// <summary>
         /// Interpreteaza fisierul MatchDetails.xml
         /// </summary>
-        /// <returns>-1, daca meciul nu meci de liga, amical tip normal sau amical international, tip normal; 0 daca totul e in regula</returns>
+        /// <returns>-2, daca fisierul nu are un nod radacina, -1, daca meciul nu meci de liga, amical tip normal sau amical international, tip normal; 0 daca totul e in regula</returns>
         public int ParseMatchDetailsFile(bool ShowErrorMessage)
         {
             int temp; //utilizata deoarece TryParse nu accepta ca variabila de iesire un element dintr-o lista, ci o variabila simpla
@@ -311,7 +311,20 @@ namespace HTMatchPredictor
             {
                 XmlResolver = null
             };
-            doc.Load(Reader);
+            try
+            {
+                doc.Load(Reader);
+            }
+            catch (XmlException X)
+            {
+                if (string.Equals(X.Message, "Root element is missing.", System.StringComparison.CurrentCulture))
+                {
+                    Reader.Close();
+                    return -2;
+                }
+                else
+                    throw;
+            }
 
             XmlNode Current = doc.DocumentElement.SelectSingleNode("Match");
             //Din cand in cand mai sunt probleme cu API-ul Hattrick, iar fisierul intoarce un mesaj de eroare. Din acest motiv, Current e null. Codul de mai jos trateaza acest caz

@@ -347,11 +347,26 @@ namespace HTMatchPredictor
             request.Headers.Add("Authorization", authzHeader);
             request.ServicePoint.Expect100Continue = false;
             request.ContentType = "x-www-form-urlencoded";
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse(); //Primeste raspunsul
-            Stream receive = response.GetResponseStream(); //Il incarca intr-un flux
-            StreamReader s = new StreamReader(receive, Encoding.UTF8);
-            string temp = s.ReadToEnd(); //Salveaza continutul raspunsului intr-o variabila
-            return temp;
+            try
+            {
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse(); //Primeste raspunsul
+                Stream receive = response.GetResponseStream(); //Il incarca intr-un flux
+                StreamReader s = new StreamReader(receive, Encoding.UTF8);
+                string temp = s.ReadToEnd(); //Salveaza continutul raspunsului intr-o variabila
+                return temp;
+            }
+            catch (WebException W)
+            {
+                if (String.Equals(W.Message, "The request was aborted: The operation has timed out.", StringComparison.CurrentCulture))
+                {
+                    CheckForInternetConnection();
+                    return string.Empty;
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
 
         /// <summary>
@@ -613,10 +628,28 @@ namespace HTMatchPredictor
            {
                Uri MatchDetailsURL = new Uri(DownloadStringCreation.CreateMatchDetailsString(MatchesIDList[MatchID]));
                SaveResponseToFile(MatchDetailsURL, XMLFolder + "\\MatchDetails.xml");
-               if (Parser.ParseMatchDetailsFile(false) != -1)
+               switch (Parser.ParseMatchDetailsFile(false))
                {
-                   MatchRatings = Parser.ReadMatchRatings;
-                   DatabaseOperations.AddAMatch(MatchesIDList[MatchID], MatchRatings);
+                   case 0:
+                       {
+                           MatchRatings = Parser.ReadMatchRatings;
+                           DatabaseOperations.AddAMatch(MatchesIDList[MatchID], MatchRatings);
+                           break;
+                       }
+                   case -1:
+                       {
+                           break;
+                       }
+                   case -2:
+                       {
+                           MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                           MessageBoxIcon Icon = MessageBoxIcon.Error;
+                           MessageBox.Show("The internet connection was lost. The program will close.", "Internet connection lost", Buttons, Icon);
+                           Application.Exit();
+                           return;
+                       }
+                   default:
+                       break;
                }
                MatchRatings = Parser.ResetMatchRatingsList();
            });
@@ -689,10 +722,28 @@ namespace HTMatchPredictor
             {
                 Uri MatchDetailsURL = new Uri(DownloadStringCreation.CreateMatchDetailsString(MatchID));
                 SaveResponseToFile(MatchDetailsURL, XMLFolder + "\\MatchDetails.xml");
-                if (Parser.ParseMatchDetailsFile(false) != -1) //Daca face parte din categoria meciurilor ce pot intra in BD
+                switch (Parser.ParseMatchDetailsFile(false))
                 {
-                    MatchRatings = Parser.ReadMatchRatings;
-                    DatabaseOperations.AddAMatch(MatchID, MatchRatings);
+                    case 0: //Daca face parte din categoria meciurilor ce pot intra in BD
+                        {
+                            MatchRatings = Parser.ReadMatchRatings;
+                            DatabaseOperations.AddAMatch(MatchID, MatchRatings);
+                            break;
+                        }
+                    case -1: //Daca face parte din categoria meciurilor ce nu pot intra in BD
+                        {
+                            break;
+                        }
+                    case -2: //Daca s-a intrerupt conexiunea la internet in timp ce se adaugau meciurile la BD
+                        {
+                            MessageBoxButtons Buttons = MessageBoxButtons.OK;
+                            MessageBoxIcon Icon = MessageBoxIcon.Error;
+                            MessageBox.Show("The internet connection was lost. The program will close.", "Internet connection lost", Buttons, Icon);
+                            Application.Exit();
+                            return;
+                        }
+                    default:
+                        break;
                 }
             });
         }
