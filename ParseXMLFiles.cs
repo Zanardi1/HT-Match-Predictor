@@ -128,7 +128,7 @@ namespace HTMatchPredictor
         /// <summary>
         /// Citeste fisierul User.xml si pune datele citite in program
         /// </summary>
-        public void ParseUserFile() //Maintainability index inainte de rescriere: 45
+        public void ParseUserFile() 
         {
             XmlUrlResolver URLResolver = new XmlUrlResolver
             {

@@ -630,17 +630,17 @@ namespace HTMatchPredictor
                SaveResponseToFile(MatchDetailsURL, XMLFolder + "\\MatchDetails.xml");
                switch (Parser.ParseMatchDetailsFile(false))
                {
-                   case 0:
+                   case 0: //totul e in regula;
                        {
                            MatchRatings = Parser.ReadMatchRatings;
                            DatabaseOperations.AddAMatch(MatchesIDList[MatchID], MatchRatings);
                            break;
                        }
-                   case -1:
+                   case -1: //meciul nu face parte din categoria celor acceptate in program
                        {
                            break;
                        }
-                   case -2:
+                   case -2: //conexiunea la internet s-a intrerupt.
                        {
                            MessageBoxButtons Buttons = MessageBoxButtons.OK;
                            MessageBoxIcon Icon = MessageBoxIcon.Error;
