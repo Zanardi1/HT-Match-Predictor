@@ -2,6 +2,9 @@
 
 namespace HTMatchPredictor
 {
+    /// <summary>
+    /// Clasa ce se ocupa cu alegerea nivelului
+    /// </summary>
     public partial class SkillSelectionWindow : Form
     {
         //Converteste abilitatea si sub-abilitatea intr-o valoare numerica stabilita de Hattrick:
@@ -14,6 +17,10 @@ namespace HTMatchPredictor
             return (MainSkill * 4) + SubSkill + 1;
         }
 
+        /// <summary>
+        /// Procedura citeste nivelul deja setat pe un anumit compartiment si il selecteaza atunci cand apare fereastra. Daca nu e selectat nimic, atunci primeste din start valoarea 0. Am facut astfel din motive de usurinta in utilizare. 
+        /// </summary>
+        /// <param name="SkillNumber"></param>
         public void LoadExistingSkill(int SkillNumber)
         {
             if ((SkillNumber < 1) || (SkillNumber > 80))
@@ -28,6 +35,9 @@ namespace HTMatchPredictor
             }
         }
 
+        /// <summary>
+        /// Constructorul clasei
+        /// </summary>
         public SkillSelectionWindow()
         {
             InitializeComponent();

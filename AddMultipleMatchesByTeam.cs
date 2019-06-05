@@ -6,6 +6,9 @@ namespace HTMatchPredictor
 {
     public partial class AddMultipleMatchesByTeam : Form
     {
+        /// <summary>
+        /// Constructorul clasei
+        /// </summary>
         public AddMultipleMatchesByTeam()
         {
 
@@ -13,6 +16,10 @@ namespace HTMatchPredictor
         }
 
         private int teamid, seasonnumber;
+
+        /// <summary>
+        /// Numarul de identificare al echipei
+        /// </summary>
         public int TeamID
         {
             get
@@ -31,6 +38,10 @@ namespace HTMatchPredictor
                 }
             }
         }
+
+        /// <summary>
+        /// Numarul sezonului pentru care se descarca meciurile
+        /// </summary>
         public int SeasonNumber
         {
             get

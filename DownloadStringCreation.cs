@@ -1,16 +1,16 @@
 ﻿using System.Globalization;
 using System.Text;
 
-/// <summary>
-/// Aceasta clasa se ocupa de generarea sirului care va fi trimis serverului Hattrick pentru descarcarea datelor si salvarea acestora in format XML. Sirul este compus din trei parti:
-/// 1. Adresa URL de unde vor fi obtinute datele. Aceasta e fixa: http://chpp.hattrick.org/chppxml.ashx ;
-/// 2. Fisierul care va fi descarcat;
-/// 3. Datele de intrare utile acelui fisier.
-/// URL-ul este separat de fisier prin "?". Parametrii au forma "nume=valoare" si sunt separati intre ei prin "&";
-/// </summary>
-
 namespace HTMatchPredictor
 {
+    /// <summary>
+    /// Aceasta clasa se ocupa de generarea sirului care va fi trimis serverului Hattrick pentru descarcarea datelor si salvarea acestora in format XML. Sirul este compus din trei parti:
+    /// 1. Adresa URL de unde vor fi obtinute datele. Aceasta e fixa: http://chpp.hattrick.org/chppxml.ashx ;
+    /// 2. Fisierul care va fi descarcat;
+    /// 3. Datele de intrare utile acelui fisier.
+    /// URL-ul este separat de fisier prin "?". Parametrii au forma "nume=valoare" si sunt separati intre ei prin &amp;
+    /// </summary>
+
     class DownloadStringCreation
     {
         /// <summary>

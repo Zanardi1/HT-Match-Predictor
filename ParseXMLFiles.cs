@@ -2,16 +2,17 @@
 using System.Windows.Forms;
 using System.Xml;
 
-/// <summary>
-/// Aceasta clasa se ocupa de urmatoarele lucruri:
-/// 1. Citirea unui fisier XML;
-/// 2. Prelucrarea acestuia si extragerea informatiilor utile;
-/// 3. Stocarea acelor informatii in variabile.
-/// Deoarece fisierele XML au continuturi diferite, in functie de informatiile necesare, deci se stocheaza si informatii diferite, fiecare tip de fisier XML va primi metoda proprie.
-/// </summary>
-
 namespace HTMatchPredictor
 {
+
+    /// <summary>
+    /// Aceasta clasa se ocupa de urmatoarele lucruri:
+    /// 1. Citirea unui fisier XML;
+    /// 2. Prelucrarea acestuia si extragerea informatiilor utile;
+    /// 3. Stocarea acelor informatii in variabile.
+    /// Deoarece fisierele XML au continuturi diferite, in functie de informatiile necesare, deci se stocheaza si informatii diferite, fiecare tip de fisier XML va primi metoda proprie.
+    /// </summary>
+    
     class ParseXMLFiles
     {
         /// <summary>

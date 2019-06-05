@@ -5,9 +5,15 @@ using System.Windows.Forms;
 
 namespace HTMatchPredictor
 {
+    /// <summary>
+    /// Clasa ce se ocupa de adaugarea meciurilor dupa ID
+    /// </summary>
     public partial class AddMultipleMatchesByMatchIDRange : Form
     {
         private int lowlimit, highlimit;
+        /// <summary>
+        /// Retine limita inferioara a nr. de identificare al intervalului de meciuri cu care se lucreaza
+        /// </summary>
         public int LowLimit
         {
             get
@@ -20,6 +26,10 @@ namespace HTMatchPredictor
                 lowlimit = value;
             }
         }
+
+        /// <summary>
+        /// Retine limita superioara a nr. de identificare al intervalului de meciuri cu care se lucreaza
+        /// </summary>
         public int HighLimit
         {
             get
@@ -32,6 +42,10 @@ namespace HTMatchPredictor
                 highlimit = value;
             }
         }
+
+        /// <summary>
+        /// Constructorul clasei
+        /// </summary>
         public AddMultipleMatchesByMatchIDRange()
         {
             InitializeComponent();
@@ -46,8 +60,8 @@ namespace HTMatchPredictor
         /// 3 - daca in primul text box sunt introduse si litere;
         /// 4 - daca in al doilea text box sunt introduse si litere.
         /// 5 - daca limita inferioara nu e mai mica decat cea superioara
-        /// 6 - daca limita inferioara este <=0
-        /// 7 - daca limita superioara e <=0</returns>
+        /// 6 - daca limita inferioara este mai mica sau egala cu 0
+        /// 7 - daca limita superioara e mai mica sau egala cu 0</returns>
         private int TestForDataValidity()
         {
             int TempLowLimit, TempHighLimit;

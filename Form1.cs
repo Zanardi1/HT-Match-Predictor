@@ -18,6 +18,9 @@ using System.Windows.Forms;
 
 namespace HTMatchPredictor
 {
+    /// <summary>
+    /// Clasa ce se ocupa de ferastra principala a programului
+    /// </summary>
     public partial class Form1 : Form
     {
         /// <summary>
@@ -40,6 +43,10 @@ namespace HTMatchPredictor
         /// retine reprezentarea numerica a evaluarii selectate de catre utilizator in fereastra de selectare a abilitatilor. E un numar intre 1 si 80
         /// </summary>
         private static int ratingreturned = 0;
+
+        /// <summary>
+        /// Retine evaluarea citita de undeva sau care va fi scrisa undeva. E intre 1 si 80.
+        /// </summary>
         public static int RatingReturned
         {
             get
@@ -94,6 +101,10 @@ namespace HTMatchPredictor
         /// </summary>
 
         private static int matchidtoadd = 0;
+
+        /// <summary>
+        /// Numarul de identificare al meciului care va fi adaugat
+        /// </summary>
         public static int MatchIDToAdd
         {
             get
@@ -110,6 +121,10 @@ namespace HTMatchPredictor
         /// Retine daca a fost apasat butonul de anulare din fereastra de progres. E true, daca a fost apasast.
         /// </summary>
         private static bool canceldatabaseadding;
+
+        /// <summary>
+        /// Retine daca s-a apasat butonul de adaugare a meciurilor in BD (atunci e true) sau nu (false)
+        /// </summary>
         public static bool CancelDatabaseAdding
         {
             get

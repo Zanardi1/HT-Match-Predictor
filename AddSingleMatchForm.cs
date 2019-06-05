@@ -3,8 +3,14 @@ using System.Windows.Forms;
 
 namespace HTMatchPredictor
 {
+    /// <summary>
+    /// Clasa ce se ocupa de adaugarea unui singur meci.
+    /// </summary>
     public partial class AddSingleMatchForm : Form
     {
+        /// <summary>
+        /// Constructorul clasei.
+        /// </summary>
         public AddSingleMatchForm()
         {
             InitializeComponent();
