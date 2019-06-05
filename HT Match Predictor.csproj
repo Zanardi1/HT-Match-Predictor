@@ -118,7 +118,6 @@
     </Compile>
     <Compile Include="OAuth1.0\IOAuthSettings.cs" />
     <Compile Include="OAuth1.0\OAuth.cs" />
-    <Compile Include="OptionsHandling.cs" />
     <Compile Include="ParseXMLFiles.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgressWindow.cs">

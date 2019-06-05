@@ -27,18 +27,22 @@ namespace HTMatchPredictor
         /// Instanta de clasa ce se ocupa de conexiunea cu serverele Hattrick
         /// </summary>
         private readonly Manager o = new Manager();
+
         /// <summary>
         /// Obiect ce se ocupa de operatiile cu BD a programului
         /// </summary>
         private readonly DatabaseOperations Operations = new DatabaseOperations();
+
         /// <summary>
         /// Retin folderul in care se afla aplicatia
         /// </summary>
         static readonly string CurrentFolder = Path.GetDirectoryName(Application.ExecutablePath);
+
         /// <summary>
         /// Retin folderul unde vor fi descarcate fisierele XML
         /// </summary>
         readonly static public string XMLFolder = CurrentFolder + "\\XML";
+
         /// <summary>
         /// retine reprezentarea numerica a evaluarii selectate de catre utilizator in fereastra de selectare a abilitatilor. E un numar intre 1 si 80
         /// </summary>
@@ -70,6 +74,7 @@ namespace HTMatchPredictor
                 }
             }
         }
+
         /// <summary>
         /// MatchRatings este o lista de 14 numere intregi, ce retine evaluarile celor doua echipe dintr-un meci. Semnificatia numerelor de ordine din lista este urmatoarea:
         /// 0. Evaluarea la mijloc (echipa de acasa);
@@ -88,18 +93,20 @@ namespace HTMatchPredictor
         /// 13. Evaluarea atacului pe stanga (echipa din deplasare));
         /// </summary>
         public static List<int> MatchRatings = new List<int>(14);
+
         /// <summary>
         /// Obiect ce se ocupa de crearea sirului care va fi transmis mai departe pentru descarcarea fisierului XML
         /// </summary>
         private readonly DownloadStringCreation DownloadString = new DownloadStringCreation();
+
         /// <summary>
         /// Obiect ce se ocupa de prelucrarea fisierelor XML descarcate
         /// </summary>
         private readonly ParseXMLFiles Parser = new ParseXMLFiles();
+
         /// <summary>
         /// Retine numarul de identificare al meciului care va fi adaugat in baza de date, ca urmare a optiunii de adaugare a unui singur meci.
         /// </summary>
-
         private static int matchidtoadd = 0;
 
         /// <summary>
