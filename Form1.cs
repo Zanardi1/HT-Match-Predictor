@@ -499,6 +499,7 @@ namespace HTMatchPredictor
         public Form1()
         {
             InitializeComponent();
+            CheckXMLFolderExistence();
         }
 
         /// <summary>
@@ -1318,7 +1319,7 @@ namespace HTMatchPredictor
                 LoginToHattrickServers();
                 InitializeMatchRatingList();
                 DisplayUserDetails();
-                CheckXMLFolderExistence();
+                //CheckXMLFolderExistence();
             }
         }
     }
