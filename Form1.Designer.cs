@@ -823,11 +823,11 @@
             this.FirstTeamRadioButton.AutoSize = true;
             this.FirstTeamRadioButton.Location = new System.Drawing.Point(19, 27);
             this.FirstTeamRadioButton.Name = "FirstTeamRadioButton";
-            this.FirstTeamRadioButton.Size = new System.Drawing.Size(110, 21);
+            this.FirstTeamRadioButton.Size = new System.Drawing.Size(126, 21);
             this.FirstTeamRadioButton.TabIndex = 16;
             this.FirstTeamRadioButton.TabStop = true;
             this.FirstTeamRadioButton.Tag = "0";
-            this.FirstTeamRadioButton.Text = "radioButton1";
+            this.FirstTeamRadioButton.Text = "Niger Nationals";
             this.FirstTeamRadioButton.UseVisualStyleBackColor = true;
             this.FirstTeamRadioButton.CheckedChanged += new System.EventHandler(this.DownloadFirstTeamFutureMatches);
             // 
