@@ -127,6 +127,7 @@
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.SelectionCriteriaGroupBox);
             this.Controls.Add(this.ExplanationLabel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(449, 406);
             this.MinimizeBox = false;

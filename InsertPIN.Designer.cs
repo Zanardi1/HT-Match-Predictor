@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InsertPIN));
             this.InsertPINTextBox = new System.Windows.Forms.TextBox();
             this.InsertPINLabel = new System.Windows.Forms.Label();
             this.OKButton = new System.Windows.Forms.Button();
@@ -80,6 +81,7 @@
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.InsertPINLabel);
             this.Controls.Add(this.InsertPINTextBox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(461, 187);
             this.MinimumSize = new System.Drawing.Size(461, 187);
             this.Name = "InsertPIN";

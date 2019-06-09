@@ -918,6 +918,7 @@
             this.Controls.Add(this.PredictButton);
             this.Controls.Add(this.AwayTeamGroupBox);
             this.Controls.Add(this.HomeTeamGroupBox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(1522, 721);
             this.Name = "Form1";

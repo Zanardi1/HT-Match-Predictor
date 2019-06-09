@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddSingleMatchForm));
             this.ExplanationLabel = new System.Windows.Forms.Label();
             this.OKButton = new System.Windows.Forms.Button();
             this.MatchIDTextBox = new System.Windows.Forms.TextBox();
@@ -82,6 +83,7 @@
             this.Controls.Add(this.MatchIDTextBox);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.ExplanationLabel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(477, 141);
             this.MinimizeBox = false;

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProgressWindow));
             this.TheProgressBar = new System.Windows.Forms.ProgressBar();
             this.ProgressLabel = new System.Windows.Forms.Label();
             this.DiscardButton = new System.Windows.Forms.Button();
@@ -68,6 +69,7 @@
             this.Controls.Add(this.DiscardButton);
             this.Controls.Add(this.ProgressLabel);
             this.Controls.Add(this.TheProgressBar);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(378, 233);
             this.MinimumSize = new System.Drawing.Size(378, 233);
             this.Name = "ProgressWindow";

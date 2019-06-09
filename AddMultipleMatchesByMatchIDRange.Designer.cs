@@ -135,6 +135,7 @@
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.MatchIDGroupBox);
             this.Controls.Add(this.ExplanationLabel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(443, 452);
             this.MinimizeBox = false;

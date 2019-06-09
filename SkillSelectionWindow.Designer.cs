@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SkillSelectionWindow));
             this.OKButton = new System.Windows.Forms.Button();
             this.DiscardButton = new System.Windows.Forms.Button();
             this.SubskillLevelLabel = new System.Windows.Forms.Label();
@@ -131,6 +132,7 @@
             this.Controls.Add(this.SkillListBox);
             this.Controls.Add(this.DiscardButton);
             this.Controls.Add(this.OKButton);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(390, 478);
             this.MinimizeBox = false;
