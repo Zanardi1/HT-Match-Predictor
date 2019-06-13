@@ -462,22 +462,9 @@
         }
         "LaunchCondition"
         {
-            "{836E08B8-0285-4809-BA42-01DB6754A45D}:_1400069E05DC4E90A119B184DAD1A0BE"
-            {
-            "Name" = "8:SQL Server"
-            "Condition" = "8:COMPONENTEXISTS1"
-            "Message" = "8:SQL Server Not Found. Would You like to download it?"
-            "InstallUrl" = "8:https://download.microsoft.com/download/4/1/A/41AD6EDE-9794-44E3-B3D5-A1AF62CD7A6F/sql16_sp2_dlc/en-us/SqlLocalDB.msi?WT.mc_id=-blog-scottha"
-            }
         }
         "Locator"
         {
-            "{B8A5E33E-1082-4FE2-AC2E-1197791E9409}:_5C6BFD249E884CFCBB95AFF8D8256248"
-            {
-            "Name" = "8:SQL Server"
-            "ComponentId" = "8:{442CFD83-2291-42F0-9ECA-6398E4AD25CA}"
-            "Property" = "8:COMPONENTEXISTS1"
-            }
         }
         "MsiBootstrapper"
         {
@@ -489,7 +476,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Installer"
         "ProductCode" = "8:{7B1826E5-42AC-43DE-BE69-81CEEE202F74}"
-        "PackageCode" = "8:{10D00830-4DA9-4149-BD85-92A53CB5E5D3}"
+        "PackageCode" = "8:{8886F436-69D0-4F52-844C-5295F4473166}"
         "UpgradeCode" = "8:{89D644FF-62A5-4CDB-AAC8-A09A633FF4A2}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -923,6 +910,41 @@
             "Attributes" = "3:1"
                 "Dialogs"
                 {
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_15CC932AFA4B47BB801B536A61E74419"
+                    {
+                    "Sequence" = "3:100"
+                    "DisplayName" = "8:Splash"
+                    "UseDynamicProperties" = "11:TRUE"
+                    "IsDependency" = "11:FALSE"
+                    "SourcePath" = "8:<VsdDialogDir>\\VsdSplashDlg.wid"
+                        "Properties"
+                        {
+                            "SplashBitmap"
+                            {
+                            "Name" = "8:SplashBitmap"
+                            "DisplayName" = "8:#1013"
+                            "Description" = "8:#1113"
+                            "Type" = "3:8"
+                            "ContextData" = "8:Bitmap"
+                            "Attributes" = "3:0"
+                            "Setting" = "3:0"
+                            "UsePlugInResources" = "11:TRUE"
+                            }
+                            "Sunken"
+                            {
+                            "Name" = "8:Sunken"
+                            "DisplayName" = "8:#1007"
+                            "Description" = "8:#1107"
+                            "Type" = "3:5"
+                            "ContextData" = "8:4;True=4;False=0"
+                            "Attributes" = "3:0"
+                            "Setting" = "3:0"
+                            "Value" = "3:4"
+                            "DefaultValue" = "3:4"
+                            "UsePlugInResources" = "11:TRUE"
+                            }
+                        }
+                    }
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_876165CF5F1B448A8C41E062E47888D5"
                     {
                     "Sequence" = "3:200"
@@ -960,7 +982,7 @@
                     }
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_A82AB9D9067540668A5D69EEA40CB163"
                     {
-                    "Sequence" = "3:100"
+                    "Sequence" = "3:110"
                     "DisplayName" = "8:Welcome"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"

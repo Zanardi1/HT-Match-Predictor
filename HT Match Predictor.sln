@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HT Match Predictor", "HT Match Predictor.csproj", "{1934ADD5-1758-41C3-818B-859F141F30BA}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Installer", "Installer\Installer.vdproj", "{CCE49B7A-33E3-4CE2-8113-E2EF63C507CA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,8 +15,6 @@ Global
 		{1934ADD5-1758-41C3-818B-859F141F30BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1934ADD5-1758-41C3-818B-859F141F30BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1934ADD5-1758-41C3-818B-859F141F30BA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CCE49B7A-33E3-4CE2-8113-E2EF63C507CA}.Debug|Any CPU.ActiveCfg = Debug
-		{CCE49B7A-33E3-4CE2-8113-E2EF63C507CA}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
