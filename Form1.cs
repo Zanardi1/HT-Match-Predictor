@@ -1319,7 +1319,6 @@ namespace HTMatchPredictor
                 LoginToHattrickServers();
                 InitializeMatchRatingList();
                 DisplayUserDetails();
-                //CheckXMLFolderExistence();
             }
         }
     }

@@ -26,7 +26,7 @@ namespace HTMatchPredictor
         /// <summary>
         /// Retine sirul de conectare pentru crearea tabelei
         /// </summary>
-        public const String CreateTableConnectionString = "Data Source=(localdb)\\v11.0;Initial Catalog=Matches;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        public const string CreateTableConnectionString = "Data Source=(localdb)\\v11.0;Initial Catalog=Matches;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         public DatabaseOperations()
         {
