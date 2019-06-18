@@ -36,7 +36,7 @@ namespace CropperPlugins.Common
         ///     upload.
         ///   </para>
         /// </remarks>
-        /// <param name="fileName>
+        /// <param name="fileName">
         ///   the name of the file to upload.
         /// </param>
         void UploadFile(string fileName);
