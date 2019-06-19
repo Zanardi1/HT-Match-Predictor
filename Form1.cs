@@ -949,12 +949,15 @@ namespace HTMatchPredictor
         /// <param name="e">Handler de eveniment</param>
         private void LoadPredictedRatings(object sender, EventArgs e)
         {
-            Uri MatchOrdersURL = new Uri(DownloadString.CreateMatchOrdersString(ParseXMLFiles.FinalFutureMatches[FutureMatchesListBox.SelectedIndex].MatchID, GetUserTeamID()));
-            SaveResponseToFile(MatchOrdersURL, XMLFolder + "\\Orders.xml");
-            if (Parser.ParseOrdersFile())
+            if (FutureMatchesListBox.Items.Count != 0)
             {
-                LoadMatchRatings();
-                ShowPredictedRatings();
+                Uri MatchOrdersURL = new Uri(DownloadString.CreateMatchOrdersString(ParseXMLFiles.FinalFutureMatches[FutureMatchesListBox.SelectedIndex].MatchID, GetUserTeamID()));
+                SaveResponseToFile(MatchOrdersURL, XMLFolder + "\\Orders.xml");
+                if (Parser.ParseOrdersFile())
+                {
+                    LoadMatchRatings();
+                    ShowPredictedRatings();
+                }
             }
         }
 
