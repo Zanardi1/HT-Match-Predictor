@@ -15,6 +15,7 @@ using System.Windows.Forms;
 
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
 //todo de creat o clasa care se ocupa de scrierea diferitelor erori intr-un fisier text
+//todo sa elimin exceptiile care sunt sigur ca nu vor aparea
 
 namespace HTMatchPredictor
 {
