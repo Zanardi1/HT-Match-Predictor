@@ -194,31 +194,16 @@ namespace HTMatchPredictor
         private static string ReadTokenFromRegistry()
         {
             string Value = string.Empty;
-            try
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey("HTMPTK"))
             {
-                using (RegistryKey key = Registry.CurrentUser.OpenSubKey("HTMPTK"))
+                if (key != null)
                 {
-                    if (key != null)
+                    Object temp = key.GetValue("Token");
+                    if (temp != null)
                     {
-                        Object temp = key.GetValue("Token");
-                        if (temp != null)
-                        {
-                            Value = temp.ToString();
-                        }
+                        Value = temp.ToString();
                     }
                 }
-            }
-            catch (ArgumentNullException A)
-            {
-                MessageBox.Show(A.Message);
-            }
-            catch (ObjectDisposedException O)
-            {
-                MessageBox.Show(O.Message);
-            }
-            catch (SecurityException S)
-            {
-                MessageBox.Show(S.Message);
             }
             return Value;
         }
@@ -230,35 +215,16 @@ namespace HTMatchPredictor
         private static string ReadTokenSecretFromRegistry()
         {
             string Value = string.Empty;
-            try
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey("HTMPTK"))
             {
-                using (RegistryKey key = Registry.CurrentUser.OpenSubKey("HTMPTK"))
+                if (key != null)
                 {
-                    if (key != null)
+                    Object temp = key.GetValue("Secret Token");
+                    if (temp != null)
                     {
-                        Object temp = key.GetValue("Secret Token");
-                        if (temp != null)
-                        {
-                            Value = temp.ToString();
-                        }
+                        Value = temp.ToString();
                     }
                 }
-            }
-            catch (ArgumentNullException A)
-            {
-                MessageBox.Show(A.Message);
-            }
-            catch (ObjectDisposedException O)
-            {
-                MessageBox.Show(O.Message);
-            }
-            catch (SecurityException S)
-            {
-                MessageBox.Show(S.Message);
-            }
-            catch (IOException I)
-            {
-                MessageBox.Show(I.Message);
             }
             return Value;
         }
@@ -274,31 +240,8 @@ namespace HTMatchPredictor
             {
                 Key = Registry.CurrentUser.CreateSubKey("HTMPTK");
             }
-            try
-            {
-                Key.SetValue("Secret Token", o["token_secret"].ToString(CultureInfo.InvariantCulture));
-                Key.SetValue("Token", o["token"].ToString(CultureInfo.InvariantCulture));
-            }
-            catch (ArgumentNullException A)
-            {
-                MessageBox.Show(A.Message);
-            }
-            catch (ObjectDisposedException O)
-            {
-                MessageBox.Show(O.Message);
-            }
-            catch (UnauthorizedAccessException U)
-            {
-                MessageBox.Show(U.Message);
-            }
-            catch (SecurityException S)
-            {
-                MessageBox.Show(S.Message);
-            }
-            catch (IOException I)
-            {
-                MessageBox.Show(I.Message);
-            }
+            Key.SetValue("Secret Token", o["token_secret"].ToString(CultureInfo.InvariantCulture));
+            Key.SetValue("Token", o["token"].ToString(CultureInfo.InvariantCulture));
             Key.Close();
         }
 
@@ -321,6 +264,7 @@ namespace HTMatchPredictor
                 return (!(W.Status == WebExceptionStatus.NameResolutionFailure));
             }
         }
+
         /// <summary>
         /// Incarca cele 4 jetoane ale obiectului care se ocupa cu conectarea la site.
         /// </summary>
