@@ -1097,34 +1097,14 @@ namespace HTMatchPredictor
             {
                 Registry.CurrentUser.DeleteSubKey("HTMPTK");
             }
-            catch (NullReferenceException N)
-            {
-                MessageBox.Show(N.Message);
-                return false;
-            }
-            catch (ArgumentException A)
-            {
-                MessageBox.Show(A.Message);
-                return false;
-            }
             catch (UnauthorizedAccessException U)
             {
                 MessageBox.Show(U.Message);
                 return false;
             }
-            catch (ObjectDisposedException O)
-            {
-                MessageBox.Show(O.Message);
-                return false;
-            }
             catch (SecurityException S)
             {
                 MessageBox.Show(S.Message);
-                return false;
-            }
-            catch (IOException I)
-            {
-                MessageBox.Show(I.Message);
                 return false;
             }
             finally
@@ -1264,6 +1244,7 @@ namespace HTMatchPredictor
             else
             {
                 InternetConnectionExistentAtStartup = true;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 LoginToHattrickServers();
                 InitializeMatchRatingList();
                 DisplayUserDetails();
