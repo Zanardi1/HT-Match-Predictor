@@ -15,7 +15,6 @@ using System.Windows.Forms;
 
 //todo sa citesc dintr-un fisier denumirile evaluarilor (lucru util pentru momentul in care voi introduce si alte limbi pentru interfata programului
 //todo de creat o clasa care se ocupa de scrierea diferitelor erori intr-un fisier text
-//todo sa elimin exceptiile care sunt sigur ca nu vor aparea
 
 namespace HTMatchPredictor
 {
@@ -976,7 +975,6 @@ namespace HTMatchPredictor
         private void PredictingEngine()
         {
             string SelectionCommand = "Select HomeTeamGoals, AwayTeamGoals from Games where HomeTeamMidfield=@HTM and HomeTeamRDefense=@HTRD and HomeTeamCDefense=@HTCD and HomeTeamLDefense=@HTLD and HomeTeamRAttack=@HTRA and HomeTeamCAttack=@HTCA and HomeTeamLAttack=@HTLA and AwayTeamMidfield=@ATM and AwayTeamRDefense=@ATRD and AwayTeamCDefense=@ATCD and AwayTeamLDefense=@ATLD and AwayTeamRAttack=@ATRA and AwayTeamCAttack=@ATCA and AwayTeamLAttack=@ATLA;";
-            //string SelectionCommand = "Select HomeTeamGoals, AwayTeamGoals from Games where HomeTeamMidfield=15 and HomeTeamRDefense=17 and HomeTeamCDefense=29 and HomeTeamLDefense=27 and HomeTeamRAttack=14 and HomeTeamCAttack=13 and HomeTeamLAttack=6 and AwayTeamMidfield=15 and AwayTeamRDefense=18 and AwayTeamCDefense=19 and AwayTeamLDefense=13 and AwayTeamRAttack=15 and AwayTeamCAttack=24 and AwayTeamLAttack=22";
             int HomeWins = 0;
             int Ties = 0;
             int AwayWins = 0;

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
@@ -49,24 +48,9 @@ namespace HTMatchPredictor
                 SqlDataReader Reader = DatabaseExistsCommand.ExecuteReader();
                 Count = Reader.HasRows;
             }
-            catch (InvalidCastException I)
-            {
-                MessageBox.Show(I.Message);
-                return false;
-            }
             catch (SqlException S)
             {
                 MessageBox.Show(S.Message);
-                return false;
-            }
-            catch (InvalidOperationException I)
-            {
-                MessageBox.Show(I.Message);
-                return false;
-            }
-            catch (ConfigurationException C)
-            {
-                MessageBox.Show(C.Message);
                 return false;
             }
             finally
@@ -96,16 +80,6 @@ namespace HTMatchPredictor
                 return false;
             }
             catch (IOException I)
-            {
-                MessageBox.Show(I.Message);
-                return false;
-            }
-            catch (InvalidOperationException I)
-            {
-                MessageBox.Show(I.Message);
-                return false;
-            }
-            catch (InvalidCastException I)
             {
                 MessageBox.Show(I.Message);
                 return false;
